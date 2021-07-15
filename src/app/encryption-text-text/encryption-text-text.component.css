@@ -1,0 +1,11 @@
+.textarea {
+  margin: 16px;
+}
+.card-content {
+  margin-right: 42px;
+}
+.right {
+  display: flex;
+  flex-direction: row-reverse;
+  width: 100%;
+}

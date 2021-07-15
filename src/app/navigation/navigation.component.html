@@ -1,0 +1,55 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <div class="nav-container">
+      <mat-toolbar style="flex: 1 1 110px"><mat-icon class="sidenav-logo">lock</mat-icon></mat-toolbar>
+      <mat-divider></mat-divider>
+      <mat-nav-list class="nav-list-container">
+        <div class="nav-list-element" [class.nav-list-selected]="getRouteUrl() === '/encryption'">
+          <a mat-list-item routerLink="/encryption" [class.nav-list-selected-text]="getRouteUrl() === '/encryption'">
+            <mat-icon style="flex: 1 1 1px">vpn_key</mat-icon>
+            <span style="flex: 3 1 1px">Encryption</span>
+          </a>
+        </div>
+        <div class="nav-list-element" [class.nav-list-selected]="getRouteUrl() === '/dashboard'">
+          <a mat-list-item routerLink="/dashboard" [class.nav-list-selected-text]="getRouteUrl() === '/dashboard'">
+            <mat-icon style="flex: 1 1 1px">toggle_on</mat-icon>
+            <span style="flex: 3 1 1px">Configuration</span>
+          </a>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="nav-list-element" [class.nav-list-selected]="getRouteUrl() === '/about'">
+          <a mat-list-item routerLink="/about" [class.nav-list-selected-text]="getRouteUrl() === '/about'">
+            <mat-icon style="flex: 1 1 1px">info</mat-icon>
+            <span style="flex: 3 1 1px">About</span>
+          </a>
+        </div>
+      </mat-nav-list>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()"
+          *ngIf="isHandset$ | async">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <span>AESChat</span>
+        <span class="toolbar-spacer"></span>
+        <button mat-icon-button matTooltip="View info about this project." aria-label="Info" routerLink="/about">
+        <mat-icon>info</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="Cool? Share with your friends!" aria-label="Share">
+        <mat-icon>share</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
