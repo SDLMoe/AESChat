@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { SnackbarService } from '../snackbar.service';
+
 
 @Component({
   selector: 'text-input',
@@ -11,7 +13,7 @@ export class TextInputComponent implements OnInit {
   @Input() bindValue?: string;
   @Output() bindValueChange = new EventEmitter<string>();
 
-  constructor() { }
+  constructor(public snackbarService: SnackbarService) { }
 
   ngOnInit(): void {
   }

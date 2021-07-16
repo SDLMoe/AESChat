@@ -45,7 +45,7 @@
         <button mat-icon-button matTooltip="View info about this project." aria-label="Info" routerLink="/about">
         <mat-icon>info</mat-icon>
         </button>
-        <button mat-icon-button matTooltip="Cool? Share with your friends!" aria-label="Share">
+        <button mat-icon-button matTooltip="Cool? Share with your friends!" aria-label="Share" cdkCopyToClipboard="https://github.com/WetABQ/AESChat" (click)="snackbarService.openAlertSnackBar('Copied Repo URL!')">
         <mat-icon>share</mat-icon>
         </button>
       </mat-toolbar-row>

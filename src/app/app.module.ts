@@ -29,6 +29,8 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackbarMessageComponent } from './snackbar-message/snackbar-message.component';
 import { TextInputComponent } from './text-input/text-input.component';
+import { EncryptionImageImageComponent } from './encryption-image-image/encryption-image-image.component';
+import { MatFileUploadModule } from '@martyganz/mat-file-upload';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { TextInputComponent } from './text-input/text-input.component';
     AboutComponent,
     EncryptionTextTextComponent,
     SnackbarMessageComponent,
-    TextInputComponent
+    TextInputComponent,
+    EncryptionImageImageComponent
   ],
   imports: [
     BrowserModule,
@@ -64,6 +67,7 @@ import { TextInputComponent } from './text-input/text-input.component';
     ReactiveFormsModule,
     ClipboardModule,
     FormsModule,
+    MatFileUploadModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy}

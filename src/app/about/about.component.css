@@ -1,0 +1,12 @@
+.card-container {
+    display: flex;
+    justify-content: space-around;
+}
+.card {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    flex: 0.8;
+}
+.card-content-margin {
+    margin: 16px;
+}

@@ -1,5 +1,5 @@
-import { Component, Output } from '@angular/core';
-import { SnackbarService } from '../snackbar.service';
+import { Component } from '@angular/core';
+import { EncryptionService } from '../encryption.service';
 
 @Component({
   selector: 'app-encryption-text-text',
@@ -11,9 +11,20 @@ export class EncryptionTextTextComponent {
   plainText ?: string;
   encryptedText ?: string;
 
-  constructor(public snackbarService: SnackbarService) {}
+  constructor(public encryptionService: EncryptionService) {}
 
   ngOnInit(): void {
+    
+  }
+
+  encrypt(newPlainText: string) {
+    this.plainText = newPlainText;
+    this.encryptedText = this.encryptionService.encrypt(this.plainText ?? '')
+  }
+
+  decrypt(newEncryptedText: string) {
+    this.encryptedText = newEncryptedText;
+    this.plainText = this.encryptionService.decrypt(this.encryptedText ?? '');
   }
 
 }

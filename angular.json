@@ -22,6 +22,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
+            "allowedCommonJsDependencies": ["crypto"],
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -30,7 +31,9 @@
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/crypto-js/crypto-js.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -98,7 +101,9 @@
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/crypto-js/crypto-js.js"
+            ]
           }
         }
       }

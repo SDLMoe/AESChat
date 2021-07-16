@@ -3,6 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SnackbarService } from '../snackbar.service';
 
 @Component({
   selector: 'app-navigation',
@@ -20,7 +21,8 @@ export class NavigationComponent {
   constructor(
     private breakpointObserver: BreakpointObserver, 
     private route: ActivatedRoute, 
-    private router: Router
+    private router: Router,
+    public snackbarService: SnackbarService
     ) {}
 
 
