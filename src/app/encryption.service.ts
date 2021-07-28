@@ -39,7 +39,7 @@ export class EncryptionService {
   encrypt(data: string): string {
     const cipher = CryptoJS.AES.encrypt(data,this.key, {
       iv: this.iv,
-      mode: CryptoJS.mode.CFB,
+      mode: CryptoJS.mode.CTR,
       padding: CryptoJS.pad.NoPadding
     });
     const base64Cipher = cipher.ciphertext.toString(CryptoJS.enc.Base64);
@@ -51,7 +51,7 @@ export class EncryptionService {
     const restoreBase64 = encrypted.replace(/\-/g,'+').replace(/_/g,'/');
     const decipher = CryptoJS.AES.decrypt(restoreBase64, this.key, {
       iv: this.iv,
-      mode: CryptoJS.mode.CFB,
+      mode: CryptoJS.mode.CTR,
       padding: CryptoJS.pad.NoPadding
     });
     const resultDecipher = CryptoJS.enc.Utf8.stringify(decipher);
