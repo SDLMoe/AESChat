@@ -4,12 +4,17 @@ import * as CryptoJS from 'crypto-js';
 @Injectable({
   providedIn: 'root'
 })
+
 export class EncryptionService {
 
-  private initKey = "default";
-  private keySize = 128;
+  private initKey = "12345678901234561234567890123456";
+  private keySize = 256;
 
-  private key = CryptoJS.enc.Utf8.parse("");
+  private key = CryptoJS.enc.Utf8.parse("12345678901234561234567890123456");
+  //key (keysize/8 byte)
+
+  private iv = CryptoJS.enc.Utf8.parse("1234567890123456");
+  //iv 16 byte
 
   constructor() { }
 
@@ -33,8 +38,9 @@ export class EncryptionService {
 
   encrypt(data: string): string {
     const cipher = CryptoJS.AES.encrypt(data,this.key, {
-      mode: CryptoJS.mode.ECB,
-      padding: CryptoJS.pad.Pkcs7
+      iv: this.iv,
+      mode: CryptoJS.mode.CFB,
+      padding: CryptoJS.pad.NoPadding
     });
     const base64Cipher = cipher.ciphertext.toString(CryptoJS.enc.Base64);
     const resultCipher = base64Cipher.replace(/\+/g,'-').replace(/\//g,'_');
@@ -44,8 +50,9 @@ export class EncryptionService {
   decrypt(encrypted: string): string {
     const restoreBase64 = encrypted.replace(/\-/g,'+').replace(/_/g,'/');
     const decipher = CryptoJS.AES.decrypt(restoreBase64, this.key, {
-      mode: CryptoJS.mode.ECB,
-      padding: CryptoJS.pad.Pkcs7,
+      iv: this.iv,
+      mode: CryptoJS.mode.CFB,
+      padding: CryptoJS.pad.NoPadding
     });
     const resultDecipher = CryptoJS.enc.Utf8.stringify(decipher);
     return resultDecipher;
