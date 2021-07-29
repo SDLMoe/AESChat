@@ -18,7 +18,7 @@ export class TextInputComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  ngDoCheck() {
+  update() {
     this.bindValueChange.emit(this.bindValue);
   }
 
