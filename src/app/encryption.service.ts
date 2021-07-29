@@ -57,6 +57,7 @@ export class EncryptionService {
   }
   
   public encrypt(data: string): string {
+    if (data == "") return "";
     return this.encrypt0(data) + this.splitSymbol + this.newIv();
   }
 
