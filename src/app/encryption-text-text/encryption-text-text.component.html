@@ -3,8 +3,10 @@
     <mat-card-title>Text to Text Encryption</mat-card-title>
     <mat-card-subtitle>You could set your personal key on the Configuration page in the left side drawer.</mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content class="card-content">
-    <text-input class="card-content-margin" title="Plain Text" (bindValueChange)="encrypt($event)" [bindValue]="plainText"></text-input>
-    <text-input class="card-content-margin" title="Encrypted Text" (bindValueChange)="decrypt($event)" [bindValue]="encryptedText"></text-input>
+  <mat-card-content>
+    <div class="card-content-container">
+      <text-input title="Plain Text" (bindValueChange)="encrypt($event)" [bindValue]="plainText"></text-input>
+      <text-input title="Encrypted Text" (bindValueChange)="decrypt($event)" [bindValue]="encryptedText"></text-input>
+    </div>
   </mat-card-content>
 </mat-card>

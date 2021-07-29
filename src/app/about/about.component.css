@@ -7,6 +7,42 @@
     margin-bottom: 16px;
     flex: 0.8;
 }
-.card-content-margin {
+.card-content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     margin: 16px;
+}
+.card-content-line {
+    flex: 1 1 25px;
+}
+.label-pink {
+    background-color: rgb(252, 34, 110);
+    color: white;
+    border-radius: 2px;
+    padding: 2px 5px 2px 5px;
+}
+.label-green {
+    background-color: rgb(64, 163, 63);
+    color: white;
+    border-radius: 2px;
+    padding: 2px 5px 2px 5px;
+}
+.label-orange {
+    background-color: rgb(253, 133, 8);
+    color: white;
+    border-radius: 2px;
+    padding: 2px 5px 2px 5px;
+}
+.label-yellow {
+    background-color: rgb(255, 233, 46);
+    color: white;
+    border-radius: 2px;
+    padding: 2px 5px 2px 5px;
+}
+.label-indigo {
+    background-color: rgb(48, 58, 166);
+    color: white;
+    border-radius: 2px;
+    padding: 2px 5px 2px 5px;
 }

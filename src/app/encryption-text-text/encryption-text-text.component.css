@@ -1,3 +1,6 @@
-.card-content-margin {
+.card-content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   margin: 16px;
 }
