@@ -19,12 +19,16 @@ export class EncryptionTextTextComponent {
 
   encrypt(newPlainText: string) {
     this.plainText = newPlainText;
-    this.encryptedText = this.encryptionService.encrypt(this.plainText ?? '')
+    this.encryptionService.encrypt(this.plainText ?? '').then(enc => {
+      this.encryptedText = enc || "";
+    });
   }
 
   decrypt(newEncryptedText: string) {
     this.encryptedText = newEncryptedText;
-    this.plainText = this.encryptionService.decrypt(this.encryptedText ?? '');
+    this.encryptionService.decrypt(this.encryptedText ?? '').then(dec => {
+      this.plainText = dec || "";
+    });
   }
 
 }
