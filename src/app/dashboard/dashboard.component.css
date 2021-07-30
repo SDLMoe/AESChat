@@ -18,5 +18,12 @@
 
 .dashboard-card-content {
   text-align: left;
-  text-indent: 15px;
+}
+
+.dashboard-key-config {
+  width: 100px;
+}
+
+.dashboard-name-config{
+  width: 30px;
 }
