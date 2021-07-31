@@ -32,10 +32,10 @@ function generateId (len: number) {
 export class cookieComponent {
   private name = 'name'; //cookie name
   private key = 'key';//cookie
-  private keyLength:number = 32
+  private randomkeyLength:number = 32
 
   randomKey(){
-    this.cookieService.put("key", generateId(this.keyLength));
+    this.cookieService.put("key", generateId(this.randomkeyLength));
     console.log(this.cookieService.get(this.key));
     location.reload();
   }
@@ -108,6 +108,7 @@ export class setNameComponent {
 })
 export class setKeyComponent {
   value = '12345678901234561234567890123456';
+
   onEnter(value: string) { 
     this.value = value;
     this.cookieService.put("key", this.value);
@@ -125,7 +126,6 @@ export class setKeyComponent {
 })
 
 export class DashboardComponent {
-
   /** Based on the screen size, switch from standard to one column per row */
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({ matches }) => {
