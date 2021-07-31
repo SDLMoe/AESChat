@@ -34,20 +34,6 @@ export class cookieComponent {
   private key = 'key';//cookie
   private keyLength:number = 32
 
-  // setCookies(): void {
-  //   this.cookieService.put(this.name, this.key);
-  //   console.log("cookie set.");
-  // }
-  // getCookies(): void {
-  //   // this.cookieValue = this.cookieService.get(this.cookie);
-  //   // this.hasCookieTrue = this.cookieService.hasKey(this.cookie);
-  //   // this.hasCookieFalse = this.cookieService.hasKey('nonExistentKey');
-  //   console.log(this.name);
-  //   console.log(this.cookieService.get(this.name));
-  //   console.log(this.cookieService.hasKey(this.name));
-  //   console.log(this.cookieService.hasKey('nonExistentKey'));
-  // }
-
   randomKey(){
     this.cookieService.put("key", generateId(this.keyLength));
     console.log(this.cookieService.get(this.key));
@@ -55,17 +41,13 @@ export class cookieComponent {
   }
   
   delCookies():void{
-    this.cookieService.remove(this.name);
-    if(this.cookieService.hasKey(this.name)){
-      console.log("name exist.");
-    } else {
+    this.cookieService.put(this.name, '');
+    if(this.cookieService.hasKey(this.name) == true){
       console.log("name deleted.");
     };
 
-    this.cookieService.remove(this.key);
-    if(this.cookieService.hasKey(this.key)){
-      console.log("key exist.");
-    } else {
+    this.cookieService.put(this.key, '');
+    if(this.cookieService.hasKey(this.key) == true){
       console.log("key deleted.");
     };
 
@@ -78,15 +60,16 @@ export class cookieComponent {
   selector: 'setName',
   template: `
   <div class="dashboard-name-config">
-    <form>
       <mat-form-field>
         <mat-label>Name</mat-label>
         <input matInput 
-          type="text" 
+          type="text" [(ngModel)]="value"
           #box (keyup.enter)="onEnter(box.value)">
       </mat-form-field>
-    </form>
-    <p>{{this.cookieService.get("name")}}</p>
+        <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+        <mat-icon>close</mat-icon>
+        </button>
+    <mat-card-subtitle>{{this.cookieService.get("name")}}</mat-card-subtitle>
   </div>
   `
 })
@@ -105,27 +88,28 @@ export class setNameComponent {
   selector: 'setKey',
   template: `
   <div class="dashboard-key-config">
-    <form>
-      <mat-form-field>
-        <mat-label>Key</mat-label>
-        <input matInput type="text" maxlength="32"
+    <mat-form-field>
+      <mat-label>Key</mat-label>
+        <input matInput type="text" maxlength="32" [(ngModel)]="value"
         placeholder="12345678901234561234567890123456"
         #box (keyup.enter)="onEnter(box.value)">
-      </mat-form-field>
-    </form>
-    <p>
+    </mat-form-field>
+    <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+      <mat-icon>close</mat-icon>
+    </button>
+    <mat-card-subtitle>
       (Requied by 32 bytes) &nbsp;  &nbsp;  &nbsp;  &nbsp; 
       {{this.cookieService.get("key").length}}
       <br><br>
       {{this.cookieService.get("key")}}
-    </p>
+    </mat-card-subtitle>
   </div>
   `
 })
 export class setKeyComponent {
-  value = '';
+  value = '12345678901234561234567890123456';
   onEnter(value: string) { 
-    this.value = value; 
+    this.value = value;
     this.cookieService.put("key", this.value);
     console.log(this.cookieService.get("key"));
     console.log("key set.");
