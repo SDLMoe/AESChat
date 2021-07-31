@@ -2,21 +2,11 @@ import { Component } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { CookieService } from 'ngx-cookie';
-import { Console } from 'console';
 
 @Component({
   selector: 'cookie',
   template: `
   <div>
-    <button id="setCookieButton"
-            (click)="setCookies()">
-      Save
-    </button>
-    <p></p>
-    <button id="getCookieButton"
-          (click)="getCookies()">
-      echo
-    </button>
     <button id="delCookieButton"
           (click)="delCookies()">
       Delete
@@ -25,36 +15,39 @@ import { Console } from 'console';
   `
 })
 export class cookieComponent {
-  cookieValue!: string;
-  objectCookieValue?: object;
-  hasCookieTrue!: boolean;
-  hasCookieFalse!: boolean;
+  private name = 'name'; //cookie name
+  private key = 'key';//cookie
 
-  private cookie = 'myCookie';
+  // setCookies(): void {
+  //   this.cookieService.put(this.name, this.key);
+  //   console.log("cookie set.");
+  // }
 
-
-  setCookies(): void {
-    this.cookieService.put(this.cookie, 'myValue');
-    console.log("cookie set.");
-  }
-
-  getCookies(): void {
-    // this.cookieValue = this.cookieService.get(this.cookie);
-    // this.hasCookieTrue = this.cookieService.hasKey(this.cookie);
-    // this.hasCookieFalse = this.cookieService.hasKey('nonExistentKey');
-    console.log(this.cookie);
-    console.log(this.cookieService.get(this.cookie));
-    console.log(this.cookieService.hasKey(this.cookie));
-    console.log(this.cookieService.hasKey('nonExistentKey'));
-  }
+  // getCookies(): void {
+  //   // this.cookieValue = this.cookieService.get(this.cookie);
+  //   // this.hasCookieTrue = this.cookieService.hasKey(this.cookie);
+  //   // this.hasCookieFalse = this.cookieService.hasKey('nonExistentKey');
+  //   console.log(this.name);
+  //   console.log(this.cookieService.get(this.name));
+  //   console.log(this.cookieService.hasKey(this.name));
+  //   console.log(this.cookieService.hasKey('nonExistentKey'));
+  // }
 
   delCookies():void{
-    this.cookieService.remove(this.cookie);
-    if(this.cookieService.hasKey(this.cookie)){
-      console.log("cookie exist.");
+    this.cookieService.remove(this.name);
+    if(this.cookieService.hasKey(this.name)){
+      console.log("name exist.");
     } else {
-      console.log("cookie deleted.");
+      console.log("name deleted.");
     };
+
+    this.cookieService.remove(this.key);
+    if(this.cookieService.hasKey(this.key)){
+      console.log("key exist.");
+    } else {
+      console.log("key deleted.");
+    };
+
   }
 
   constructor(private cookieService: CookieService) {}
@@ -69,12 +62,18 @@ export class cookieComponent {
       type="text" 
       #box (keyup.enter)="onEnter(box.value)">
   </mat-form-field>
-  <p>{{value}}</p>
+  <p>{{this.cookieService.get("name")}}</p>
   `
 })
 export class setNameComponent {
   value = '';
-  onEnter(value: string) { this.value = value; }
+  onEnter(value: string) { 
+    this.value = value; 
+    this.cookieService.put("name", this.value);
+    console.log(this.cookieService.get("name"));
+    console.log("name set.");
+  }
+  constructor(public cookieService: CookieService) {}
 }
 
 @Component({
@@ -86,12 +85,18 @@ export class setNameComponent {
         placeholder="12345678901234561234567890123456"
         #box (keyup.enter)="onEnter(box.value)">
     </mat-form-field>
-    <p>{{value}}</p>
+    <p>{{this.cookieService.get("key")}}</p>
   `
 })
 export class setKeyComponent {
   value = '';
-  onEnter(value: string) { this.value = value; }
+  onEnter(value: string) { 
+    this.value = value; 
+    this.cookieService.put("key", this.value);
+    console.log(this.cookieService.get("key"));
+    console.log("key set.");
+  }
+  constructor(public cookieService: CookieService) {}
 }
 
 @Component({
