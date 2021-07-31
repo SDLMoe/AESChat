@@ -3,10 +3,25 @@ import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { CookieService } from 'ngx-cookie';
 
+//generate random key using crypto.getRandomValues
+const crypto = window.crypto;
+function dec2hex (dec: { toString: (arg0: number) => string; }) {
+  return dec.toString(36).padStart(2, "0")
+}
+function generateId (len: number) {
+  let arr = new Uint8Array(len/2)
+  crypto.getRandomValues(arr)
+  return Array.from(arr, dec2hex).join('')
+}
+
 @Component({
   selector: 'cookie',
   template: `
   <div>
+  <button id="delCookieButton"
+          (click)="randomKey()">
+      Random a key
+    </button>
     <button id="delCookieButton"
           (click)="delCookies()">
       Delete
@@ -17,12 +32,12 @@ import { CookieService } from 'ngx-cookie';
 export class cookieComponent {
   private name = 'name'; //cookie name
   private key = 'key';//cookie
+  private keyLength:number = 32
 
   // setCookies(): void {
   //   this.cookieService.put(this.name, this.key);
   //   console.log("cookie set.");
   // }
-
   // getCookies(): void {
   //   // this.cookieValue = this.cookieService.get(this.cookie);
   //   // this.hasCookieTrue = this.cookieService.hasKey(this.cookie);
@@ -33,6 +48,12 @@ export class cookieComponent {
   //   console.log(this.cookieService.hasKey('nonExistentKey'));
   // }
 
+  randomKey(){
+    this.cookieService.put("key", generateId(this.keyLength));
+    console.log(this.cookieService.get(this.key));
+    location.reload();
+  }
+  
   delCookies():void{
     this.cookieService.remove(this.name);
     if(this.cookieService.hasKey(this.name)){
@@ -72,6 +93,7 @@ export class setNameComponent {
     this.cookieService.put("name", this.value);
     console.log(this.cookieService.get("name"));
     console.log("name set.");
+    location.reload();
   }
   constructor(public cookieService: CookieService) {}
 }
@@ -95,6 +117,7 @@ export class setKeyComponent {
     this.cookieService.put("key", this.value);
     console.log(this.cookieService.get("key"));
     console.log("key set.");
+    location.reload();
   }
   constructor(public cookieService: CookieService) {}
 }
