@@ -77,13 +77,17 @@ export class cookieComponent {
 @Component({
   selector: 'setName',
   template: `
-  <mat-form-field>
-    <mat-label>Name</mat-label>
-    <input matInput 
-      type="text" 
-      #box (keyup.enter)="onEnter(box.value)">
-  </mat-form-field>
-  <p>{{this.cookieService.get("name")}}</p>
+  <div class="dashboard-name-config">
+    <form>
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput 
+          type="text" 
+          #box (keyup.enter)="onEnter(box.value)">
+      </mat-form-field>
+    </form>
+    <p>{{this.cookieService.get("name")}}</p>
+  </div>
   `
 })
 export class setNameComponent {
@@ -93,7 +97,6 @@ export class setNameComponent {
     this.cookieService.put("name", this.value);
     console.log(this.cookieService.get("name"));
     console.log("name set.");
-    location.reload();
   }
   constructor(public cookieService: CookieService) {}
 }
@@ -101,13 +104,22 @@ export class setNameComponent {
 @Component({
   selector: 'setKey',
   template: `
-    <mat-form-field>
-      <mat-label>Key</mat-label>
-      <input matInput type="text" maxlength="32"
+  <div class="dashboard-key-config">
+    <form>
+      <mat-form-field>
+        <mat-label>Key</mat-label>
+        <input matInput type="text" maxlength="32"
         placeholder="12345678901234561234567890123456"
         #box (keyup.enter)="onEnter(box.value)">
-    </mat-form-field>
-    <p>{{this.cookieService.get("key")}}</p>
+      </mat-form-field>
+    </form>
+    <p>
+      (Requied by 32 bytes) &nbsp;  &nbsp;  &nbsp;  &nbsp; 
+      {{this.cookieService.get("key").length}}
+      <br><br>
+      {{this.cookieService.get("key")}}
+    </p>
+  </div>
   `
 })
 export class setKeyComponent {
