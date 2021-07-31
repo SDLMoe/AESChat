@@ -182,7 +182,7 @@ class GCM {
    */
   async decrypt(encryptedData: string) {
       try {
-          var rawData = new Uint8Array(GCM.base64ToArrayBuffer(GCM.urlsafe_unescape(encryptedData)));
+          let rawData = new Uint8Array(GCM.base64ToArrayBuffer(GCM.urlsafe_unescape(encryptedData)));
 
           // convert data to buffers
           let salt = rawData.slice(0, this.saltLength);

@@ -1,11 +1,53 @@
 import { Component } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { CookieService } from 'ngx-cookie';
+
+@Component({
+  selector: 'cookie',
+  template: `
+  <div>
+    <button id="setCookieButton"
+            (click)="setCookies()">
+      Set cookies
+    </button>
+    <p></p>
+    <button id="getCookieButton"
+          (click)="getCookies()">
+      Get cookies
+    </button>
+  </div>
+  `
+})
+export class cookieComponent {
+  title = 'test-app';
+  cookieValue!: string;
+  objectCookieValue?: object;
+  hasCookieTrue!: boolean;
+  hasCookieFalse!: boolean;
+
+  private key = 'myCookie';
+  private objectKey = 'myObjectCookie';
+
+  constructor(private cookieService: CookieService) {}
+
+  setCookies(): void {
+    this.cookieService.put(this.key, 'myValue');
+    this.cookieService.putObject(this.objectKey, {myKey: 'myValue'});
+  }
+
+  getCookies(): void {
+    this.cookieValue = this.cookieService.get(this.key);
+    this.objectCookieValue = this.cookieService.getObject(this.objectKey);
+    this.hasCookieTrue = this.cookieService.hasKey(this.key) && this.cookieService.hasKey(this.objectKey);
+    this.hasCookieFalse = this.cookieService.hasKey('nonExistentKey');
+  }
+
+}
 
 @Component({
   selector: 'setName',
   template: `
-<form class="dashboard-name-config">
   <mat-form-field>
     <mat-label>Name</mat-label>
     <input matInput 
@@ -13,7 +55,6 @@ import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
       #box (keyup.enter)="onEnter(box.value)">
   </mat-form-field>
   <p>{{value}}</p>
-</form>
   `
 })
 export class setNameComponent {
@@ -24,7 +65,6 @@ export class setNameComponent {
 @Component({
   selector: 'setKey',
   template: `
-  <form class="dashboard-key-config">
     <mat-form-field>
       <mat-label>Key</mat-label>
       <input matInput type="text" maxlength="32"
@@ -32,7 +72,6 @@ export class setNameComponent {
         #box (keyup.enter)="onEnter(box.value)">
     </mat-form-field>
     <p>{{value}}</p>
-  </form>
   `
 })
 export class setKeyComponent {
@@ -45,9 +84,8 @@ export class setKeyComponent {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
+
 export class DashboardComponent {
-
-
 
   /** Based on the screen size, switch from standard to one column per row */
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
@@ -62,9 +100,9 @@ export class DashboardComponent {
       // }
 
       return [
-        { title: 'Card 1', cols: 2, rows: 1 },
-        { title: 'Card 2', cols: 2, rows: 1 },
-        { title: 'Card 3', cols: 2, rows: 1 },
+        // { title: 'Card 1', cols: 2, rows: 1 },
+        // { title: 'Card 2', cols: 2, rows: 1 },
+        // { title: 'Card 3', cols: 2, rows: 1 },
         { title: 'Card 4', cols: 2, rows: 1 }
       ];
     })
