@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { CookieService } from 'ngx-cookie';
+import { Console } from 'console';
 
 @Component({
   selector: 'cookie',
@@ -9,40 +10,54 @@ import { CookieService } from 'ngx-cookie';
   <div>
     <button id="setCookieButton"
             (click)="setCookies()">
-      Set cookies
+      Save
     </button>
     <p></p>
     <button id="getCookieButton"
           (click)="getCookies()">
-      Get cookies
+      echo
+    </button>
+    <button id="delCookieButton"
+          (click)="delCookies()">
+      Delete
     </button>
   </div>
   `
 })
 export class cookieComponent {
-  title = 'test-app';
   cookieValue!: string;
   objectCookieValue?: object;
   hasCookieTrue!: boolean;
   hasCookieFalse!: boolean;
 
-  private key = 'myCookie';
-  private objectKey = 'myObjectCookie';
+  private cookie = 'myCookie';
 
-  constructor(private cookieService: CookieService) {}
 
   setCookies(): void {
-    this.cookieService.put(this.key, 'myValue');
-    this.cookieService.putObject(this.objectKey, {myKey: 'myValue'});
+    this.cookieService.put(this.cookie, 'myValue');
+    console.log("cookie set.");
   }
 
   getCookies(): void {
-    this.cookieValue = this.cookieService.get(this.key);
-    this.objectCookieValue = this.cookieService.getObject(this.objectKey);
-    this.hasCookieTrue = this.cookieService.hasKey(this.key) && this.cookieService.hasKey(this.objectKey);
-    this.hasCookieFalse = this.cookieService.hasKey('nonExistentKey');
+    // this.cookieValue = this.cookieService.get(this.cookie);
+    // this.hasCookieTrue = this.cookieService.hasKey(this.cookie);
+    // this.hasCookieFalse = this.cookieService.hasKey('nonExistentKey');
+    console.log(this.cookie);
+    console.log(this.cookieService.get(this.cookie));
+    console.log(this.cookieService.hasKey(this.cookie));
+    console.log(this.cookieService.hasKey('nonExistentKey'));
   }
 
+  delCookies():void{
+    this.cookieService.remove(this.cookie);
+    if(this.cookieService.hasKey(this.cookie)){
+      console.log("cookie exist.");
+    } else {
+      console.log("cookie deleted.");
+    };
+  }
+
+  constructor(private cookieService: CookieService) {}
 }
 
 @Component({
