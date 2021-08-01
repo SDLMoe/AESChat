@@ -25,15 +25,15 @@ export class EncryptionService {
     let base64Cipher = gcm.encrypt(data);
     return base64Cipher;
   }
-  
+
   public decrypt(encrypted: string): Promise<string | null> {
     this.updateKey();
     let gcm = new GCM(this.key);
     return gcm.decrypt(encrypted);
   }
-  
-  
-  
+
+
+
 }
 
 export class GCM {
@@ -53,7 +53,7 @@ export class GCM {
    *           pbkdf2Digest: <string. PBKDF2 digest algorithm, default is sha512>
    */
   constructor(password: string) {
-      this.password = password;
+    this.password = password;
   }
 
   /*
@@ -65,7 +65,7 @@ export class GCM {
     return window.crypto.subtle.importKey(
       "raw",
       enc.encode(password),
-      {name: "PBKDF2"},
+      { name: "PBKDF2" },
       false,
       ["deriveBits", "deriveKey"]
     );
@@ -84,9 +84,9 @@ export class GCM {
         "hash": "SHA-256"
       },
       keyMaterial,
-      { "name": "AES-GCM", "length": 256},
+      { "name": "AES-GCM", "length": 256 },
       true,
-      [ "encrypt", "decrypt" ]
+      ["encrypt", "decrypt"]
     );
   }
 
@@ -106,39 +106,39 @@ export class GCM {
   }
 
   static urlsafe_escape(data: string) {
-      // / => _
-      // + -> .
-      // = => -
-      return data.replace(/\//g, '_').replace(/\+/g, '.').replace(/=/g, '-');
+    // / => _
+    // + -> .
+    // = => -
+    return data.replace(/\//g, '_').replace(/\+/g, '.').replace(/=/g, '-');
   }
 
   static urlsafe_unescape(data: string) {
-      return data.replace(/_/g, '/').replace(/\./g, '+').replace(/-/g, '=');
+    return data.replace(/_/g, '/').replace(/\./g, '+').replace(/-/g, '=');
   }
 
   static appendBuffer(buffer1: ArrayBuffer, buffer2: ArrayBuffer) {
-    var tmp = new Uint8Array(buffer1.byteLength + buffer2.byteLength);
-    tmp.set( new Uint8Array(buffer1), 0);
-    tmp.set( new Uint8Array(buffer2), buffer1.byteLength);
+    let tmp = new Uint8Array(buffer1.byteLength + buffer2.byteLength);
+    tmp.set(new Uint8Array(buffer1), 0);
+    tmp.set(new Uint8Array(buffer2), buffer1.byteLength);
     return tmp;
   }
 
   static arrayBufferToBase64(buffer: ArrayBuffer): string {
-    var binary = '';
-    var bytes = new Uint8Array(buffer);
-    var len = bytes.byteLength;
-    for (var i = 0; i < len; i++) {
-        binary += String.fromCharCode(bytes[i]);
+    let binary = '';
+    let bytes = new Uint8Array(buffer);
+    let len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
     }
     return window.btoa(binary);
   }
 
   static base64ToArrayBuffer(data: string): ArrayBuffer {
-    var raw = window.atob(data);
-    var rawLength = raw.length;
-    var array = new Uint8Array(new ArrayBuffer(rawLength));
+    let raw = window.atob(data);
+    let rawLength = raw.length;
+    let array = new Uint8Array(new ArrayBuffer(rawLength));
 
-    for(let i = 0; i < rawLength; i++) {
+    for (let i = 0; i < rawLength; i++) {
       array[i] = raw.charCodeAt(i);
     }
     return array;
@@ -158,27 +158,22 @@ export class GCM {
    */
   async encrypt(plainText: string) {
 
-      try {
-          // Generates cryptographically strong pseudo-random data. The size argument is a number indicating the number of bytes to generate.
-          let iv = crypto.getRandomValues(new Uint8Array(this.ivLength));
-          let salt = crypto.getRandomValues(new Uint8Array(this.saltLength));
-          let key = await GCM.getKey(this.password, salt);
+    try {
+      // Generates cryptographically strong pseudo-random data. The size argument is a number indicating the number of bytes to generate.
+      let iv = crypto.getRandomValues(new Uint8Array(this.ivLength));
+      let salt = crypto.getRandomValues(new Uint8Array(this.saltLength));
+      let key = await GCM.getKey(this.password, salt);
 
-          let cipher = await crypto.subtle.encrypt(
-            {
-              name: "AES-GCM",
-              iv: iv
-            },
-            key,
-            GCM.getTextEncoding(plainText)
-          );
-          return GCM.urlsafe_escape(GCM.arrayBufferToBase64(GCM.appendBuffer(GCM.appendBuffer(salt, iv), cipher)));
-      } catch (e) {
-          // encrypt failed, e.g. algorithm is not correct.
-           console.log(e);
-      }
-
-      return null;
+      let cipher = await crypto.subtle.encrypt(
+        {
+          name: "AES-GCM",
+          iv: iv
+        },
+        key,
+        GCM.getTextEncoding(plainText)
+      );
+      return GCM.urlsafe_escape(GCM.arrayBufferToBase64(GCM.appendBuffer(GCM.appendBuffer(salt, iv), cipher)));
+    } finally { };
   }
 
   /**
@@ -188,31 +183,28 @@ export class GCM {
    * @returns {*} decrypted data, utf-8 encoded. or null if decrypt failed.
    */
   async decrypt(encryptedData: string) {
-      try {
-          let rawData = new Uint8Array(GCM.base64ToArrayBuffer(GCM.urlsafe_unescape(encryptedData)));
+    try {
+      let rawData = new Uint8Array(GCM.base64ToArrayBuffer(GCM.urlsafe_unescape(encryptedData)));
 
-          // convert data to buffers
-          let salt = rawData.slice(0, this.saltLength);
-          let iv = rawData.slice(this.saltLength, this.saltLength + this.ivLength);
-          let data = rawData.slice(this.saltLength + this.ivLength);
-          let key = await GCM.getKey(this.password, salt);
-          let decipher = await window.crypto.subtle.decrypt(
-            {
-              name: "AES-GCM",
-              iv: iv
-            },
-            key,
-            data
-          );
+      // convert data to buffers
+      let salt = rawData.slice(0, this.saltLength);
+      let iv = rawData.slice(this.saltLength, this.saltLength + this.ivLength);
+      let data = rawData.slice(this.saltLength + this.ivLength);
+      let key = await GCM.getKey(this.password, salt);
+      let decipher = await window.crypto.subtle.decrypt(
+        {
+          name: "AES-GCM",
+          iv: iv
+        },
+        key,
+        data
+      );
 
-          var plainText = GCM.getTextDecoding(decipher);
-          return plainText;
-      } catch (e) {
-          // failed to decrypt.
-          // throw Error: Unsupported state or unable to authenticate data
-      }
+      let plainText = GCM.getTextDecoding(decipher);
+      return plainText;
+    } finally { }
 
-      return null;
+    return null;
   }
 
 }
