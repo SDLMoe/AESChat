@@ -12,11 +12,11 @@
   flex-direction: column;
   justify-content: space-between;
   margin: 16px;
+  margin-top: 20px;
 }
 tr.table-row:hover {
   background: whitesmoke;
 }
-
 .display-key{
   word-break: break-all;
 }
