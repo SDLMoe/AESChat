@@ -3,20 +3,34 @@
   <mat-form-field style="width: 100%;">
     <mat-label>Name</mat-label>
     <input matInput required ngDefaultControl [(ngModel)]="name">
+    <div style="display: flex; flex-direction: row-reverse;">
+      <button mat-icon-button matTooltip="Generate" aria-label="Clear" (click)="randomName()">
+        <mat-icon>loop</mat-icon>
+      </button>
+    </div>
     <mat-error *ngIf="addNewKeyNameFormControl.invalid">
       Key is <strong>required</strong>
     </mat-error>
   </mat-form-field>
   <mat-form-field style="width: 100%;">
     <mat-label>Key</mat-label>
-    <input matInput required ngDefaultControl [(ngModel)]="key">
+    <textarea cdkTextareaAutosize matInput required ngDefaultControl [(ngModel)]="key"></textarea>
+    <div style="display: flex; flex-direction: row-reverse;">
+      <button matSuffix mat-icon-button matTooltip="Generate" aria-label="Clear" (click)="randomKey()">
+        <mat-icon>loop</mat-icon>
+      </button>
+    </div>
     <mat-error *ngIf="addNewKeyFormControl.invalid">
       Key is <strong>required</strong>
     </mat-error>
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Cancel</button>
-    <button mat-button (click)="dialogRef.close([name, key])">Confirm</button>
-    <button mat-button (click)="randomKey()">Generate a random key</button>
+  <div style="display: flex; flex-direction: column; width: 100%;">
+    <div style="display: flex; flex-direction: row;">
+        <button style="width: 100%;" mat-button (click)="onNoClick()">Cancel</button>
+        <button style="width: 100%;" mat-button (click)="confirm()">Confirm</button>
+    </div>
+    <button style="width: 100%;" mat-button (click)="randomAll()">Randomly Generate</button>
+  </div>
 </div>

@@ -12,12 +12,13 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class DashboardComponent {
 
-  displayedCol = ['name', 'key', 'action'];
+  displayedCol = ['select','name', 'key', 'action'];
 
   constructor(
     public keySetManagerService: KeySetManagerService,
     public dialog: MatDialog,
-    public snackbarService: SnackbarService) { }
+    public snackbarService: SnackbarService,
+    public randomService: RandomService) { }
 
   dataSource: KeySetData[] = [];
 
@@ -77,6 +78,12 @@ export class DashboardComponent {
     });
   }
 
+  /*newRandomKey() {
+    this.keySetManagerService.addKey(this.randomService.generateRandomString(8), this.randomService.generateRandomString(32));
+    this.updateKeyDataSource();
+    this.snackbarService.openAlertSnackBar(`Successfully generate a new key!`);
+  }*/
+
 }
 
 @Component({
@@ -130,6 +137,20 @@ export class AddNewKeyDialog {
 
   randomKey(): void {
     this.key = this.randomService.generateRandomString(32);
+  }
+
+  randomName(): void {
+    this.name = this.randomService.generateRandomString(8);
+  }
+
+  randomAll(): void {
+    this.randomName();
+    this.randomKey();
+    this.confirm();
+  }
+
+  confirm(): void {
+    this.dialogRef.close([this.name, this.key]);
   }
 
 }

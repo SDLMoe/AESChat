@@ -31,12 +31,8 @@
 
 .mat-cell,
 .mat-header-cell {
-  word-wrap: initial;
   display: table-cell;
   padding: 0px 10px;
-  line-break: unset;
-  white-space: nowrap;
-  overflow: hidden;
   vertical-align: middle;
 }
 
@@ -49,4 +45,21 @@ tr.table-row:hover {
 }
 .display-key{
   word-break: break-all;
+}
+
+.mat-column-name {
+  white-space: nowrap;
+  width: 0%;
+  flex: 1 1 0%;
+}
+.mat-column-key {
+  word-break: break-word;
+  min-width: 150px;
+  width: 100%;
+  flex: 1 1 100%;
+}
+.mat-column-action {
+  white-space: nowrap;
+  width: 0%;
+  flex: 1 1 0%;
 }
