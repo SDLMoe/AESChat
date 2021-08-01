@@ -76,7 +76,6 @@ export class EditKeyDialog {
 
   randomKey(): void {
     this.data.key = this.randomService.generateRandomString(32);
-    console.log(String(this.data.key));
   }
 
 
@@ -106,7 +105,6 @@ export class AddNewKeyDialog {
 
   randomKey(): void {
     this.key = this.randomService.generateRandomString(32);
-    console.log(String(this.key));
   }
 
 }
