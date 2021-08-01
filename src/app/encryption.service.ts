@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CookieService } from 'ngx-cookie';
 
 const crypto = window.crypto;
 
@@ -9,9 +10,9 @@ const crypto = window.crypto;
 
 export class EncryptionService {
 
-  private key = "12345678901234561234567890123456";
+  private key = this.cookieService.get("key");
 
-  constructor() { }
+  constructor(private cookieService: CookieService) {}
 
 
   public encrypt(data: string): Promise<string | null> {
@@ -182,7 +183,7 @@ class GCM {
    */
   async decrypt(encryptedData: string) {
       try {
-          var rawData = new Uint8Array(GCM.base64ToArrayBuffer(GCM.urlsafe_unescape(encryptedData)));
+          let rawData = new Uint8Array(GCM.base64ToArrayBuffer(GCM.urlsafe_unescape(encryptedData)));
 
           // convert data to buffers
           let salt = rawData.slice(0, this.saltLength);

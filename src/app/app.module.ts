@@ -12,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent,setNameComponent,setKeyComponent,cookieComponent } from './dashboard/dashboard.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -31,6 +31,7 @@ import { SnackbarMessageComponent } from './snackbar-message/snackbar-message.co
 import { TextInputComponent } from './text-input/text-input.component';
 import { EncryptionImageImageComponent } from './encryption-image-image/encryption-image-image.component';
 import { MatFileUploadModule } from '@martyganz/mat-file-upload';
+import { CookieModule } from 'ngx-cookie';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,10 @@ import { MatFileUploadModule } from '@martyganz/mat-file-upload';
     NavigationComponent,
     DashboardComponent,
     EncryptionComponent,
+    setNameComponent,
+    cookieComponent,
     AboutComponent,
+    setKeyComponent,
     EncryptionTextTextComponent,
     SnackbarMessageComponent,
     TextInputComponent,
@@ -55,6 +59,7 @@ import { MatFileUploadModule } from '@martyganz/mat-file-upload';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    CookieModule.forRoot(),
     MatGridListModule,
     MatCardModule,
     MatMenuModule,

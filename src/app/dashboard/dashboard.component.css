@@ -17,5 +17,13 @@
 }
 
 .dashboard-card-content {
-  text-align: center;
+  text-align: left;
+}
+
+.dashboard-key-config {
+  width: 999px;
+}
+
+.dashboard-name-config{
+  width: 999px;
 }
