@@ -1,0 +1,12 @@
+<div class="dashboard-name-config">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput 
+        type="text" [(ngModel)]="value"
+        #box (keyup.enter)="onEnter(box.value)">
+    </mat-form-field>
+      <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+      <mat-icon>close</mat-icon>
+      </button>
+  <mat-card-subtitle>{{this.cookieService.get("name")}}</mat-card-subtitle>
+</div>

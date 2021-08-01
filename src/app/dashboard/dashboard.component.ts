@@ -1,41 +1,20 @@
 import { Component } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { CookieService } from 'ngx-cookie';
-
-//generate random key using crypto.getRandomValues
-const crypto = window.crypto;
-function dec2hex (dec: { toString: (arg0: number) => string; }) {
-  return dec.toString(36).padStart(2, "0")
-}
-function generateId (len: number) {
-  let arr = new Uint8Array(len/2)
-  crypto.getRandomValues(arr)
-  return Array.from(arr, dec2hex).join('')
-}
+import { KeySetManagerService } from '../key-set-manager.service';
+import { RandomService } from '../random.service';
 
 @Component({
-  selector: 'cookie',
-  template: `
-  <div>
-  <button id="delCookieButton"
-          (click)="randomKey()">
-      Random a key
-    </button>
-    <button id="delCookieButton"
-          (click)="delCookies()">
-      Delete
-    </button>
-  </div>
-  `
+  selector: 'button-del-cookie',
+  templateUrl: './button-del-cookie.html',
+  styleUrls: ['./dashboard.component.css']
 })
-export class cookieComponent {
+export class ButtonDelCookieComponent {
   private name = 'name'; //cookie name
   private key = 'key';//cookie
   private randomkeyLength:number = 32
 
   randomKey(){
-    this.cookieService.put("key", generateId(this.randomkeyLength));
+    this.cookieService.put("key", this.randomService.generateRandomString(this.randomkeyLength));
     console.log(this.cookieService.get(this.key));
     location.reload();
   }
@@ -53,27 +32,15 @@ export class cookieComponent {
 
   }
 
-  constructor(private cookieService: CookieService) {}
+  constructor(private cookieService: CookieService, private randomService: RandomService) {}
 }
 
 @Component({
-  selector: 'setName',
-  template: `
-  <div class="dashboard-name-config">
-      <mat-form-field>
-        <mat-label>Name</mat-label>
-        <input matInput 
-          type="text" [(ngModel)]="value"
-          #box (keyup.enter)="onEnter(box.value)">
-      </mat-form-field>
-        <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-        <mat-icon>close</mat-icon>
-        </button>
-    <mat-card-subtitle>{{this.cookieService.get("name")}}</mat-card-subtitle>
-  </div>
-  `
+  selector: 'input-name',
+  templateUrl: './input-name.html',
+  styleUrls: ['./dashboard.component.css']
 })
-export class setNameComponent {
+export class InputNameComponent {
   value = '';
   onEnter(value: string) { 
     this.value = value; 
@@ -85,28 +52,11 @@ export class setNameComponent {
 }
 
 @Component({
-  selector: 'setKey',
-  template: `
-  <div class="dashboard-key-config">
-    <mat-form-field>
-      <mat-label>Key</mat-label>
-        <input matInput type="text" maxlength="32" [(ngModel)]="value"
-        placeholder="12345678901234561234567890123456"
-        #box (keyup.enter)="onEnter(box.value)">
-    </mat-form-field>
-    <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-      <mat-icon>close</mat-icon>
-    </button>
-    <mat-card-subtitle>
-      (Requied by 32 bytes) &nbsp;  &nbsp;  &nbsp;  &nbsp; 
-      {{this.cookieService.get("key").length}}
-      <br><br>
-      {{this.cookieService.get("key")}}
-    </mat-card-subtitle>
-  </div>
-  `
+  selector: 'input-key',
+  templateUrl: './input-key.html',
+  styleUrls: ['./dashboard.component.css']
 })
-export class setKeyComponent {
+export class InputKeyComponent {
   value = '12345678901234561234567890123456';
 
   onEnter(value: string) { 
@@ -126,26 +76,9 @@ export class setKeyComponent {
 })
 
 export class DashboardComponent {
-  /** Based on the screen size, switch from standard to one column per row */
-  cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map(({ matches }) => {
-      // if (matches) {
-      //   return [
-      //     { title: 'Card 1', cols: 1, rows: 1 },
-      //     { title: 'Card 2', cols: 1, rows: 1 },
-      //     { title: 'Card 3', cols: 1, rows: 1 },
-      //     { title: 'Card 4', cols: 1, rows: 1 }
-      //   ];
-      // }
+  
+  displayedCol = ['name', 'key'];
 
-      return [
-        // { title: 'Card 1', cols: 2, rows: 1 },
-        // { title: 'Card 2', cols: 2, rows: 1 },
-        // { title: 'Card 3', cols: 2, rows: 1 },
-        { title: 'Card 4', cols: 2, rows: 1 }
-      ];
-    })
-  );
+  constructor(public keySetManagerService: KeySetManagerService) { console.log(keySetManagerService.getKeySetDataSource())}
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
 }

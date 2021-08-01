@@ -1,29 +1,15 @@
-.grid-container {
-  margin: 20px;
+.card-container {
+  display: flex;
+  justify-content: space-around;
 }
-
-.dashboard-card {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  right: 15px;
-  bottom: 15px;
+.card {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  flex: 0.8;
 }
-
-.more-button {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-}
-
-.dashboard-card-content {
-  text-align: left;
-}
-
-.dashboard-key-config {
-  width: 999px;
-}
-
-.dashboard-name-config{
-  width: 999px;
+.card-content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 16px;
 }

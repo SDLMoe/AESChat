@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { EncryptionService } from '../encryption.service';
+import { KeySetManagerService } from '../key-set-manager.service';
 
 @Component({
   selector: 'app-encryption-text-text',
@@ -11,7 +12,7 @@ export class EncryptionTextTextComponent {
   plainText ?: string;
   encryptedText ?: string;
 
-  constructor(public encryptionService: EncryptionService) {}
+  constructor(public encryptionService: EncryptionService, public keySetManagerService:KeySetManagerService) {}
 
   ngOnInit(): void {
     

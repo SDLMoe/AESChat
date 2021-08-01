@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CookieService } from 'ngx-cookie';
+import { KeySetManagerService } from './key-set-manager.service';
 
 const crypto = window.crypto;
 
@@ -10,9 +10,11 @@ const crypto = window.crypto;
 
 export class EncryptionService {
 
-  private key = this.cookieService.get("key");
+  private key = ""
 
-  constructor(private cookieService: CookieService) {}
+  constructor(private keySetManagerService: KeySetManagerService) {
+    this.keySetManagerService.getCurrentKey();
+  }
 
 
   public encrypt(data: string): Promise<string | null> {

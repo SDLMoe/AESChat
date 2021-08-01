@@ -1,28 +1,35 @@
-<div class="grid-container">
-  <h1 class="mat-h1">Configuration</h1>
-  <mat-grid-list cols="2" rowHeight="350px">
-    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
-      <mat-card class="dashboard-card">
-        <!-- <mat-card-header>
-          <mat-card-title>
-            {{card.title}}
-            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
-          </mat-card-title>
-        </mat-card-header> -->
-        <mat-card-content class="dashboard-card-content">
-            <setName></setName>
-            <br>
-            <setKey></setKey>
-            <br>
-            <cookie></cookie>
-          </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+<div class="card-container">
+  <mat-card class="card">
+      <mat-card-header>
+          <mat-card-title>AESChat</mat-card-title>
+          <mat-card-subtitle>About this project</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+          <div class="card-content-container">
+            <!--<input-name></input-name>
+            <input-key></input-key>
+            <button-del-cookie></button-del-cookie>-->
+            <mat-form-field appearance="fill">
+              <mat-label>Select the Key</mat-label>
+              <mat-select [value]="keySetManagerService.getCurrentKeyName()" (valueChange)="keySetManagerService.selectKey($event)">
+              <mat-option *ngFor="let key of keySetManagerService.getOptions()" [value]="key">
+              {{key}}
+              </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <table mat-table [dataSource]="keySetManagerService.getKeySetDataSource()" class="mat-elevation-z2">
+              <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+              </ng-container>
+              <ng-container matColumnDef="key">
+              <th mat-header-cell *matHeaderCellDef> Key </th>
+              <td mat-cell *matCellDef="let element"> {{element.key}} </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedCol"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedCol;"></tr>
+            </table>
+          </div>
+      </mat-card-content>
+  </mat-card>
 </div>
