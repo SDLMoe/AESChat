@@ -9,7 +9,7 @@ export class RandomService {
   }
 
   generateRandomString (len: number) {
-    let arr = new Uint32Array(len*2)
+    let arr = new Uint32Array(len/4)
     window.crypto.getRandomValues(arr)
     return Array.from(arr, this.dec2hex).join('')
   }
