@@ -64,13 +64,21 @@ export class DashboardComponent {
 })
 export class EditKeyDialog {
 
+  key = "";
+
   constructor(
     public dialogRef: MatDialogRef<EditKeyDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: EditKeyDialogData) {}
+    @Inject(MAT_DIALOG_DATA) public data: EditKeyDialogData, private randomService: RandomService) {}
 
   onNoClick(): void {
     this.dialogRef.close();
   }
+
+  randomKey(): void {
+    this.data.key = this.randomService.generateRandomString(32);
+    console.log(String(this.data.key));
+  }
+
 
 }
 
@@ -98,6 +106,7 @@ export class AddNewKeyDialog {
 
   randomKey(): void {
     this.key = this.randomService.generateRandomString(32);
+    console.log(String(this.key));
   }
 
 }
