@@ -1,10 +1,10 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
     <div class="nav-container">
-      <mat-toolbar style="flex: 1 1 110px"><mat-icon class="sidenav-logo">lock</mat-icon></mat-toolbar>
+      <mat-toolbar style="flex: 1 1 110px">
+        <mat-icon class="sidenav-logo">lock</mat-icon>
+      </mat-toolbar>
       <mat-divider></mat-divider>
       <mat-nav-list class="nav-list-container">
         <div class="nav-list-element" [class.nav-list-selected]="getRouteUrl() === '/encryption'">
@@ -32,21 +32,19 @@
   <mat-sidenav-content>
     <mat-toolbar color="primary">
       <mat-toolbar-row>
-        <button
-          type="button"
-          aria-label="Toggle sidenav"
-          mat-icon-button
-          (click)="drawer.toggle()"
+        <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
           *ngIf="isHandset$ | async">
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
         <span>AESChat</span>
         <span class="toolbar-spacer"></span>
         <button mat-icon-button matTooltip="View info about this project." aria-label="Info" routerLink="/about">
-        <mat-icon>info</mat-icon>
+          <mat-icon>info</mat-icon>
         </button>
-        <button mat-icon-button matTooltip="Cool? Share with your friends!" aria-label="Share" cdkCopyToClipboard="https://github.com/WetABQ/AESChat" (click)="snackbarService.openAlertSnackBar('Copied Repo URL!')">
-        <mat-icon>share</mat-icon>
+        <button mat-icon-button matTooltip="Cool? Share with your friends!" aria-label="Share"
+          cdkCopyToClipboard="https://github.com/WetABQ/AESChat"
+          (click)="snackbarService.openAlertSnackBar('Copied Repo URL!')">
+          <mat-icon>share</mat-icon>
         </button>
       </mat-toolbar-row>
     </mat-toolbar>

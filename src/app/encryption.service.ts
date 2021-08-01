@@ -13,17 +13,23 @@ export class EncryptionService {
   private key = ""
 
   constructor(private keySetManagerService: KeySetManagerService) {
-    this.keySetManagerService.getCurrentKey();
+    this.updateKey();
+  }
+
+  public updateKey() {
+    this.key = this.keySetManagerService.getCurrentKey();
   }
 
 
   public encrypt(data: string): Promise<string | null> {
+    this.updateKey();
     let gcm = new GCM(this.key);
     let base64Cipher = gcm.encrypt(data);
     return base64Cipher;
   }
   
   public decrypt(encrypted: string): Promise<string | null> {
+    this.updateKey();
     let gcm = new GCM(this.key);
     return gcm.decrypt(encrypted);
   }

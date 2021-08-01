@@ -1,11 +1,11 @@
-<h1 mat-dialog-title>Set a new key for {{data.key}}</h1>
+<h1 mat-dialog-title>Set a new key for {{data.name}}</h1>
 <div mat-dialog-content>
-    <mat-form-field>
+    <mat-form-field style="width: 100%;">
         <mat-label>Key</mat-label>
-        <input matInput [value]="data.key" [(ngModel)]="data.key">
+        <input matInput [(ngModel)]="data.key">
     </mat-form-field>
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Cancel</button>
-    <button mat-button (click)="dialogRef.close(data.key)"cdkFocusInitial="">Confirm</button>
+    <button mat-button (click)="dialogRef.close(data.key)">Confirm</button>
 </div>

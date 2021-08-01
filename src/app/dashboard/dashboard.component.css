@@ -13,3 +13,6 @@
   justify-content: space-between;
   margin: 16px;
 }
+tr.table-row:hover {
+  background: whitesmoke;
+}

@@ -9,7 +9,9 @@ import { RandomService } from './random.service';
 
 export class KeySetManagerService {
 
-  constructor(private cookieService: CookieService, private randomService: RandomService) { this.readFromCookies() }
+  constructor(
+    private cookieService: CookieService, 
+    private randomService: RandomService) { this.readFromCookies() }
 
   private keySets = new TSMap<string, string>();
   private currentSelected = "default";
@@ -51,6 +53,7 @@ export class KeySetManagerService {
   public selectKey(name: string) {
     if (this.keySets.has(name)) {
       this.currentSelected = name;
+      
       this.updateCurrentSelectCookies();
     } else {
       this.selectDefaultOne();

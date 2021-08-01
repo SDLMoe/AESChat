@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Add a new key</h1>
+<div mat-dialog-content>
+    <mat-form-field style="width: 100%;">
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="name">
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>Key</mat-label>
+        <input matInput [(ngModel)]="key">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="randomKey()">Generate a random key</button>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button (click)="dialogRef.close([name, key])">Confirm</button>
+</div>

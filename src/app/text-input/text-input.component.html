@@ -1,12 +1,14 @@
 <mat-form-field style="width: 100%;" appearance="fill">
-    <mat-label>{{title}}</mat-label>
-    <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="5" type="text" [(ngModel)]="bindValue" (ngModelChange)="update()"></textarea>
-    <div class="right">
-      <button *ngIf="bindValue" matSuffix mat-icon-button matTooltip="Clear" aria-label="Clear" (click)="bindValue=''">
-        <mat-icon>close</mat-icon>
-      </button>
-      <button *ngIf="bindValue" matSuffix mat-icon-button matTooltip="Copy" aria-label="Copy" [cdkCopyToClipboard]="bindValue" (click)="snackbarService.openAlertSnackBar('Copied!')">
-        <mat-icon>content_copy</mat-icon>
-      </button>
-    </div>
+  <mat-label>{{title}}</mat-label>
+  <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="5" type="text" [(ngModel)]="bindValue"
+    (ngModelChange)="update()"></textarea>
+  <div class="right">
+    <button *ngIf="bindValue" matSuffix mat-icon-button matTooltip="Clear" aria-label="Clear" (click)="bindValue=''">
+      <mat-icon>close</mat-icon>
+    </button>
+    <button *ngIf="bindValue" matSuffix mat-icon-button matTooltip="Copy" aria-label="Copy"
+      [cdkCopyToClipboard]="bindValue" (click)="snackbarService.openAlertSnackBar('Copied!')">
+      <mat-icon>content_copy</mat-icon>
+    </button>
+  </div>
 </mat-form-field>
