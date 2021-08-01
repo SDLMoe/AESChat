@@ -4,11 +4,21 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { RandomService } from '../random.service';
 import { SnackbarService } from '../snackbar.service';
 import { FormControl, Validators } from '@angular/forms';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { TSMap } from 'typescript-map';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
+  animations: [
+    trigger("fadeInOut", [
+      state("in", style({ opacity: 100 })),
+      state("out", style({ opacity: 0 })),
+      transition("in => out", [animate("0.75s ease")]),
+      transition("out => in", [animate("0.75s ease")])
+    ])
+  ]
 })
 export class DashboardComponent {
 
@@ -21,9 +31,34 @@ export class DashboardComponent {
     public randomService: RandomService) { }
 
   dataSource: KeySetData[] = [];
+  animationState = new TSMap<string, boolean>();
+  count = 0;
 
   ngOnInit() {
     this.updateKeyDataSource();
+  }
+
+
+  checkAnimationState(rowName: string): string {
+    if (this.animationState.has(rowName)) {
+      return (this.animationState.get(rowName) ? 'in' : 'out')
+    } else {
+      this.animationState.set(rowName, false);
+      if (this.count != -1) {
+        new Promise(() => {
+          setTimeout(() => {this.animationState.set(rowName, true);}, 300 + this.count * 100);     
+        });
+        this.count++;
+        if (this.count == this.dataSource.length) {
+          this.count = -1;
+        }
+      } else {
+        new Promise(() => {
+          setTimeout(() => {this.animationState.set(rowName, true);}, 100);     
+        });
+      }
+      return this.checkAnimationState(rowName);
+    }
   }
 
   updateKeyDataSource() {
@@ -31,9 +66,14 @@ export class DashboardComponent {
   }
 
   delKey(name: string) {
-    this.snackbarService.openAlertSnackBar('Successfully removed!');
-    this.keySetManagerService.delKey(name);
-    this.updateKeyDataSource();
+    this.animationState.set(name, false);
+    new Promise(() => {
+      setTimeout(() => { 
+        this.keySetManagerService.delKey(name);
+        this.updateKeyDataSource();
+        this.snackbarService.openAlertSnackBar('Successfully removed!');
+      }, 500);     
+    });
   }
 
   editKey(name: string, currentKey: string): void {
