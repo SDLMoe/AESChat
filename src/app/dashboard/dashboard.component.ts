@@ -70,9 +70,10 @@ export class DashboardComponent {
     new Promise(() => {
       setTimeout(() => { 
         this.keySetManagerService.delKey(name);
+        this.animationState.delete(name);
         this.updateKeyDataSource();
         this.snackbarService.openAlertSnackBar('Successfully removed!');
-      }, 500);     
+      }, 500);
     });
   }
 
@@ -106,6 +107,7 @@ export class DashboardComponent {
         if (newKey[0] != "" && newKey[1] != "") {
           if (!this.keySetManagerService.hasKey(newKey[0])) {
             this.keySetManagerService.addKey(newKey[0], newKey[1]);
+            this.keySetManagerService.selectKey(newKey[0]);
             this.updateKeyDataSource();
             this.snackbarService.openAlertSnackBar(`Successfully add a new key named '${newKey[0]}'!`);
           } else {

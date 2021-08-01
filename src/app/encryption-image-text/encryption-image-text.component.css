@@ -1,3 +1,14 @@
+.card-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.card {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  flex: 0.98;
+}
+
 .card-content-container {
   display: flex;
   flex-direction: column;
@@ -8,15 +19,15 @@
 }
 
 .card-content-line {
-    flex: 1 1 25px;
+  flex: 1 1 25px;
 }
 
 .card-content-line-uploader {
-    flex: 1 1 120px;
+  flex: 1 1 120px;
 }
 
 .card-content-line-viewer {
-    flex: 1 1 1;
+  flex: 1 1 1;
 }
 
 .image-container {
@@ -30,7 +41,12 @@
 }
 
 .image-viewer {
-    align-self: center;
-    max-height: 80%;
-    max-width: 80%;
+  align-self: center;
+  max-height: 80%;
+  max-width: 80%;
+}
+
+.cache-warn {
+  align-self: center;
+  color: rgba(0,0,0,.45);
 }

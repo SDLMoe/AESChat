@@ -2,7 +2,7 @@
 <div mat-dialog-content>
   <mat-form-field style="width: 100%;">
     <mat-label>Key</mat-label>
-    <input required matInput [(ngModel)]="data.key">
+    <textarea cdkTextareaAutosize required matInput [(ngModel)]="data.key"></textarea>
     <mat-error *ngIf="editKeyFormControl.invalid">
       Key is <strong>required</strong>
     </mat-error>

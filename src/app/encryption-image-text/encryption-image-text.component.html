@@ -1,18 +1,38 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Image to Text Encryption</mat-card-title>
-    <mat-card-subtitle>You could set your personal key on the Configuration page in the left side drawer.<br />
-      This feature is working-in-progress.</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content class="card-content-container">
-    <!--<mat-file-upload class="card-content-margin" labelText="Select an image to upload:"
+<div class="card-container">
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title>Image to Text Encryption</mat-card-title>
+      <mat-card-subtitle>You could set your personal key on the Configuration page in the left side drawer.
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="card-content-container">
+        <!--<mat-file-upload class="card-content-margin" labelText="Select an image to upload:"
       selectButtonText="Choose an Image" uploadButtonText="Upload" [allowMultipleFiles]="false"
       acceptedTypes=".png, .jpg, .jpeg"></mat-file-upload>-->
-    <app-drop-upload class="card-content-line-uploader" hint="encrypt the image" (encrypt)="encrypt($event.fileName, $event.dataBuffer)"></app-drop-upload>
-    <app-drop-upload class="card-content-line-uploader" hint="decrypt the image" (decrypt)="decrypt($event.fileName, $event.data)"></app-drop-upload>
-    <button *ngIf="decryptedImage != ''" color="primary" mat-raised-button (click)="decryptedImage=''">Close Decrypted Image</button>
-    <div class="card-content-line-viewer image-container">
-      <img *ngIf="decryptedImage != ''" class="image-viewer" id="decryptImage" src="data:image/png;base64,{{decryptedImage}}">
-    </div>
-  </mat-card-content>
-</mat-card>
+        <mat-form-field appearance="fill">
+          <mat-label>Select the Key</mat-label>
+          <mat-select [value]="keySetManagerService.getCurrentKeyName()"
+            (valueChange)="this.keySetManagerService.selectKey($event)">
+            <mat-option *ngFor="let key of keySetManagerService.getOptions()" [value]="key">
+              {{key}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <app-drop-upload class="card-content-line-uploader" hint="encrypt the image"
+          (encrypt)="encrypt($event.fileName, $event.dataBuffer)"></app-drop-upload>
+        <app-drop-upload class="card-content-line-uploader" hint="decrypt the image"
+          (decrypt)="decrypt($event.data)"></app-drop-upload>
+        <button *ngIf="decryptedImage != ''" color="primary" mat-raised-button (click)="clearImage()" style="opacity: 0;"
+        [@fadeInOut]="openViewer ? 'in' : 'out'">Close Decrypted
+          Image</button>
+        <div *ngIf="decryptedImage != ''" class="card-content-line-viewer image-container" style="opacity: 0;"
+          [@fadeInOut]="openViewer ? 'in' : 'out'">
+          <img *ngIf="decryptedImage != ''" class="image-viewer" id="decryptImage"
+            src="data:image/png;base64,{{decryptedImage}}">
+          <p class="cache-warn" *ngIf="cacheWarn">This image data is read from the cache.</p>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

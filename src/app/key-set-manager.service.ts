@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import { TSMap } from "typescript-map";
+import { GCM } from './encryption.service';
 import { RandomService } from './random.service';
 
 const CURRENT_SELECT_COOKIES_KEY = "currentSelect";
@@ -19,19 +20,19 @@ export class KeySetManagerService {
   private currentSelected = "default";
 
   private updateKeySetsCookies() {
-    this.cookieService.put(KEY_SETS_COOKIES_KEY, btoa(JSON.stringify(this.keySets.toJSON())));
+    this.cookieService.put(KEY_SETS_COOKIES_KEY, GCM.urlsafe_escape(btoa(JSON.stringify(this.keySets.toJSON()))));
   }
 
   private updateCurrentSelectCookies() {
-    this.cookieService.put(CURRENT_SELECT_COOKIES_KEY, btoa(this.currentSelected));
+    this.cookieService.put(CURRENT_SELECT_COOKIES_KEY, GCM.urlsafe_escape(btoa(this.currentSelected)));
   }
 
   private readFromCookies() {
     if (this.cookieService.hasKey(KEY_SETS_COOKIES_KEY)) {
-      this.keySets.fromJSON(JSON.parse(atob(this.cookieService.get(KEY_SETS_COOKIES_KEY))));
+      this.keySets.fromJSON(JSON.parse(atob(GCM.urlsafe_unescape(this.cookieService.get(KEY_SETS_COOKIES_KEY)))));
       if (this.keySets.length > 0) {
         if (this.cookieService.hasKey(CURRENT_SELECT_COOKIES_KEY)) {
-          this.currentSelected = atob(this.cookieService.get(CURRENT_SELECT_COOKIES_KEY));
+          this.currentSelected = atob(GCM.urlsafe_unescape(this.cookieService.get(CURRENT_SELECT_COOKIES_KEY)));
         } else { 
           this.selectDefaultOne(); 
         }

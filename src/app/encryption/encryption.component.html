@@ -1,12 +1,8 @@
-<mat-tab-group mat-align-tabs="center" color="primary" backgroundColor="primary" selectedIndex="1">
+<mat-tab-group mat-align-tabs="center" color="primary" backgroundColor="primary">
     <mat-tab label="Text to Text"> 
-        <div class="tab">
-            <app-encryption-text-text class="component"></app-encryption-text-text>
-        </div> 
+        <app-encryption-text-text></app-encryption-text-text>
     </mat-tab>
     <mat-tab label="Image to Text">
-        <div class="tab"> 
-            <app-encryption-image-text class="component"></app-encryption-image-text>
-        </div>
+        <ng-template matTabContent><app-encryption-image-text></app-encryption-image-text></ng-template>
     </mat-tab>
 </mat-tab-group>

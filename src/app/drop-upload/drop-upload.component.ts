@@ -32,7 +32,7 @@ export class DropUploadComponent implements OnInit {
         if (result != null && result instanceof ArrayBuffer) {
           const fileName = file.name.split('.')[0]
           this.encrypt.emit({fileName: fileName, dataBuffer: result});
-          this.decrypt.emit({fileName: fileName, data: GCM.getTextDecoding(result)})
+          this.decrypt.emit({data: GCM.getTextDecoding(result)})
         }
       };
       reader.readAsArrayBuffer(file);
@@ -59,6 +59,5 @@ export interface UnencryptedFileData {
 }
 
 export interface UndecryptedFileData {
-  fileName: string,
   data: string
 }
