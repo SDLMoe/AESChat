@@ -3,6 +3,7 @@ import { KeySetData, KeySetManagerService } from '../key-set-manager.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RandomService } from '../random.service';
 import { SnackbarService } from '../snackbar.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,13 +11,13 @@ import { SnackbarService } from '../snackbar.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-  
+
   displayedCol = ['name', 'key', 'action'];
 
   constructor(
-    public keySetManagerService: KeySetManagerService, 
+    public keySetManagerService: KeySetManagerService,
     public dialog: MatDialog,
-    public snackbarService:SnackbarService) { }
+    public snackbarService: SnackbarService) { }
 
   dataSource: KeySetData[] = [];
 
@@ -40,9 +41,13 @@ export class DashboardComponent {
     });
 
     dialogRef.afterClosed().subscribe(newKey => {
-      this.keySetManagerService.editKey(name, newKey);
-      this.updateKeyDataSource();
-      this.snackbarService.openAlertSnackBar('Successfully edited!');
+      if (newKey != "") {
+        this.keySetManagerService.editKey(name, newKey);
+        this.updateKeyDataSource();
+        this.snackbarService.openAlertSnackBar('Successfully edited!');
+      } else {
+        this.snackbarService.openAlertSnackBar(`Do not leave blank in any field!`);
+      }
     });
   }
 
@@ -50,9 +55,13 @@ export class DashboardComponent {
     const dialogRef = this.dialog.open(AddNewKeyDialog);
 
     dialogRef.afterClosed().subscribe(newKey => {
-      this.keySetManagerService.addKey(newKey[0], newKey[1]);
-      this.updateKeyDataSource();
-      this.snackbarService.openAlertSnackBar(`Successfully add a new key named '${newKey[0]}'!`);
+      if (newKey[0] != "" && newKey[1] != "") {
+        this.keySetManagerService.addKey(newKey[0], newKey[1]);
+        this.updateKeyDataSource();
+        this.snackbarService.openAlertSnackBar(`Successfully add a new key named '${newKey[0]}'!`);
+      } else {
+        this.snackbarService.openAlertSnackBar(`Do not leave blank in any field!`);
+      }
     });
   }
 
@@ -64,9 +73,11 @@ export class DashboardComponent {
 })
 export class EditKeyDialog {
 
+  editKeyFormControl = new FormControl('', [Validators.required]);
+
   constructor(
     public dialogRef: MatDialogRef<EditKeyDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: EditKeyDialogData) {}
+    @Inject(MAT_DIALOG_DATA) public data: EditKeyDialogData) { }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -89,8 +100,11 @@ export class AddNewKeyDialog {
   name = "";
   key = "";
 
+  addNewKeyNameFormControl = new FormControl('', Validators.required);
+  addNewKeyFormControl = new FormControl('', Validators.required);
+
   constructor(
-    public dialogRef: MatDialogRef<AddNewKeyDialog>, private randomService: RandomService) {}
+    public dialogRef: MatDialogRef<AddNewKeyDialog>, private randomService: RandomService) { }
 
   onNoClick(): void {
     this.dialogRef.close();

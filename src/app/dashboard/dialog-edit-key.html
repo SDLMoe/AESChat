@@ -1,11 +1,14 @@
 <h1 mat-dialog-title>Set a new key for {{data.name}}</h1>
 <div mat-dialog-content>
-    <mat-form-field style="width: 100%;">
-        <mat-label>Key</mat-label>
-        <input matInput [(ngModel)]="data.key">
-    </mat-form-field>
+  <mat-form-field style="width: 100%;" [formControl]="editKeyFormControl">
+    <mat-label>Key</mat-label>
+    <input type="text" required matInput [(ngModel)]="data.key">
+    <mat-error *ngIf="editKeyFormControl.hasError('required')">
+      Key is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Cancel</button>
-    <button mat-button (click)="dialogRef.close(data.key)">Confirm</button>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="dialogRef.close(data.key)">Confirm</button>
 </div>

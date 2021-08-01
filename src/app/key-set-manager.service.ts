@@ -52,16 +52,6 @@ export class KeySetManagerService {
     }
   }
 
-  public selectKey(name: string) {
-    if (this.keySets.has(name)) {
-      this.currentSelected = name;
-      
-      this.updateCurrentSelectCookies();
-    } else {
-      this.selectDefaultOne();
-    }
-  }
-
   public getCurrentKey(): string {
     if (this.keySets.has(this.currentSelected)) {
       return this.getKey(this.currentSelected);
@@ -92,8 +82,17 @@ export class KeySetManagerService {
     return dataSource;
   }
 
+  public selectKey(name: string) {
+    if (this.keySets.has(name) && name != "") {
+      this.currentSelected = name;
+      this.updateCurrentSelectCookies();
+    } else {
+      this.selectDefaultOne();
+    }
+  }
+
   public addKey(name: string, key: string) {
-    if (!this.keySets.has(name)) {
+    if (!this.keySets.has(name) && name != "" && key != "") {
       this.keySets.set(name, key);
       this.updateKeySetsCookies();
     }
