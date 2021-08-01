@@ -86,14 +86,20 @@ export class DashboardComponent {
 export class EditKeyDialog {
 
   editKeyFormControl = new FormControl('', [Validators.required]);
+  key = "";
 
   constructor(
     public dialogRef: MatDialogRef<EditKeyDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: EditKeyDialogData) { }
+    @Inject(MAT_DIALOG_DATA) public data: EditKeyDialogData, private randomService: RandomService) {}
 
   onNoClick(): void {
     this.dialogRef.close();
   }
+
+  randomKey(): void {
+    this.data.key = this.randomService.generateRandomString(32);
+  }
+
 
 }
 
