@@ -5,7 +5,7 @@
 .card {
     margin-top: 16px;
     margin-bottom: 16px;
-    flex: 0.8;
+    flex: 0.98;
 }
 .card-content-container {
     display: flex;
@@ -17,31 +17,20 @@
     flex: 1 1 25px;
 }
 .label-pink {
-    background-color: rgb(252, 34, 110);
-    color: white;
-    border-radius: 2px;
-    padding: 2px 5px 2px 5px;
-}
-.label-green {
-    background-color: rgb(64, 163, 63);
+    background-color: #FF4081;
     color: white;
     border-radius: 2px;
     padding: 2px 5px 2px 5px;
 }
 .label-orange {
-    background-color: rgb(253, 133, 8);
+    background-color: #FFAB40;
     color: white;
     border-radius: 2px;
     padding: 2px 5px 2px 5px;
 }
-.label-yellow {
-    background-color: rgb(255, 233, 46);
-    color: white;
-    border-radius: 2px;
-    padding: 2px 5px 2px 5px;
-}
+
 .label-indigo {
-    background-color: rgb(48, 58, 166);
+    background-color: #3F51B5;
     color: white;
     border-radius: 2px;
     padding: 2px 5px 2px 5px;

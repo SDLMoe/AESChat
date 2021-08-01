@@ -5,7 +5,7 @@
 .card {
   margin-top: 16px;
   margin-bottom: 16px;
-  flex: 0.8;
+  flex: 0.98;
 }
 .card-content-container {
   display: flex;

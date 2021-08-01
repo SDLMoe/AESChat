@@ -15,8 +15,8 @@ export class SnackbarService {
     }
     this.snackBar.open(message, action, {
       duration: duration,
-      horizontalPosition: "right",
-      verticalPosition: "top",
+      horizontalPosition: "center",
+      verticalPosition: "bottom",
     });
   }
   
@@ -27,8 +27,8 @@ export class SnackbarService {
     this.snackBar.openFromComponent(SnackbarMessageComponent, {
       duration: duration,
       data: message,
-      horizontalPosition: "right",
-      verticalPosition: "top",
+      horizontalPosition: "center",
+      verticalPosition: "bottom",
     });
   }
 
