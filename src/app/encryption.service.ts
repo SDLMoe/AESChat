@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { KeySetManagerService } from './key-set-manager.service';
 
-const crypto = window.crypto;
-
 @Injectable({
   providedIn: 'root'
 })
