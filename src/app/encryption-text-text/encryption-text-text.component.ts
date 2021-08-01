@@ -45,13 +45,18 @@ export class EncryptionTextTextComponent {
 
   encrypt(newPlainText: string) {
     this.plainText = newPlainText;
-    this.encryptionService.encrypt(this.plainText ?? '').then(enc => {
-      this.encryptedText = enc || "";
-      this.storeCacheContentToCookie(this.plainText || "", this.encryptedText);
-    });
+    if (newPlainText != "") {
+      this.encryptionService.encrypt(this.plainText ?? '').then(enc => {
+        this.encryptedText = enc || "";
+        this.storeCacheContentToCookie(this.plainText || "", this.encryptedText);
+      });
+    } else {
+      this.encryptedText = "";
+    }
   }
 
   decrypt(newEncryptedText: string) {
+    this.plainText = "";
     this.encryptedText = newEncryptedText;
     this.encryptionService.decrypt(this.encryptedText ?? '').then(dec => {
       this.plainText = dec || "";

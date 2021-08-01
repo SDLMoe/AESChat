@@ -3,10 +3,18 @@
     <mat-card-title>Text to Text Encryption</mat-card-title>
     <mat-card-subtitle>You could set your personal key on the Configuration page in the left side drawer.
     </mat-card-subtitle>
-    <mat-card-subtitle>Current Key: {{keySetManagerService.getCurrentKeyName()}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <div class="card-content-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Select the Key</mat-label>
+        <mat-select [value]="keySetManagerService.getCurrentKeyName()"
+          (valueChange)="keySetManagerService.selectKey($event)">
+          <mat-option *ngFor="let key of keySetManagerService.getOptions()" [value]="key">
+            {{key}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
       <text-input title="Plain Text" (bindValueChange)="encrypt($event)" [bindValue]="plainText"></text-input>
       <text-input title="Encrypted Text" (bindValueChange)="decrypt($event)" [bindValue]="encryptedText"></text-input>
     </div>
