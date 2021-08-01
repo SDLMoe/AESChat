@@ -44,9 +44,13 @@
                 </button>
               </td>
             </ng-container>
+            <ng-container matColumnDef="blank">
+              <td mat-footer-cell *matFooterCellDef>
+              </td>
+            </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedCol"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedCol;" class="table-row"></tr>
-            <tr mat-footer-row *matFooterRowDef="['creator']"></tr>
+            <tr mat-footer-row *matFooterRowDef="['blank', 'creator', 'blank']"></tr>
           </table>
         </div>
       </div>

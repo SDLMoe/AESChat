@@ -41,12 +41,18 @@ export class DashboardComponent {
     });
 
     dialogRef.afterClosed().subscribe(newKey => {
-      if (newKey != "") {
-        this.keySetManagerService.editKey(name, newKey);
-        this.updateKeyDataSource();
-        this.snackbarService.openAlertSnackBar('Successfully edited!');
-      } else {
-        this.snackbarService.openAlertSnackBar(`Do not leave blank in any field!`);
+      if (newKey != null) {
+        if (newKey != "") {
+          if (newKey != currentKey) {
+            this.keySetManagerService.editKey(name, newKey);
+            this.updateKeyDataSource();
+            this.snackbarService.openAlertSnackBar('Successfully edited!');
+          } else {
+            this.snackbarService.openAlertSnackBar(`No change!`);
+          }
+        } else {
+          this.snackbarService.openAlertSnackBar(`Do not leave blank in any field!`);
+        }
       }
     });
   }
@@ -55,12 +61,18 @@ export class DashboardComponent {
     const dialogRef = this.dialog.open(AddNewKeyDialog);
 
     dialogRef.afterClosed().subscribe(newKey => {
-      if (newKey[0] != "" && newKey[1] != "") {
-        this.keySetManagerService.addKey(newKey[0], newKey[1]);
-        this.updateKeyDataSource();
-        this.snackbarService.openAlertSnackBar(`Successfully add a new key named '${newKey[0]}'!`);
-      } else {
-        this.snackbarService.openAlertSnackBar(`Do not leave blank in any field!`);
+      if (newKey != null) {
+        if (newKey[0] != "" && newKey[1] != "") {
+          if (!this.keySetManagerService.hasKey(newKey[0])) {
+            this.keySetManagerService.addKey(newKey[0], newKey[1]);
+            this.updateKeyDataSource();
+            this.snackbarService.openAlertSnackBar(`Successfully add a new key named '${newKey[0]}'!`);
+          } else {
+            this.snackbarService.openAlertSnackBar(`Do not use duplicated name!`);
+          }
+        } else {
+          this.snackbarService.openAlertSnackBar(`Do not leave blank in any field!`);
+        }
       }
     });
   }

@@ -61,6 +61,10 @@ export class KeySetManagerService {
     }
   }
   
+  public hasKey(name: string): boolean {
+    return this.keySets.has(name);
+  }
+
   public getCurrentKeyName(): string {
     return this.currentSelected;
   }
