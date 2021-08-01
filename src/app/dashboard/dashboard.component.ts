@@ -1,84 +1,64 @@
-import { Component } from '@angular/core';
-import { CookieService } from 'ngx-cookie';
-import { KeySetManagerService } from '../key-set-manager.service';
-import { RandomService } from '../random.service';
+import { Component, Inject } from '@angular/core';
+import { KeySetData, KeySetManagerService } from '../key-set-manager.service';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'button-del-cookie',
   templateUrl: './button-del-cookie.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class ButtonDelCookieComponent {
-  private name = 'name'; //cookie name
-  private key = 'key';//cookie
-  private randomkeyLength:number = 32
-
-  randomKey(){
-    this.cookieService.put("key", this.randomService.generateRandomString(this.randomkeyLength));
-    console.log(this.cookieService.get(this.key));
-    location.reload();
-  }
-  
-  delCookies():void{
-    this.cookieService.put(this.name, '');
-    if(this.cookieService.hasKey(this.name) == true){
-      console.log("name deleted.");
-    };
-
-    this.cookieService.put(this.key, '');
-    if(this.cookieService.hasKey(this.key) == true){
-      console.log("key deleted.");
-    };
-
-  }
-
-  constructor(private cookieService: CookieService, private randomService: RandomService) {}
-}
-
-@Component({
-  selector: 'input-name',
-  templateUrl: './input-name.html',
-  styleUrls: ['./dashboard.component.css']
-})
-export class InputNameComponent {
-  value = '';
-  onEnter(value: string) { 
-    this.value = value; 
-    this.cookieService.put("name", this.value);
-    console.log(this.cookieService.get("name"));
-    console.log("name set.");
-  }
-  constructor(public cookieService: CookieService) {}
-}
-
-@Component({
-  selector: 'input-key',
-  templateUrl: './input-key.html',
-  styleUrls: ['./dashboard.component.css']
-})
-export class InputKeyComponent {
-  value = '12345678901234561234567890123456';
-
-  onEnter(value: string) { 
-    this.value = value;
-    this.cookieService.put("key", this.value);
-    console.log(this.cookieService.get("key"));
-    console.log("key set.");
-    location.reload();
-  }
-  constructor(public cookieService: CookieService) {}
-}
-
-@Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
-})
 
 export class DashboardComponent {
   
-  displayedCol = ['name', 'key'];
+  displayedCol = ['name', 'key', 'action'];
 
-  constructor(public keySetManagerService: KeySetManagerService) { console.log(keySetManagerService.getKeySetDataSource())}
+  constructor(public keySetManagerService: KeySetManagerService, public dialog: MatDialog) { this.updateKeyDataSource() }
 
+  dataSource: KeySetData[] = [];
+
+  updateKeyDataSource() {
+    this.dataSource = this.keySetManagerService.getKeySetDataSource();
+  }
+
+  delKey(name: string) {
+    this.keySetManagerService.delKey(name);
+    this.updateKeyDataSource();
+  }
+
+  addKey(name: string, key: string) {
+    this.keySetManagerService.addKey(name, key);
+    this.updateKeyDataSource();
+  }
+
+  editKey(name: string, currentKey: string): void {
+    const dialogRef = this.dialog.open(EditKeyDialog, {
+      data: { name: name, key: currentKey }
+    });
+
+    dialogRef.afterClosed().subscribe(newKey => {
+      this.keySetManagerService.editKey(name, newKey);
+    });
+  }
+
+}
+@Component({
+  selector: 'dialog-overview-example-dialog',
+  templateUrl: 'dialog-edit-key.html',
+})
+export class EditKeyDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<EditKeyDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: EditKeyDialogData) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+}
+
+
+export interface EditKeyDialogData {
+  name: string;
+  key: string;
 }

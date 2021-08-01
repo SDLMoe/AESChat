@@ -12,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { ButtonDelCookieComponent, DashboardComponent, InputKeyComponent, InputNameComponent } from './dashboard/dashboard.component';
+import { DashboardComponent, EditKeyDialog } from './dashboard/dashboard.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -33,6 +33,7 @@ import { EncryptionImageImageComponent } from './encryption-image-image/encrypti
 import { MatFileUploadModule } from '@martyganz/mat-file-upload';
 import { CookieModule } from 'ngx-cookie';
 import { MatTableModule } from '@angular/material/table'
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -40,14 +41,12 @@ import { MatTableModule } from '@angular/material/table'
     NavigationComponent,
     DashboardComponent,
     EncryptionComponent,
-    InputNameComponent,
-    ButtonDelCookieComponent,
     AboutComponent,
-    InputKeyComponent,
     EncryptionTextTextComponent,
     SnackbarMessageComponent,
     TextInputComponent,
-    EncryptionImageImageComponent
+    EncryptionImageImageComponent,
+    EditKeyDialog
   ],
   imports: [
     BrowserModule,
@@ -75,6 +74,7 @@ import { MatTableModule } from '@angular/material/table'
     FormsModule,
     MatFileUploadModule,
     MatTableModule,
+    MatFormFieldModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy}

@@ -25,10 +25,14 @@ export class KeySetManagerService {
   private readFromCookies() {
     if (this.cookieService.hasKey("keySets")) {
       this.keySets.fromJSON(JSON.parse(atob(this.cookieService.get("keySets"))));
-      if (this.cookieService.hasKey("currentSelect")) {
-        this.currentSelected = atob(this.cookieService.get("currentSelect"));
-      } else { 
-        this.selectDefaultOne(); 
+      if (this.keySets.length > 0) {
+        if (this.cookieService.hasKey("currentSelect")) {
+          this.currentSelected = atob(this.cookieService.get("currentSelect"));
+        } else { 
+          this.selectDefaultOne(); 
+        }
+      } else {
+        this.selectDefaultOne();
       }
     } else {
       this.selectDefaultOne();
@@ -93,6 +97,16 @@ export class KeySetManagerService {
   public delKey(name: string) {
     if (this.keySets.has(name)) {
       this.keySets.delete(name);
+      if (this.currentSelected == name) {
+        this.selectDefaultOne();
+      }
+      this.updateKeySetsCookies();
+    }
+  }
+
+  public editKey(name: string, key: string) {
+    if (this.keySets.has(name) && key.length > 0) {
+      this.keySets.set(name, key);
       this.updateKeySetsCookies();
     }
   }
