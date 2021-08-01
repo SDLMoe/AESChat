@@ -1,0 +1,8 @@
+<div class="upload-container" dropzone [class.hovering]="isHovering"
+    (hovered)="isHovering = $event" (dropped)="onDrop($event)" (click)="onClick()">
+    <p class="icon">
+      <mat-icon>cloud_upload</mat-icon>
+    </p>
+    <p class="title">Click or drag file to this area to <strong>{{hint}}</strong></p>
+  </div>
+  <input type="file" id="upload" name="upload" accept="text/*" style="display:none;" />

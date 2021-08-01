@@ -29,12 +29,14 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackbarMessageComponent } from './snackbar-message/snackbar-message.component';
 import { TextInputComponent } from './text-input/text-input.component';
-import { EncryptionImageImageComponent } from './encryption-image-image/encryption-image-image.component';
+import { EncryptionImageTextComponent } from './encryption-image-text/encryption-image-text.component';
 import { MatFileUploadModule } from '@martyganz/mat-file-upload';
 import { CookieModule } from 'ngx-cookie';
 import { MatTableModule } from '@angular/material/table'
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule}  from '@angular/material/dialog';
+import { DropzoneDirective } from './directive/dropzone.directive';
+import { DropUploadComponent } from './drop-upload/drop-upload.component';
 
 @NgModule({
   declarations: [
@@ -46,9 +48,11 @@ import { MatDialogModule}  from '@angular/material/dialog';
     EncryptionTextTextComponent,
     SnackbarMessageComponent,
     TextInputComponent,
-    EncryptionImageImageComponent,
+    EncryptionImageTextComponent,
     EditKeyDialog,
-    AddNewKeyDialog
+    AddNewKeyDialog,
+    DropzoneDirective,
+    DropUploadComponent
   ],
   imports: [
     BrowserModule,

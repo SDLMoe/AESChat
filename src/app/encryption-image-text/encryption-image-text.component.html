@@ -1,0 +1,18 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Image to Text Encryption</mat-card-title>
+    <mat-card-subtitle>You could set your personal key on the Configuration page in the left side drawer.<br />
+      This feature is working-in-progress.</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="card-content-container">
+    <!--<mat-file-upload class="card-content-margin" labelText="Select an image to upload:"
+      selectButtonText="Choose an Image" uploadButtonText="Upload" [allowMultipleFiles]="false"
+      acceptedTypes=".png, .jpg, .jpeg"></mat-file-upload>-->
+    <app-drop-upload class="card-content-line-uploader" hint="encrypt the image" (encrypt)="encrypt($event.fileName, $event.dataBuffer)"></app-drop-upload>
+    <app-drop-upload class="card-content-line-uploader" hint="decrypt the image" (decrypt)="decrypt($event.fileName, $event.data)"></app-drop-upload>
+    <button *ngIf="decryptedImage != ''" color="primary" mat-raised-button (click)="decryptedImage=''">Close Decrypted Image</button>
+    <div class="card-content-line-viewer image-container">
+      <img *ngIf="decryptedImage != ''" class="image-viewer" id="decryptImage" src="data:image/png;base64,{{decryptedImage}}">
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,36 @@
+.card-content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: center;
+  justify-content: center;
+  margin: 16px;
+}
+
+.card-content-line {
+    flex: 1 1 25px;
+}
+
+.card-content-line-uploader {
+    flex: 1 1 120px;
+}
+
+.card-content-line-viewer {
+    flex: 1 1 1;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  background: #fafafa;
+  border: 1px dashed #d9d9d9;
+  padding: 16px 0;
+}
+
+.image-viewer {
+    align-self: center;
+    max-height: 80%;
+    max-width: 80%;
+}

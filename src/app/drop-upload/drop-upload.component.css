@@ -1,0 +1,24 @@
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    background: #fafafa;
+    border: 1px dashed #d9d9d9;
+    padding: 16px 0;
+    cursor: pointer;
+  }
+  
+  .icon {
+    margin-bottom: 20px;
+  }
+  .title {
+    margin: 0 0 4px;
+    color: rgba(0,0,0,.45);
+    font-size: 16px;
+  }
+  
+  .hovering {
+    border: 1px dashed tomato;
+  }

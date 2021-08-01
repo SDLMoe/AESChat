@@ -36,7 +36,7 @@ export class EncryptionService {
   
 }
 
-class GCM {
+export class GCM {
 
   private password: string = "";
   private ivLength: number = 16;
