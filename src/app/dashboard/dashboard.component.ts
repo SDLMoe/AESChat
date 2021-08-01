@@ -22,7 +22,7 @@ import { TSMap } from 'typescript-map';
 })
 export class DashboardComponent {
 
-  displayedCol = ['select','name', 'key', 'action'];
+  displayedCol = ['select', 'name', 'key', 'action'];
 
   constructor(
     public keySetManagerService: KeySetManagerService,
@@ -46,7 +46,7 @@ export class DashboardComponent {
       this.animationState.set(rowName, false);
       if (this.count != -1) {
         new Promise(() => {
-          setTimeout(() => {this.animationState.set(rowName, true);}, 300 + this.count * 100);     
+          setTimeout(() => { this.animationState.set(rowName, true); }, 300 + this.count * 100);
         });
         this.count++;
         if (this.count == this.dataSource.length) {
@@ -54,7 +54,7 @@ export class DashboardComponent {
         }
       } else {
         new Promise(() => {
-          setTimeout(() => {this.animationState.set(rowName, true);}, 100);     
+          setTimeout(() => { this.animationState.set(rowName, true); }, 100);
         });
       }
       return this.checkAnimationState(rowName);
@@ -68,11 +68,11 @@ export class DashboardComponent {
   delKey(name: string) {
     this.animationState.set(name, false);
     new Promise(() => {
-      setTimeout(() => { 
+      setTimeout(() => {
         this.keySetManagerService.delKey(name);
         this.updateKeyDataSource();
         this.snackbarService.openAlertSnackBar('Successfully removed!');
-      }, 500);     
+      }, 500);
     });
   }
 
@@ -137,14 +137,14 @@ export class EditKeyDialog {
 
   constructor(
     public dialogRef: MatDialogRef<EditKeyDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: EditKeyDialogData, private randomService: RandomService) {}
+    @Inject(MAT_DIALOG_DATA) public data: EditKeyDialogData, private randomService: RandomService) { }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   randomKey(): void {
-    this.data.key = this.randomService.generateRandomStringWithCrypto(32);
+    this.data.key = this.randomService.generateRandomKey(32);
   }
 
 
@@ -176,11 +176,11 @@ export class AddNewKeyDialog {
   }
 
   randomKey(): void {
-    this.key = this.randomService.generateRandomStringWithCrypto(32);
+    this.key = this.randomService.generateRandomKey(32);
   }
 
   randomName(): void {
-    this.name = this.randomService.generateRandomDigitsStringWithCrypto();
+    this.name = this.randomService.generateRandomName();
   }
 
   randomAll(): void {

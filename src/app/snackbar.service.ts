@@ -19,7 +19,7 @@ export class SnackbarService {
       verticalPosition: "bottom",
     });
   }
-  
+
   openAlertSnackBar(message: string, duration?: number) {
     if (duration === undefined) {
       duration = 3000

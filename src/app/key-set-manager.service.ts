@@ -47,7 +47,7 @@ export class KeySetManagerService {
     if (this.keySets.keys().length > 0) {
       this.selectKey(this.keySets.keys()[0]);
     } else {
-      this.addKey("default", this.randomService.generateRandomStringWithCrypto(32));
+      this.addKey("default", this.randomService.generateRandomKey(32));
       this.selectDefaultOne();
     }
   }

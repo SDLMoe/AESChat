@@ -22,14 +22,14 @@ export class RandomService {
     return e
   }
 
-  public generateRandomStringWithCrypto(len: number) {
+  public generateRandomKey(len: number) {
     let arr = new Uint32Array(len / 4)
     window.crypto.getRandomValues(arr)
     let e = Array.from(arr, this.dec2hex).join('')
     return e
   }
 
-  public generateRandomDigitsStringWithCrypto(): string {
+  public generateRandomName(): string {
     let len = this.randomNum(100, 200);
     let arr = new Uint32Array(len / 100)
     window.crypto.getRandomValues(arr)
@@ -38,5 +38,4 @@ export class RandomService {
   }
 
   constructor() { }
-
 }
