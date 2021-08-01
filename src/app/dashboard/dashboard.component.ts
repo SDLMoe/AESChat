@@ -16,9 +16,13 @@ export class DashboardComponent {
   constructor(
     public keySetManagerService: KeySetManagerService, 
     public dialog: MatDialog,
-    public snackbarService:SnackbarService) { this.updateKeyDataSource() }
+    public snackbarService:SnackbarService) { }
 
   dataSource: KeySetData[] = [];
+
+  ngOnInit() {
+    this.updateKeyDataSource();
+  }
 
   updateKeyDataSource() {
     this.dataSource = this.keySetManagerService.getKeySetDataSource();
