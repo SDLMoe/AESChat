@@ -43,6 +43,11 @@ export class EncryptionTextTextComponent {
     });
   }
 
+  selectKey(keyName: string) {
+    this.keySetManagerService.selectKey(keyName);
+    this.encrypt(this.plainText || "");
+  }
+
   encrypt(newPlainText: string) {
     this.plainText = newPlainText;
     if (newPlainText != "") {

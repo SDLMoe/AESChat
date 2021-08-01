@@ -6,12 +6,42 @@
   margin-top: 16px;
   margin-bottom: 16px;
   flex: 0.98;
+  overflow-x: auto;
 }
 .card-content-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin: 16px;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.mat-header-row, .mat-row {
+  display: inline-flex;
+}
+
+.mat-table {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.mat-cell,
+.mat-header-cell {
+  word-wrap: initial;
+  display: table-cell;
+  padding: 0px 10px;
+  line-break: unset;
+  white-space: nowrap;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.mat-row,
+.mat-header-row {
+  display: table-row;
 }
 tr.table-row:hover {
   background: whitesmoke;

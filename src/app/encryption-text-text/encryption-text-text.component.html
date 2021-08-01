@@ -9,7 +9,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Select the Key</mat-label>
         <mat-select [value]="keySetManagerService.getCurrentKeyName()"
-          (valueChange)="keySetManagerService.selectKey($event)">
+          (valueChange)="selectKey($event)">
           <mat-option *ngFor="let key of keySetManagerService.getOptions()" [value]="key">
             {{key}}
           </mat-option>

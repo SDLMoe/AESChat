@@ -22,4 +22,9 @@ export class TextInputComponent implements OnInit {
     this.bindValueChange.emit(this.bindValue);
   }
 
+  clearValue() {
+    this.bindValue = "";
+    this.update();
+  }
+
 }

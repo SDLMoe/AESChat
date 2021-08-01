@@ -3,7 +3,7 @@
   <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="5" type="text" [(ngModel)]="bindValue"
     (ngModelChange)="update()"></textarea>
   <div class="right">
-    <button *ngIf="bindValue" matSuffix mat-icon-button matTooltip="Clear" aria-label="Clear" (click)="bindValue=''">
+    <button *ngIf="bindValue" matSuffix mat-icon-button matTooltip="Clear" aria-label="Clear" (click)="clearValue()">
       <mat-icon>close</mat-icon>
     </button>
     <button *ngIf="bindValue" matSuffix mat-icon-button matTooltip="Copy" aria-label="Copy"
