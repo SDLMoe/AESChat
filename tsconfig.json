@@ -20,9 +20,7 @@
       "es2018",
       "dom"
     ],
-    "paths": {
-      "crypto":["node_modules/crypto-js"]
-    }
+    "paths": {}
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
