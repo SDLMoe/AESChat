@@ -3,11 +3,10 @@ import { KeySetData, KeySetManagerService } from '../key-set-manager.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'button-del-cookie',
-  templateUrl: './button-del-cookie.html',
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-
 export class DashboardComponent {
   
   displayedCol = ['name', 'key', 'action'];
