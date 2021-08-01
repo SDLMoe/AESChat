@@ -10,7 +10,7 @@
     </mat-form-field>
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="randomKey()">Generate a random key</button>
     <button mat-button (click)="onNoClick()">Cancel</button>
     <button mat-button (click)="dialogRef.close([name, key])">Confirm</button>
+    <button mat-button (click)="randomKey()">Generate a random key</button>
 </div>
