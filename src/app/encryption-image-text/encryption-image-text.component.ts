@@ -1,11 +1,10 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { CookieService } from 'ngx-cookie';
 import { EncryptionService, GCM } from '../encryption.service';
 import { KeySetManagerService } from '../key-set-manager.service';
 import { SnackbarService } from '../snackbar.service';
 
-const IMAGE_CACHE_INFO_COOKIES_KEY = "imageCacheInfo";
+const IMAGE_CACHE_INFO_CACHE_KEY = "imageCacheInfo";
 
 @Component({
   selector: 'app-encryption-image-text',
@@ -26,7 +25,6 @@ export class EncryptionImageTextComponent implements OnInit {
     public snackBarService: SnackbarService,
     public encryptionService: EncryptionService,
     public keySetManagerService: KeySetManagerService,
-    public cookieService: CookieService,
   ) { }
 
   decryptedImage = "";
@@ -35,14 +33,14 @@ export class EncryptionImageTextComponent implements OnInit {
   cacheWarn = false;
 
   ngOnInit(): void {
-    this.readCacheContentFromCookie();
+    this.readCacheContentFromCache();
   }
 
-  readCacheContentFromCookie() {
+  readCacheContentFromCache() {
     new Promise(
       () => {
-        if (localStorage.getItem(IMAGE_CACHE_INFO_COOKIES_KEY) || "") {
-          this.cacheIdentity = atob(GCM.urlsafe_unescape(localStorage.getItem(IMAGE_CACHE_INFO_COOKIES_KEY)as any));
+        if (localStorage.getItem(IMAGE_CACHE_INFO_CACHE_KEY) || "") {
+          this.cacheIdentity = atob(GCM.urlsafe_unescape(localStorage.getItem(IMAGE_CACHE_INFO_CACHE_KEY) as string));
           this.decryptedImage = localStorage[this.cacheIdentity];
           this.cacheWarn = true;
           if (this.decryptedImage != "") {
@@ -53,11 +51,11 @@ export class EncryptionImageTextComponent implements OnInit {
     );
   }
 
-  storeCacheContentToCookie() {
+  storeCacheContentToCache() {
     new Promise(() => {
       this.cacheIdentity = this.decryptedImage.slice(0, 64);
       console.log("cacheIdentity: " + this.cacheIdentity)
-      localStorage.setItem(IMAGE_CACHE_INFO_COOKIES_KEY, GCM.urlsafe_escape(btoa(this.cacheIdentity)));
+      localStorage.setItem(IMAGE_CACHE_INFO_CACHE_KEY, GCM.urlsafe_escape(btoa(this.cacheIdentity)));
       localStorage[this.cacheIdentity] = this.decryptedImage;
     });
   }
@@ -133,7 +131,7 @@ export class EncryptionImageTextComponent implements OnInit {
     this.openViewer = false;
     setTimeout(() => {
       this.decryptedImage = imageData || "";
-      this.storeCacheContentToCookie();
+      this.storeCacheContentToCache();
       setTimeout(() => { this.openViewer = true }, 300);
     }, 500);
   }
@@ -141,7 +139,7 @@ export class EncryptionImageTextComponent implements OnInit {
   newImage(imageData: string) {
     this.decryptedImage = imageData;
     if (this.decryptedImage != "") {
-      this.storeCacheContentToCookie();
+      this.storeCacheContentToCache();
       setTimeout(() => { this.openViewer = true }, 300);
     } else {
       this.snackBarService.openAlertSnackBar("Maybe the key is wrong!");
@@ -153,7 +151,7 @@ export class EncryptionImageTextComponent implements OnInit {
     new Promise(() => {
       setTimeout(() => {
         this.decryptedImage = "";
-        this.storeCacheContentToCookie();
+        this.storeCacheContentToCache();
       }, 500);
     });
   }

@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { CookieService } from 'ngx-cookie';
 import { EncryptionService, GCM } from '../encryption.service';
 import { KeySetManagerService } from '../key-set-manager.service';
 
-const PLAIN_TEXT_COOKIES_KEY = "plainText";
-const ENCRYPTED_TEXT_COOKIES_KEY = "encryptedText";
+const PLAIN_TEXT_CACHE_KEY = "plainText";
+const ENCRYPTED_TEXT_CACHE_KEY = "encryptedText";
 
 @Component({
   selector: 'app-encryption-text-text',
@@ -13,33 +12,33 @@ const ENCRYPTED_TEXT_COOKIES_KEY = "encryptedText";
 })
 export class EncryptionTextTextComponent {
 
-  plainText ?: string;
-  encryptedText ?: string;
+  plainText?: string;
+  encryptedText?: string;
 
   constructor(
-    public encryptionService: EncryptionService, 
-    public keySetManagerService:KeySetManagerService,
-    public cookieService: CookieService) {}
+    public encryptionService: EncryptionService,
+    public keySetManagerService: KeySetManagerService,
+  ) { }
 
   ngOnInit(): void {
-    this.readCacheContentFromCookie();
+    this.readCacheContentFromCache();
   }
 
-  readCacheContentFromCookie() {
+  readCacheContentFromCache() {
     new Promise(() => {
-      if (localStorage.getItem(PLAIN_TEXT_COOKIES_KEY || "")) {
-        this.plainText = atob(GCM.urlsafe_unescape(localStorage.getItem(PLAIN_TEXT_COOKIES_KEY)as any));
+      if (localStorage.getItem(PLAIN_TEXT_CACHE_KEY || "")) {
+        this.plainText = atob(GCM.urlsafe_unescape(localStorage.getItem(PLAIN_TEXT_CACHE_KEY) as string));
       }
-      if (localStorage.getItem(ENCRYPTED_TEXT_COOKIES_KEY) || "") {
-        this.encryptedText = atob(GCM.urlsafe_unescape(localStorage.getItem(ENCRYPTED_TEXT_COOKIES_KEY)as any));
+      if (localStorage.getItem(ENCRYPTED_TEXT_CACHE_KEY) || "") {
+        this.encryptedText = atob(GCM.urlsafe_unescape(localStorage.getItem(ENCRYPTED_TEXT_CACHE_KEY) as string));
       }
     });
   }
 
-  storeCacheContentToCookie(p: string, e: string) {
+  storeCacheContentToCache(p: string, e: string) {
     new Promise(() => {
-      localStorage.setItem(PLAIN_TEXT_COOKIES_KEY, GCM.urlsafe_escape(btoa(p)));
-      localStorage.setItem(ENCRYPTED_TEXT_COOKIES_KEY, GCM.urlsafe_escape(btoa(e)));
+      localStorage.setItem(PLAIN_TEXT_CACHE_KEY, GCM.urlsafe_escape(btoa(p)));
+      localStorage.setItem(ENCRYPTED_TEXT_CACHE_KEY, GCM.urlsafe_escape(btoa(e)));
     });
   }
 
@@ -53,7 +52,7 @@ export class EncryptionTextTextComponent {
     if (newPlainText != "") {
       this.encryptionService.encrypt(this.plainText ?? '').then(enc => {
         this.encryptedText = enc || "";
-        this.storeCacheContentToCookie(this.plainText || "", this.encryptedText);
+        this.storeCacheContentToCache(this.plainText || "", this.encryptedText);
       });
     } else {
       this.encryptedText = "";
@@ -65,7 +64,7 @@ export class EncryptionTextTextComponent {
     this.encryptedText = newEncryptedText;
     this.encryptionService.decrypt(this.encryptedText ?? '').then(dec => {
       this.plainText = dec || "";
-      this.storeCacheContentToCookie(this.plainText, this.encryptedText || "");
+      this.storeCacheContentToCache(this.plainText, this.encryptedText || "");
     });
   }
 

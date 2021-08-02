@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CookieService } from 'ngx-cookie';
 import { TSMap } from "typescript-map";
 import { GCM } from './encryption.service';
 import { RandomService } from './random.service';
 
-const CURRENT_SELECT_COOKIES_KEY = "currentSelect";
-const KEY_SETS_COOKIES_KEY = "keySets";
+const CURRENT_SELECT_CACHE_KEY = "currentSelect";
+const KEY_SETS_CACHE_KEY = "keySets";
 
 @Injectable({
   providedIn: 'root'
@@ -13,26 +12,25 @@ const KEY_SETS_COOKIES_KEY = "keySets";
 export class KeySetManagerService {
 
   constructor(
-    private cookieService: CookieService,
-    private randomService: RandomService) { this.readFromCookies() }
+    private randomService: RandomService) { this.readFromCache() }
 
   private keySets = new TSMap<string, string>();
   private currentSelected = "default";
 
-  private updateKeySetsCookies() {
-    localStorage.setItem(KEY_SETS_COOKIES_KEY, GCM.urlsafe_escape(btoa(JSON.stringify(this.keySets.toJSON()))));
+  private updateKeySetsCache() {
+    localStorage.setItem(KEY_SETS_CACHE_KEY, GCM.urlsafe_escape(btoa(JSON.stringify(this.keySets.toJSON()))));
   }
 
-  private updateCurrentSelectCookies() {
-    localStorage.setItem(CURRENT_SELECT_COOKIES_KEY, GCM.urlsafe_escape(btoa(this.currentSelected)));
+  private updateCurrentSelectCache() {
+    localStorage.setItem(CURRENT_SELECT_CACHE_KEY, GCM.urlsafe_escape(btoa(this.currentSelected)));
   }
 
-  private readFromCookies() {
-    if (localStorage.getItem(KEY_SETS_COOKIES_KEY || "")) {
-      this.keySets.fromJSON(JSON.parse(atob(GCM.urlsafe_unescape(localStorage.getItem(KEY_SETS_COOKIES_KEY)as any))));
+  private readFromCache() {
+    if (localStorage.getItem(KEY_SETS_CACHE_KEY || "")) {
+      this.keySets.fromJSON(JSON.parse(atob(GCM.urlsafe_unescape(localStorage.getItem(KEY_SETS_CACHE_KEY) as string))));
       if (this.keySets.length > 0) {
-        if (localStorage.getItem(CURRENT_SELECT_COOKIES_KEY) || "") {
-          this.currentSelected = atob(GCM.urlsafe_unescape(localStorage.getItem(CURRENT_SELECT_COOKIES_KEY)as any));
+        if (localStorage.getItem(CURRENT_SELECT_CACHE_KEY) || "") {
+          this.currentSelected = atob(GCM.urlsafe_unescape(localStorage.getItem(CURRENT_SELECT_CACHE_KEY) as string));
         } else {
           this.selectDefaultOne();
         }
@@ -90,7 +88,7 @@ export class KeySetManagerService {
   public selectKey(name: string) {
     if (this.keySets.has(name) && name != "") {
       this.currentSelected = name;
-      this.updateCurrentSelectCookies();
+      this.updateCurrentSelectCache();
     } else {
       this.selectDefaultOne();
     }
@@ -99,7 +97,7 @@ export class KeySetManagerService {
   public addKey(name: string, key: string) {
     if (!this.keySets.has(name) && name != "" && key != "") {
       this.keySets.set(name, key);
-      this.updateKeySetsCookies();
+      this.updateKeySetsCache();
     }
   }
 
@@ -109,14 +107,14 @@ export class KeySetManagerService {
       if (this.currentSelected == name) {
         this.selectDefaultOne();
       }
-      this.updateKeySetsCookies();
+      this.updateKeySetsCache();
     }
   }
 
   public editKey(name: string, key: string) {
     if (this.keySets.has(name) && key.length > 0) {
       this.keySets.set(name, key);
-      this.updateKeySetsCookies();
+      this.updateKeySetsCache();
     }
   }
 

@@ -31,10 +31,9 @@ import { SnackbarMessageComponent } from './snackbar-message/snackbar-message.co
 import { TextInputComponent } from './text-input/text-input.component';
 import { EncryptionImageTextComponent } from './encryption-image-text/encryption-image-text.component';
 import { MatFileUploadModule } from '@martyganz/mat-file-upload';
-import { CookieModule } from 'ngx-cookie';
 import { MatTableModule } from '@angular/material/table'
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDialogModule}  from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { DropzoneDirective } from './directive/dropzone.directive';
 import { DropUploadComponent } from './drop-upload/drop-upload.component';
 
@@ -65,7 +64,6 @@ import { DropUploadComponent } from './drop-upload/drop-upload.component';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
-    CookieModule.forRoot(),
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
@@ -84,7 +82,7 @@ import { DropUploadComponent } from './drop-upload/drop-upload.component';
     MatDialogModule
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy}
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })
