@@ -146,7 +146,7 @@ export class EditKeyDialog {
   }
 
   randomKey(): void {
-    this.data.key = this.randomService.generateRandomKey();
+    this.data.key = this.randomService.generateRandomKey(64);
   }
 
 
@@ -178,7 +178,7 @@ export class AddNewKeyDialog {
   }
 
   randomKey(): void {
-    this.key = this.randomService.generateRandomKey();
+    this.key = this.randomService.generateRandomKey(64);
   }
 
   randomName(): void {
