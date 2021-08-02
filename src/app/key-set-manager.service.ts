@@ -13,28 +13,28 @@ const KEY_SETS_COOKIES_KEY = "keySets";
 export class KeySetManagerService {
 
   constructor(
-    private cookieService: CookieService, 
+    private cookieService: CookieService,
     private randomService: RandomService) { this.readFromCookies() }
 
   private keySets = new TSMap<string, string>();
   private currentSelected = "default";
 
   private updateKeySetsCookies() {
-    this.cookieService.put(KEY_SETS_COOKIES_KEY, GCM.urlsafe_escape(btoa(JSON.stringify(this.keySets.toJSON()))));
+    localStorage.setItem(KEY_SETS_COOKIES_KEY, GCM.urlsafe_escape(btoa(JSON.stringify(this.keySets.toJSON()))));
   }
 
   private updateCurrentSelectCookies() {
-    this.cookieService.put(CURRENT_SELECT_COOKIES_KEY, GCM.urlsafe_escape(btoa(this.currentSelected)));
+    localStorage.setItem(CURRENT_SELECT_COOKIES_KEY, GCM.urlsafe_escape(btoa(this.currentSelected)));
   }
 
   private readFromCookies() {
-    if (this.cookieService.hasKey(KEY_SETS_COOKIES_KEY)) {
-      this.keySets.fromJSON(JSON.parse(atob(GCM.urlsafe_unescape(this.cookieService.get(KEY_SETS_COOKIES_KEY)))));
+    if (localStorage.getItem(KEY_SETS_COOKIES_KEY || "")) {
+      this.keySets.fromJSON(JSON.parse(atob(GCM.urlsafe_unescape(localStorage.getItem(KEY_SETS_COOKIES_KEY)as any))));
       if (this.keySets.length > 0) {
-        if (this.cookieService.hasKey(CURRENT_SELECT_COOKIES_KEY)) {
-          this.currentSelected = atob(GCM.urlsafe_unescape(this.cookieService.get(CURRENT_SELECT_COOKIES_KEY)));
-        } else { 
-          this.selectDefaultOne(); 
+        if (localStorage.getItem(CURRENT_SELECT_COOKIES_KEY) || "") {
+          this.currentSelected = atob(GCM.urlsafe_unescape(localStorage.getItem(CURRENT_SELECT_COOKIES_KEY)as any));
+        } else {
+          this.selectDefaultOne();
         }
       } else {
         this.selectDefaultOne();
@@ -48,7 +48,7 @@ export class KeySetManagerService {
     if (this.keySets.keys().length > 0) {
       this.selectKey(this.keySets.keys()[0]);
     } else {
-      this.addKey("default", this.randomService.generateRandomKey(32));
+      this.addKey("default", this.randomService.generateRandomKey());
       this.selectDefaultOne();
     }
   }
@@ -61,7 +61,7 @@ export class KeySetManagerService {
       return this.getCurrentKey();
     }
   }
-  
+
   public hasKey(name: string): boolean {
     return this.keySets.has(name);
   }
@@ -80,8 +80,8 @@ export class KeySetManagerService {
 
   public getKeySetDataSource(): KeySetData[] {
     const dataSource: KeySetData[] = []
-    this.keySets.map(function(value, key) {
-      dataSource.push({name: key || "", key: value})
+    this.keySets.map(function (value, key) {
+      dataSource.push({ name: key || "", key: value })
       return value;
     });
     return dataSource;

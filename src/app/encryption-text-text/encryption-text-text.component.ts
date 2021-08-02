@@ -27,19 +27,19 @@ export class EncryptionTextTextComponent {
 
   readCacheContentFromCookie() {
     new Promise(() => {
-      if (this.cookieService.hasKey(PLAIN_TEXT_COOKIES_KEY)) {
-        this.plainText = atob(GCM.urlsafe_unescape(this.cookieService.get(PLAIN_TEXT_COOKIES_KEY)));
+      if (localStorage.getItem(PLAIN_TEXT_COOKIES_KEY || "")) {
+        this.plainText = atob(GCM.urlsafe_unescape(localStorage.getItem(PLAIN_TEXT_COOKIES_KEY)as any));
       }
-      if (this.cookieService.hasKey(ENCRYPTED_TEXT_COOKIES_KEY)) {
-        this.encryptedText = atob(GCM.urlsafe_unescape(this.cookieService.get(ENCRYPTED_TEXT_COOKIES_KEY)));
+      if (localStorage.getItem(ENCRYPTED_TEXT_COOKIES_KEY) || "") {
+        this.encryptedText = atob(GCM.urlsafe_unescape(localStorage.getItem(ENCRYPTED_TEXT_COOKIES_KEY)as any));
       }
     });
   }
 
   storeCacheContentToCookie(p: string, e: string) {
     new Promise(() => {
-      this.cookieService.put(PLAIN_TEXT_COOKIES_KEY, GCM.urlsafe_escape(btoa(p)));
-      this.cookieService.put(ENCRYPTED_TEXT_COOKIES_KEY, GCM.urlsafe_escape(btoa(e)));
+      localStorage.setItem(PLAIN_TEXT_COOKIES_KEY, GCM.urlsafe_escape(btoa(p)));
+      localStorage.setItem(ENCRYPTED_TEXT_COOKIES_KEY, GCM.urlsafe_escape(btoa(e)));
     });
   }
 

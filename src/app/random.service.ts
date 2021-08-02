@@ -18,12 +18,13 @@ export class RandomService {
 
   public dec2hex(dec: { toString: (arg0: number) => string; }) {
     let generate = String(window.crypto.getRandomValues(new Uint8Array(1)))
-    let e = dec.toString(36).padStart(8, generate)
+    let e = dec.toString(36).padStart(2, generate)
     return e
   }
 
-  public generateRandomKey(len: number) {
-    let arr = new Uint32Array(len / 4)
+  public generateRandomKey() {
+    let len = 64
+    let arr = new Uint8Array(len / 2)
     window.crypto.getRandomValues(arr)
     let e = Array.from(arr, this.dec2hex).join('')
     return e
@@ -31,7 +32,7 @@ export class RandomService {
 
   public generateRandomName(): string {
     let len = this.randomNum(100, 200);
-    let arr = new Uint32Array(len / 100)
+    let arr = new Uint8Array(len / 50)
     window.crypto.getRandomValues(arr)
     let e = Array.from(arr, this.dec2hex).join('')
     return e

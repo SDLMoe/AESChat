@@ -39,23 +39,25 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
   readCacheContentFromCookie() {
-    new Promise(() => {
-      if (this.cookieService.hasKey(IMAGE_CACHE_INFO_COOKIES_KEY)) {
-        this.cacheIdentity = atob(GCM.urlsafe_unescape(this.cookieService.get(IMAGE_CACHE_INFO_COOKIES_KEY)));
-        this.decryptedImage = localStorage[this.cacheIdentity];
-        this.cacheWarn = true;
-        if (this.decryptedImage != "") {
-          setTimeout(() => { this.openViewer = true }, 300);
+    new Promise(
+      () => {
+        if (localStorage.getItem(IMAGE_CACHE_INFO_COOKIES_KEY) || "") {
+          this.cacheIdentity = atob(GCM.urlsafe_unescape(localStorage.getItem(IMAGE_CACHE_INFO_COOKIES_KEY)as any));
+          this.decryptedImage = localStorage[this.cacheIdentity];
+          this.cacheWarn = true;
+          if (this.decryptedImage != "") {
+            setTimeout(() => { this.openViewer = true }, 300);
+          }
         }
       }
-    });
+    );
   }
 
   storeCacheContentToCookie() {
     new Promise(() => {
       this.cacheIdentity = this.decryptedImage.slice(0, 64);
       console.log("cacheIdentity: " + this.cacheIdentity)
-      this.cookieService.put(IMAGE_CACHE_INFO_COOKIES_KEY, GCM.urlsafe_escape(btoa(this.cacheIdentity)));
+      localStorage.setItem(IMAGE_CACHE_INFO_COOKIES_KEY, GCM.urlsafe_escape(btoa(this.cacheIdentity)));
       localStorage[this.cacheIdentity] = this.decryptedImage;
     });
   }
