@@ -19,14 +19,14 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <app-drop-upload class="card-content-line-uploader" hint="encrypt the image"
+        <app-drop-upload class="card-content-line" hint="encrypt the image"
           (encrypt)="encrypt($event.fileName, $event.dataBuffer)"></app-drop-upload>
-        <app-drop-upload class="card-content-line-uploader" hint="decrypt the image"
-          (decrypt)="decrypt($event.data)"></app-drop-upload>
-        <button *ngIf="decryptedImage != ''" color="primary" mat-raised-button (click)="clearImage()" style="opacity: 0;"
-        [@fadeInOut]="openViewer ? 'in' : 'out'">Close Decrypted
+        <app-drop-upload class="card-content-line" hint="decrypt the image" (decrypt)="decrypt($event.data)">
+        </app-drop-upload>
+        <button class="card-content-line" *ngIf="decryptedImage != ''" color="primary" mat-raised-button (click)="clearImage()"
+          style="opacity: 0;" [@fadeInOut]="openViewer ? 'in' : 'out'">Close Decrypted
           Image</button>
-        <div *ngIf="decryptedImage != ''" class="card-content-line-viewer image-container" style="opacity: 0;"
+        <div *ngIf="decryptedImage != ''" class="card-content-line image-container" style="opacity: 0;"
           [@fadeInOut]="openViewer ? 'in' : 'out'">
           <img *ngIf="decryptedImage != ''" class="image-viewer" id="decryptImage"
             src="data:image/png;base64,{{decryptedImage}}">
