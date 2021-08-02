@@ -25,4 +25,22 @@ export class DropzoneDirective {
     $event.preventDefault();
     this.hovered.emit(false);
   }
+
+  @HostListener("window:paste", ["$event"])
+  onPaste(e: any) {
+    var items = (e.clipboardData || (<any>window).clipboardData).items;
+    var file = null;
+    if (items && items.length) {
+        for (var i = 0; i < items.length; i++) {
+          file = items[i].getAsFile();
+          break;
+        }
+    } else {
+        return;
+    }
+    if (!file) {
+        return;
+    }
+    this.dropped.emit(file);
+  }
 }

@@ -25,20 +25,28 @@ export class DropUploadComponent implements OnInit {
 
   onDrop(files: FileList | null) {
     if (files != null && files.length > 0) {
-      const file = files[0];
+      this.onDrop0(files[0]);
+    } else {
+      if ((<any>files).name != null) {
+        this.onDrop0(files);
+      } else {
+        this.snackbarService.openAlertSnackBar("No file selected!");
+      }
+    }
+  }
+
+  onDrop0(file: any) {
       const reader = new FileReader();
       reader.onload = () => {
         let result = reader.result;
         if (result != null && result instanceof ArrayBuffer) {
-          const fileName = file.name.split('.')[0]
+          const fileName = file.name.split('.')[0];
+          const isText = file.name.split('.')[1] == 'txt';
+          if (isText) { this.decrypt.emit({data: GCM.getTextDecoding(result)}) }
           this.encrypt.emit({fileName: fileName, dataBuffer: result});
-          this.decrypt.emit({data: GCM.getTextDecoding(result)})
         }
       };
       reader.readAsArrayBuffer(file);
-    } else {
-      this.snackbarService.openAlertSnackBar("No file selected!");
-    }
   }
 
   onClick() {
