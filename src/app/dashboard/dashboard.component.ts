@@ -15,8 +15,8 @@ import { TSMap } from 'typescript-map';
     trigger("fadeInOut", [
       state("in", style({ opacity: 100 })),
       state("out", style({ opacity: 0 })),
-      transition("in => out", [animate("0.75s ease")]),
-      transition("out => in", [animate("0.75s ease")])
+      transition("in => out", [animate("0.3s ease")]),
+      transition("out => in", [animate("0.3s ease")])
     ])
   ]
 })
@@ -46,7 +46,7 @@ export class DashboardComponent {
       this.animationState.set(rowName, false);
       if (this.count != -1) {
         new Promise(() => {
-          setTimeout(() => { this.animationState.set(rowName, true); }, 300 + this.count * 100);
+          setTimeout(() => { this.animationState.set(rowName, true); }, 100 + this.count * 50);
         });
         this.count++;
         if (this.count == this.dataSource.length) {
@@ -73,7 +73,7 @@ export class DashboardComponent {
         this.animationState.delete(name);
         this.updateKeyDataSource();
         this.snackbarService.openAlertSnackBar('Successfully removed!');
-      }, 500);
+      }, 200);
     });
   }
 
