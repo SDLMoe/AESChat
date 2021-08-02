@@ -46,3 +46,4 @@ Thumbs.db
 error.log
 access.log
 .vscode/
+dist.tar.gz
