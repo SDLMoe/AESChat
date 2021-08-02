@@ -4,6 +4,7 @@
   "scripts": {
     "ng-high-memory": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng",
     "ng": "ng",
+    "deploy": "ng deploy --base-href=/AESChat/",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
@@ -37,6 +38,7 @@
     "@angular/pwa": "^12.1.4",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
+    "angular-cli-ghpages": "^1.0.0-rc.2",
     "jasmine-core": "~3.7.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
