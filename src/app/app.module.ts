@@ -36,6 +36,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DropzoneDirective } from './directive/dropzone.directive';
 import { DropUploadComponent } from './drop-upload/drop-upload.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,13 @@ import { DropUploadComponent } from './drop-upload/drop-upload.component';
     MatFileUploadModule,
     MatTableModule,
     MatFormFieldModule,
-    MatDialogModule
+    MatDialogModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy }

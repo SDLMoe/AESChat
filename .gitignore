@@ -47,3 +47,5 @@ error.log
 access.log
 .vscode/
 dist.tar.gz
+build.sh
+serve.sh

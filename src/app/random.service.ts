@@ -22,8 +22,7 @@ export class RandomService {
     return e
   }
 
-  public generateRandomKey() {
-    let len = 64
+  public generateRandomKey(len: number) {
     let arr = new Uint8Array(len / 2)
     window.crypto.getRandomValues(arr)
     let e = Array.from(arr, this.dec2hex).join('')
