@@ -14,8 +14,8 @@ const IMAGE_CACHE_INFO_CACHE_KEY = "imageCacheInfo";
     trigger("fadeInOut", [
       state("in", style({ opacity: 100 })),
       state("out", style({ opacity: 0 })),
-      transition("in => out", [animate("0.5s ease")]),
-      transition("out => in", [animate("0.5s ease")])
+      transition("in => out", [animate("0.3s ease")]),
+      transition("out => in", [animate("0.3s ease")])
     ])
   ]
 })
@@ -44,7 +44,7 @@ export class EncryptionImageTextComponent implements OnInit {
           this.decryptedImage = localStorage[this.cacheIdentity];
           this.cacheWarn = true;
           if (this.decryptedImage != "") {
-            setTimeout(() => { this.openViewer = true }, 300);
+            setTimeout(() => { this.openViewer = true }, 200);
           }
         }
       }
@@ -134,15 +134,15 @@ export class EncryptionImageTextComponent implements OnInit {
     setTimeout(() => {
       this.decryptedImage = imageData || "";
       this.storeCacheContentToCache();
-      setTimeout(() => { this.openViewer = true }, 300);
-    }, 500);
+      setTimeout(() => { this.openViewer = true }, 200);
+    }, 300);
   }
 
   newImage(imageData: string) {
     this.decryptedImage = imageData;
     if (this.decryptedImage != "") {
       this.storeCacheContentToCache();
-      setTimeout(() => { this.openViewer = true }, 300);
+      setTimeout(() => { this.openViewer = true }, 200);
     } else {
       this.snackBarService.openAlertSnackBar("Maybe the key is wrong!");
     }
@@ -154,7 +154,7 @@ export class EncryptionImageTextComponent implements OnInit {
       setTimeout(() => {
         this.decryptedImage = "";
         this.storeCacheContentToCache();
-      }, 500);
+      }, 300);
     });
   }
 
