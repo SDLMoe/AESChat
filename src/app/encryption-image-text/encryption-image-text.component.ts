@@ -53,10 +53,10 @@ export class EncryptionImageTextComponent implements OnInit {
 
   storeCacheContentToCache() {
     new Promise(() => {
-      if (this.decryptedImage != "") {
-        this.cacheIdentity = this.decryptedImage.slice(0, 64);
+      this.cacheIdentity = this.decryptedImage.slice(0, 64);
+      localStorage.setItem(IMAGE_CACHE_INFO_CACHE_KEY, GCM.urlsafe_escape(btoa(this.cacheIdentity)));
+      if (this.decryptedImage != "") { 
         console.log("cacheIdentity: " + this.cacheIdentity)
-        localStorage.setItem(IMAGE_CACHE_INFO_CACHE_KEY, GCM.urlsafe_escape(btoa(this.cacheIdentity)));
         localStorage[this.cacheIdentity] = this.decryptedImage;
       }
     });
