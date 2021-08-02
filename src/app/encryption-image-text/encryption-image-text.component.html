@@ -7,18 +7,7 @@
     </mat-card-header>
     <mat-card-content>
       <div class="card-content-container">
-        <!--<mat-file-upload class="card-content-margin" labelText="Select an image to upload:"
-      selectButtonText="Choose an Image" uploadButtonText="Upload" [allowMultipleFiles]="false"
-      acceptedTypes=".png, .jpg, .jpeg"></mat-file-upload>-->
-        <mat-form-field appearance="fill">
-          <mat-label>Select the Key</mat-label>
-          <mat-select [value]="keySetManagerService.getCurrentKeyName()"
-            (valueChange)="this.keySetManagerService.selectKey($event)">
-            <mat-option *ngFor="let key of keySetManagerService.getOptions()" [value]="key">
-              {{key}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <app-select-key></app-select-key>
         <app-drop-upload class="card-content-line" hint="encrypt the image"
           (encrypt)="encrypt($event.fileName, $event.dataBuffer)"></app-drop-upload>
         <app-drop-upload class="card-content-line" hint="decrypt the image" (decrypt)="decrypt($event.data)">

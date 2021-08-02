@@ -1,0 +1,9 @@
+<mat-form-field appearance="fill" style="width: 100%;">
+  <mat-label>Select the Key</mat-label>
+  <mat-select [value]="keySetManagerService.getCurrentKeyName()"
+    (valueChange)="this.keySetManagerService.selectKey($event)">
+    <mat-option *ngFor="let key of keySetManagerService.getOptions()" [value]="key">
+      {{key}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

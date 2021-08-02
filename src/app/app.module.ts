@@ -30,7 +30,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackbarMessageComponent } from './snackbar-message/snackbar-message.component';
 import { TextInputComponent } from './text-input/text-input.component';
 import { EncryptionImageTextComponent } from './encryption-image-text/encryption-image-text.component';
-import { MatFileUploadModule } from '@martyganz/mat-file-upload';
 import { MatTableModule } from '@angular/material/table'
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -38,6 +37,7 @@ import { DropzoneDirective } from './directive/dropzone.directive';
 import { DropUploadComponent } from './drop-upload/drop-upload.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { SelectKeyComponent } from './select-key/select-key.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +53,8 @@ import { environment } from '../environments/environment';
     EditKeyDialog,
     AddNewKeyDialog,
     DropzoneDirective,
-    DropUploadComponent
+    DropUploadComponent,
+    SelectKeyComponent
   ],
   imports: [
     BrowserModule,
@@ -78,7 +79,6 @@ import { environment } from '../environments/environment';
     ReactiveFormsModule,
     ClipboardModule,
     FormsModule,
-    MatFileUploadModule,
     MatTableModule,
     MatFormFieldModule,
     MatDialogModule,

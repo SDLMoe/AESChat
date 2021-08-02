@@ -7,14 +7,7 @@
     </mat-card-header>
     <mat-card-content>
       <div class="card-content-container">
-        <mat-form-field appearance="fill">
-          <mat-label>Select the Key</mat-label>
-          <mat-select [value]="keySetManagerService.getCurrentKeyName()" (valueChange)="selectKey($event)">
-            <mat-option *ngFor="let key of keySetManagerService.getOptions()" [value]="key">
-              {{key}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <app-select-key></app-select-key>
         <text-input title="Plain Text" (bindValueChange)="encrypt($event)" [bindValue]="plainText"></text-input>
         <text-input title="Encrypted Text" (bindValueChange)="decrypt($event)" [bindValue]="encryptedText"></text-input>
       </div>
