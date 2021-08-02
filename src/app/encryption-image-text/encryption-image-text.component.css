@@ -19,15 +19,8 @@
 }
 
 .card-content-line {
-  flex: 1 1 25px;
-}
-
-.card-content-line-uploader {
-  flex: 1 1 120px;
-}
-
-.card-content-line-viewer {
-  flex: 1 1 1;
+  flex: 1;
+  margin-bottom: 10px;
 }
 
 .image-container {
