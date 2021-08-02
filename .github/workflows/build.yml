@@ -16,7 +16,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
-    name: Build and Test
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -40,17 +40,9 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
-      - name: Test
-        run: npm run test
       - name: Archive build
         if: success()
         uses: actions/upload-artifact@v1
         with:
           name: deploy_dist
           path: dist
-      - name: Archive code coverage result
-        if: success()
-        uses: actions/upload-artifact@v1
-        with:
-          name: deploy_coverage
-          path: coverage
