@@ -36,23 +36,21 @@ export class DropUploadComponent implements OnInit {
   }
 
   onDrop0(file: any) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        let result = reader.result;
-        if (result != null && result instanceof ArrayBuffer) {
-          const fileName = file.name.split('.')[0];
-          const isText = file.name.split('.')[1] == 'txt';
-          if (isText) { this.decrypt.emit({data: GCM.getTextDecoding(result)}) }
-          this.encrypt.emit({fileName: fileName, dataBuffer: result});
-        }
-      };
-      reader.readAsArrayBuffer(file);
+    const reader = new FileReader();
+    reader.onload = () => {
+      let result = reader.result;
+      if (result != null && result instanceof ArrayBuffer) {
+        const fileName = file.name.split('.')[0];
+        const isText = file.name.split('.')[1] == 'txt';
+        if (isText) { this.decrypt.emit({ data: GCM.getTextDecoding(result) }) }
+        this.encrypt.emit({ fileName: fileName, dataBuffer: result });
+      }
+    };
+    reader.readAsArrayBuffer(file);
   }
 
   onClick() {
-    const fileUpload = document.getElementById(
-      "upload"
-    ) as HTMLInputElement;
+    const fileUpload = document.getElementById("upload") as HTMLInputElement;
     fileUpload.onchange = () => {
       this.onDrop(fileUpload.files)
     };
