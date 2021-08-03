@@ -27,12 +27,13 @@ export class EncryptionTextTextComponent {
   lastFocus = true;
 
   listenFocus: NodeJS.Timeout = setInterval(() => {
-    if (document.hasFocus() !== this.lastFocus && document.hasFocus) {
+    if (document.hasFocus() !== this.lastFocus && document.hasFocus()) {
       setTimeout(() => {
         this,this.readEncryptedTextFromClipboard();
       }, 500);
     }
-  }, 1000);
+    this.lastFocus = document.hasFocus();
+  }, 300);
 
   constructor(
     public encryptionService: EncryptionService,
@@ -53,7 +54,6 @@ export class EncryptionTextTextComponent {
   }
 
   ngOnDestroy(): void {
-    console.log("clear")
     clearTimeout(this.listenFocus);
   }
 
@@ -64,7 +64,7 @@ export class EncryptionTextTextComponent {
           let anyNavigator: any;
           anyNavigator = window.navigator;
           (anyNavigator.clipboard.readText() as Promise<string>).then(enc => {
-            if (enc.startsWith(ENCRYPTED_IDENTIFIER)) {
+            if (enc.startsWith(ENCRYPTED_IDENTIFIER) && enc != this.encryptedText) {
               this.snackbarService.openAlertSnackBar("Get encrypted text from clipboard!")
               this.decrypt(enc);
             }
