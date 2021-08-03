@@ -5,14 +5,13 @@ import { RandomService } from '../random.service';
 import { SnackbarService } from '../snackbar.service';
 import { FormControl, Validators } from '@angular/forms';
 import { TSMap } from 'typescript-map';
-import { shakeIt } from '../animation/shake';
-import { fadeInOut } from '../animation/fadeInOut'
+import { AnimationTools } from '../animation/AnimationTools';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
-  animations: [fadeInOut()]
+  animations: [AnimationTools.fadeInOut()]
 })
 export class DashboardComponent {
 
@@ -135,7 +134,7 @@ export class DashboardComponent {
 @Component({
   selector: 'dialog-edit-key',
   templateUrl: 'dialog-edit-key.html',
-  animations: [shakeIt()]
+  animations: [AnimationTools.shakeIt()]
 })
 export class EditKeyDialog {
 
@@ -177,7 +176,7 @@ export class EditKeyDialog {
 @Component({
   selector: 'dialog-new-key',
   templateUrl: 'dialog-new-key.html',
-  animations: [shakeIt()]
+  animations: [AnimationTools.shakeIt()]
 })
 export class AddNewKeyDialog {
 
