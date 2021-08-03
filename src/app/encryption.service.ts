@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TSMap } from 'typescript-map';
 import { KeySetManagerService } from './key-set-manager.service';
 
 @Injectable({
@@ -9,6 +10,8 @@ import { KeySetManagerService } from './key-set-manager.service';
 export class EncryptionService {
 
   private key = ""
+
+  public decryptionCache = new TSMap();
 
   constructor(private keySetManagerService: KeySetManagerService) {
     this.updateKey();
@@ -29,7 +32,7 @@ export class EncryptionService {
   public decrypt(encrypted: string): Promise<string | null> {
     this.updateKey();
     let gcm = new GCM(this.key);
-    return gcm.decrypt(encrypted);
+    return gcm.decrypt(encrypted, this);
   }
 
 
@@ -41,6 +44,7 @@ export class GCM {
   private password: string = "";
   private ivLength: number = 16;
   private saltLength: number = 12;
+
 
 
   /**
@@ -156,7 +160,7 @@ export class GCM {
    * @param plainText  utf-8 encoded plain text.
    * @returns {string} url safe base64 encoded encrypted text.
    */
-  async encrypt(plainText: string) {
+  async encrypt(plainText: string): Promise<string | null> {
 
     try {
       // Generates cryptographically strong pseudo-random data. The size argument is a number indicating the number of bytes to generate.
@@ -184,8 +188,13 @@ export class GCM {
    * @param encryptedData {string} encrypted data, url safe base64 encoded.
    * @returns {*} decrypted data, utf-8 encoded. or null if decrypt failed.
    */
-  async decrypt(encryptedData: string) {
+  async decrypt(encryptedData: string, encryptionService: EncryptionService): Promise<string | null> {
     try {
+      const cacheIdentifier = encryptedData.slice(16, 64);
+      if (encryptionService.decryptionCache.has(cacheIdentifier)) {
+        console.log("use cache");
+        return encryptionService.decryptionCache.get(cacheIdentifier) as string;
+      }
       let rawData = new Uint8Array(GCM.base64ToArrayBuffer(GCM.urlsafe_unescape(encryptedData)));
 
       // convert data to buffers
@@ -203,6 +212,7 @@ export class GCM {
       );
 
       let plainText = GCM.getTextDecoding(decipher);
+      encryptionService.decryptionCache.set(cacheIdentifier, plainText);
       return plainText;
     } catch (e) { }
 

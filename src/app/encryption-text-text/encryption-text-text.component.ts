@@ -99,7 +99,7 @@ export class EncryptionTextTextComponent {
 
   encrypt(newPlainText: string) {
     this.plainText = newPlainText;
-    if (!this.waitInput) {
+    if (!this.waitInput && newPlainText != "") {
       this.waitInput = true;
     } else {
       clearTimeout(this.waitTimeout);
