@@ -20,14 +20,14 @@ export class LoadingMaskDirective {
     const loaderComponentElement = this.componentInstance.location.nativeElement;
     const sibling: HTMLElement = loaderComponentElement.previousSibling;
     setTimeout(() => {
-      console.log(sibling.firstChild);
+      //console.log(sibling.firstChild);
       sibling.insertBefore(loaderComponentElement, sibling.firstChild);
     }, 1000);
     //sibling.insertBefore(loaderComponentElement, sibling.firstChild);
   }
 
   ngOnChanges(load: SimpleChanges): void {
-    console.log("change: ", this.isLoading);
+    //console.log("change: ", this.isLoading);
     this.componentInstance.instance.loader = load.isLoading.currentValue;
   }
 

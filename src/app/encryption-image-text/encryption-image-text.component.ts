@@ -85,13 +85,13 @@ export class EncryptionImageTextComponent implements OnInit {
     this.isEncrypting = true;
     this.encryptionService.encrypt(GCM.arrayBufferToBase64(imageBuffer)).then(enc => {
       if (enc != null && enc != "") {
-        var saveData = (
+        let saveData = (
           function () {
-            var a = document.createElement("a");
+            let a = document.createElement("a");
             document.body.appendChild(a);
             a.setAttribute("style", "display: none");
             return function (data: string, fileName: string) {
-              var blob = new Blob([data], { type: "text/plain" }),
+              let blob = new Blob([data], { type: "text/plain" }),
                 url = window.URL.createObjectURL(blob);
               a.href = url;
               a.download = fileName;
@@ -101,7 +101,9 @@ export class EncryptionImageTextComponent implements OnInit {
           }
             ()
         );
+        //TODO: Provide Option
         saveData(enc, this.randomService.generateRandomName() + "-encrypted.txt");
+
         this.isEncrypting = false;
       }
     });
@@ -167,3 +169,18 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
 }
+
+interface ClipboardItem {
+  readonly types: string[];
+  readonly presentationStyle: "unspecified" | "inline" | "attachment";
+  getType(): Promise<Blob>;
+}
+
+interface ClipboardItemData {
+  [mimeType: string]: Blob | string | Promise<Blob | string>;
+}
+
+declare var ClipboardItem: {
+  prototype: ClipboardItem;
+  new (itemData: ClipboardItemData): ClipboardItem;
+};
