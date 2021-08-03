@@ -35,6 +35,15 @@
             ],
             "scripts": [],
             "serviceWorker": true,
+            "optimization": true,
+            "outputHashing": "all",
+            "deleteOutputPath": true,
+            "sourceMap": false,
+            "namedChunks": false,
+            "aot": true,
+            "extractLicenses": true,
+            "vendorChunk": false,
+            "buildOptimizer": true,
             "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
@@ -54,6 +63,8 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
+              "serviceWorker": true,
+              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -68,8 +79,11 @@
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
+              "aot": false,
               "extractLicenses": false,
+              "serviceWorker": true,
               "sourceMap": true,
+              "verbose": true,
               "namedChunks": true
             }
           },

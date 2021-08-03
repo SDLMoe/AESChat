@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+// import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-about',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutComponent implements OnInit {
 
-  constructor() { }
+  // public getVersion(): Observable<any> {
+  //   let json = this.http.get('./ngsw.json');
+  //   let obj = JSON.parse(json);
+  //   let version = obj.timestamp
+  //   console.log(version)
+  //   return json
+  // }
 
-  ngOnInit(): void {
+  constructor(private http: HttpClient) {
+  }
+  ngOnInit() {
   }
 
 }
