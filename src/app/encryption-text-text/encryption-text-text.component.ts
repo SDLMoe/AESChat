@@ -6,7 +6,7 @@ import { CacheEncoder } from '../utils/cache-encoder';
 
 const PLAIN_TEXT_CACHE_KEY = "plainText";
 const ENCRYPTED_TEXT_CACHE_KEY = "encryptedText";
-const ENCRYPTED_IDENTIFIER = "[AESChat]";
+const ENCRYPTED_IDENTIFIER = "[@]";
 
 @Component({
   selector: 'app-encryption-text-text',
