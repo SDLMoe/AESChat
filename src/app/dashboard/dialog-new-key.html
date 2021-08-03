@@ -1,25 +1,21 @@
 <h1 mat-dialog-title>Add a new key</h1>
 <div mat-dialog-content>
-  <mat-form-field style="width: 100%;">
+  <mat-form-field appearance="outline" style="width: 100%;" [@shakeit]="shakeName ? 'shakeend' : 'shakestart'">
     <mat-label>Name</mat-label>
-    <input matInput required ngDefaultControl [(ngModel)]="name">
-    <div style="display: flex; flex-direction: row-reverse;">
-      <button mat-icon-button matTooltip="Generate" aria-label="Clear" (click)="randomName()">
-        <mat-icon>loop</mat-icon>
-      </button>
-    </div>
+    <input matInput [formControl]="addNewKeyNameFormControl" autocomplete="off">
+    <button matSuffix mat-icon-button matTooltip="Generate" aria-label="Clear" (click)="randomName()">
+      <mat-icon>loop</mat-icon>
+    </button>
     <mat-error *ngIf="addNewKeyNameFormControl.invalid">
-      Key is <strong>required</strong>
+      Key Name is <strong>required</strong>
     </mat-error>
   </mat-form-field>
-  <mat-form-field style="width: 100%;">
+  <mat-form-field appearance="outline" style="width: 100%;" [@shakeit]="shakeKey ? 'shakeend' : 'shakestart'">
     <mat-label>Key</mat-label>
-    <textarea cdkTextareaAutosize matInput required ngDefaultControl [(ngModel)]="key"></textarea>
-    <div style="display: flex; flex-direction: row-reverse;">
-      <button matSuffix mat-icon-button matTooltip="Generate" aria-label="Clear" (click)="randomKey()">
-        <mat-icon>loop</mat-icon>
-      </button>
-    </div>
+    <textarea cdkTextareaAutosize matInput [formControl]="addNewKeyFormControl" autocomplete="off"></textarea>
+    <button matSuffix mat-icon-button matTooltip="Generate" aria-label="Clear" (click)="randomKey()">
+      <mat-icon>loop</mat-icon>
+    </button>
     <mat-error *ngIf="addNewKeyFormControl.invalid">
       Key is <strong>required</strong>
     </mat-error>

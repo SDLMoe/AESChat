@@ -22,3 +22,7 @@
   .hovering {
     border: 1px dashed tomato;
   }
+
+  .upload-container:hover {
+    border: 1px dashed orange;
+  }

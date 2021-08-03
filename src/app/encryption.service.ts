@@ -173,7 +173,9 @@ export class GCM {
         GCM.getTextEncoding(plainText)
       );
       return GCM.urlsafe_escape(GCM.arrayBufferToBase64(GCM.appendBuffer(GCM.appendBuffer(salt, iv), cipher)));
-    } finally { };
+    } catch (e) { }
+
+    return null;
   }
 
   /**
@@ -202,7 +204,7 @@ export class GCM {
 
       let plainText = GCM.getTextDecoding(decipher);
       return plainText;
-    } finally { }
+    } catch (e) { }
 
     return null;
   }

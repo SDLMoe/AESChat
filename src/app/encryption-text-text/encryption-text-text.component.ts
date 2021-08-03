@@ -15,9 +15,14 @@ export class EncryptionTextTextComponent {
   plainText?: string;
   encryptedText?: string;
 
+  waitInput: boolean = false;
+  waitTimeout: NodeJS.Timeout = setTimeout(() => {}, 0);
+
+  waitDecrypt: boolean = false;
+
   constructor(
     public encryptionService: EncryptionService,
-    public keySetManagerService: KeySetManagerService,
+    public keySetManagerService: KeySetManagerService
   ) { }
 
   ngOnInit(): void {
@@ -49,21 +54,37 @@ export class EncryptionTextTextComponent {
 
   encrypt(newPlainText: string) {
     this.plainText = newPlainText;
-    if (newPlainText != "") {
-      this.encryptionService.encrypt(this.plainText ?? '').then(enc => {
-        this.encryptedText = enc || "";
-        this.storeCacheContentToCache(this.plainText || "", this.encryptedText);
-      });
+    if (!this.waitInput) {
+      console.log("true")
+      this.waitInput = true;
     } else {
-      this.encryptedText = "";
+      clearTimeout(this.waitTimeout);
     }
+    this.prepareEncrypt();
+  }
+
+  prepareEncrypt() {
+    this.waitTimeout = setTimeout(() => {
+      console.log("false")
+      this.waitInput = false;
+      if (this.plainText != "") {
+        this.encryptionService.encrypt(this.plainText ?? '').then(enc => {
+          this.encryptedText = enc || "";
+          this.storeCacheContentToCache(this.plainText || "", this.encryptedText);
+        });
+      } else {
+        this.encryptedText = "";
+      }
+    }, 300);
   }
 
   decrypt(newEncryptedText: string) {
     this.plainText = "";
     this.encryptedText = newEncryptedText;
+    this.waitDecrypt = true;
     this.encryptionService.decrypt(this.encryptedText ?? '').then(dec => {
       this.plainText = dec || "";
+      this.waitDecrypt = false;
       this.storeCacheContentToCache(this.plainText, this.encryptedText || "");
     });
   }

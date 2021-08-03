@@ -32,6 +32,9 @@ export class EncryptionImageTextComponent implements OnInit {
   openViewer = false;
   cacheWarn = false;
 
+  isEncrypting = false;
+  isDecrypting = false;
+
   ngOnInit(): void {
     this.readCacheContentFromCache();
   }
@@ -82,6 +85,7 @@ export class EncryptionImageTextComponent implements OnInit {
 
 
   encrypt(fileName: string, imageBuffer: ArrayBuffer) {
+    this.isEncrypting = true;
     this.encryptionService.encrypt(GCM.arrayBufferToBase64(imageBuffer)).then(enc => {
       if (enc != null && enc != "") {
         var saveData = (function () {
@@ -98,19 +102,23 @@ export class EncryptionImageTextComponent implements OnInit {
           };
         }());
         saveData(enc, fileName + "-encrypted.txt");
+        this.isEncrypting = false;
       }
     });
   }
 
   decrypt(imageData: string) {
     // ImageBuffer => Base64 => Encryption => Decryption (get original Base64)
+    this.isDecrypting = true;
     const cache = this.getCacheDecryption(imageData)
     if (cache != null) {
       this.decrypted(cache);
+      this.isDecrypting = false;
       this.cacheWarn = true;
       return;
     }
     this.encryptionService.decrypt(imageData).then(dec => {
+      this.isDecrypting = false;
       if (dec != null && dec != "") {
         this.decrypted(dec);
         this.cacheWarn = false;

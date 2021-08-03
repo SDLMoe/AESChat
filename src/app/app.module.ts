@@ -12,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { AddNewKeyDialog, DashboardComponent, EditKeyDialog } from './dashboard/dashboard.component';
+import { AddNewKeyDialog, ConfirmDelDialog, DashboardComponent, EditKeyDialog } from './dashboard/dashboard.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -38,6 +38,9 @@ import { DropUploadComponent } from './drop-upload/drop-upload.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { SelectKeyComponent } from './select-key/select-key.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LoaderComponent } from './loader/loader.component';
+import { LoadingMaskDirective } from './directive/loading-mask.directive'
 
 @NgModule({
   declarations: [
@@ -54,7 +57,10 @@ import { SelectKeyComponent } from './select-key/select-key.component';
     AddNewKeyDialog,
     DropzoneDirective,
     DropUploadComponent,
-    SelectKeyComponent
+    SelectKeyComponent,
+    ConfirmDelDialog,
+    LoaderComponent,
+    LoadingMaskDirective
   ],
   imports: [
     BrowserModule,
@@ -82,6 +88,7 @@ import { SelectKeyComponent } from './select-key/select-key.component';
     MatTableModule,
     MatFormFieldModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable

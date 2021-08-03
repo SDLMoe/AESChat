@@ -11,6 +11,7 @@ export class TextInputComponent implements OnInit {
 
   @Input() title?: string;
   @Input() bindValue?: string;
+  @Input() isLoading: boolean = false;
   @Output() bindValueChange = new EventEmitter<string>();
 
   constructor(public snackbarService: SnackbarService) { }

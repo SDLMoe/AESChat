@@ -1,15 +1,19 @@
 <h1 mat-dialog-title>Set a new key for {{data.name}}</h1>
 <div mat-dialog-content>
-  <mat-form-field style="width: 100%;">
+  <mat-form-field appearance="outline" style="width: 100%;" [@shakeit]="shake ? 'shakeend' : 'shakestart'">
     <mat-label>Key</mat-label>
-    <textarea cdkTextareaAutosize required matInput [(ngModel)]="data.key"></textarea>
+    <textarea cdkTextareaAutosize matInput [formControl]="editKeyFormControl" autocomplete="off"></textarea>
+    <button matSuffix mat-icon-button matTooltip="Generate" aria-label="Clear" (click)="randomKey()">
+      <mat-icon>loop</mat-icon>
+    </button>
     <mat-error *ngIf="editKeyFormControl.invalid">
       Key is <strong>required</strong>
     </mat-error>
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button (click)="dialogRef.close(data.key)">Confirm</button>
-  <button mat-button (click)="randomKey()">Generate a random key</button>
+  <div style="display: flex; flex-direction: row; width: 100%;">
+    <button style="width: 100%;" mat-button (click)="onNoClick()">Cancel</button>
+    <button style="width: 100%;" mat-button (click)="confirm()">Confirm</button>
+  </div>
 </div>

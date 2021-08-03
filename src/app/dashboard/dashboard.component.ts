@@ -4,21 +4,15 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { RandomService } from '../random.service';
 import { SnackbarService } from '../snackbar.service';
 import { FormControl, Validators } from '@angular/forms';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { TSMap } from 'typescript-map';
+import { shakeIt } from '../animation/shake';
+import { fadeInOut } from '../animation/fadeInOut'
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
-  animations: [
-    trigger("fadeInOut", [
-      state("in", style({ opacity: 100 })),
-      state("out", style({ opacity: 0 })),
-      transition("in => out", [animate("0.3s ease")]),
-      transition("out => in", [animate("0.3s ease")])
-    ])
-  ]
+  animations: [fadeInOut()]
 })
 export class DashboardComponent {
 
@@ -65,7 +59,7 @@ export class DashboardComponent {
     this.dataSource = this.keySetManagerService.getKeySetDataSource();
   }
 
-  delKey(name: string) {
+  delKey0(name: string) {
     this.animationState.set(name, false);
     new Promise(() => {
       setTimeout(() => {
@@ -74,6 +68,16 @@ export class DashboardComponent {
         this.updateKeyDataSource();
         this.snackbarService.openAlertSnackBar('Successfully removed!');
       }, 200);
+    });
+  }
+
+  delKey(name: string) {
+    const dialogRef = this.dialog.open(ConfirmDelDialog, {
+      data: name
+    });
+
+    dialogRef.afterClosed().subscribe(confirm => {
+      if (confirm) this.delKey0(name);
     });
   }
 
@@ -104,12 +108,12 @@ export class DashboardComponent {
 
     dialogRef.afterClosed().subscribe(newKey => {
       if (newKey != null) {
-        if (newKey[0] != "" && newKey[1] != "") {
-          if (!this.keySetManagerService.hasKey(newKey[0])) {
-            this.keySetManagerService.addKey(newKey[0], newKey[1]);
-            this.keySetManagerService.selectKey(newKey[0]);
+        if (newKey.name != "" && newKey.key != "") {
+          if (!this.keySetManagerService.hasKey(newKey.name)) {
+            this.keySetManagerService.addKey(newKey.name, newKey.key);
+            this.keySetManagerService.selectKey(newKey.name);
             this.updateKeyDataSource();
-            this.snackbarService.openAlertSnackBar(`Successfully add a new key named '${newKey[0]}'!`);
+            this.snackbarService.openAlertSnackBar(`Successfully add a new key named '${newKey.name}'!`);
           } else {
             this.snackbarService.openAlertSnackBar(`Do not use duplicated name!`);
           }
@@ -131,44 +135,58 @@ export class DashboardComponent {
 @Component({
   selector: 'dialog-edit-key',
   templateUrl: 'dialog-edit-key.html',
+  animations: [shakeIt()]
 })
 export class EditKeyDialog {
 
   editKeyFormControl = new FormControl('', [Validators.required]);
-  key = "";
+  shake = false;
 
   constructor(
     public dialogRef: MatDialogRef<EditKeyDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: EditKeyDialogData, private randomService: RandomService) { }
+    @Inject(MAT_DIALOG_DATA) public data: KeyDialogData,
+    private randomService: RandomService) { this.editKeyFormControl.setValue(this.data.key) }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   randomKey(): void {
-    this.data.key = this.randomService.generateRandomKey(64);
+    this.editKeyFormControl.setValue(this.randomService.generateRandomKey(64));
+  }
+
+  confirm(): void {
+    if (this.editKeyFormControl.value != "") {
+      this.dialogRef.close(this.editKeyFormControl.value);
+    } else {
+      if (this.shake != true) {
+        this.shake = true;
+        new Promise(() => {
+          setTimeout(() => {
+            this.shake = false;
+          }, 1000);
+        })
+      }
+    }
   }
 
 
 }
 
 
-export interface EditKeyDialogData {
-  name: string;
-  key: string;
-}
-
 @Component({
   selector: 'dialog-new-key',
   templateUrl: 'dialog-new-key.html',
+  animations: [shakeIt()]
 })
 export class AddNewKeyDialog {
 
-  name = "";
-  key = "";
+  shakeName = false;
+  shakeKey = false;
 
   addNewKeyNameFormControl = new FormControl('', Validators.required);
   addNewKeyFormControl = new FormControl('', Validators.required);
+
 
   constructor(
     public dialogRef: MatDialogRef<AddNewKeyDialog>, private randomService: RandomService) { }
@@ -178,11 +196,11 @@ export class AddNewKeyDialog {
   }
 
   randomKey(): void {
-    this.key = this.randomService.generateRandomKey(64);
+    this.addNewKeyFormControl.setValue(this.randomService.generateRandomKey(64));
   }
 
   randomName(): void {
-    this.name = this.randomService.generateRandomName();
+    this.addNewKeyNameFormControl.setValue(this.randomService.generateRandomName());
   }
 
   randomAll(): void {
@@ -192,10 +210,57 @@ export class AddNewKeyDialog {
   }
 
   confirm(): void {
-    this.dialogRef.close([this.name, this.key]);
+    if (this.addNewKeyNameFormControl.value != "") {
+      this.dialogRef.close({name: this.addNewKeyNameFormControl.value, key: this.addNewKeyFormControl.value});
+    } else {
+      if (this.shakeName != true) {
+        this.shakeName = true;
+        this.addNewKeyNameFormControl.markAllAsTouched();
+        new Promise(() => {
+          setTimeout(() => {
+            this.shakeName = false;
+          }, 1000);
+        })
+      }
+    }
+    if (this.addNewKeyFormControl.value == "") {
+      if (this.shakeKey != true) {
+        this.shakeKey = true;
+        this.addNewKeyFormControl.markAsTouched();
+        new Promise(() => {
+          setTimeout(() => {
+            this.shakeKey = false;
+          }, 1000);
+        })
+      }
+    }
   }
 
 }
 
 
+@Component({
+  selector: 'dialog-confirm-del',
+  templateUrl: 'dialog-confirm-del.html'
+})
+export class ConfirmDelDialog {
 
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmDelDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: string) { }
+
+  onNoClick(): void {
+    this.dialogRef.close(false);
+  }
+
+  confirm(): void {
+    this.dialogRef.close(true);
+  }
+
+
+}
+
+export interface KeyDialogData {
+  name: string;
+  key: string;
+}
