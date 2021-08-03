@@ -1,5 +1,5 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
+import { AnimationTools } from '../animation/AnimationTools';
 import { EncryptionService, GCM } from '../encryption.service';
 import { KeySetManagerService } from '../key-set-manager.service';
 import { SnackbarService } from '../snackbar.service';
@@ -11,12 +11,7 @@ const IMAGE_CACHE_INFO_CACHE_KEY = "imageCacheInfo";
   templateUrl: './encryption-image-text.component.html',
   styleUrls: ['./encryption-image-text.component.css'],
   animations: [
-    trigger("fadeInOut", [
-      state("in", style({ opacity: 100 })),
-      state("out", style({ opacity: 0 })),
-      transition("in => out", [animate("0.3s ease")]),
-      transition("out => in", [animate("0.3s ease")])
-    ])
+    AnimationTools.fadeInOut(0.3)
   ]
 })
 export class EncryptionImageTextComponent implements OnInit {
