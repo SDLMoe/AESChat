@@ -3,6 +3,7 @@ import { AnimationTools } from '../animation/AnimationTools';
 import { EncryptionService, GCM } from '../encryption.service';
 import { KeySetManagerService } from '../key-set-manager.service';
 import { SnackbarService } from '../snackbar.service';
+import { RandomService } from '../random.service';
 
 const IMAGE_CACHE_INFO_CACHE_KEY = "imageCacheInfo";
 
@@ -20,6 +21,7 @@ export class EncryptionImageTextComponent implements OnInit {
     public snackBarService: SnackbarService,
     public encryptionService: EncryptionService,
     public keySetManagerService: KeySetManagerService,
+    public randomService: RandomService,
   ) { }
 
   decryptedImage = "";
@@ -53,7 +55,7 @@ export class EncryptionImageTextComponent implements OnInit {
     new Promise(() => {
       this.cacheIdentity = this.decryptedImage.slice(0, 64);
       localStorage.setItem(IMAGE_CACHE_INFO_CACHE_KEY, GCM.urlsafe_escape(btoa(this.cacheIdentity)));
-      if (this.decryptedImage != "") { 
+      if (this.decryptedImage != "") {
         console.log("cacheIdentity: " + this.cacheIdentity)
         localStorage[this.cacheIdentity] = this.decryptedImage;
       }
@@ -83,20 +85,23 @@ export class EncryptionImageTextComponent implements OnInit {
     this.isEncrypting = true;
     this.encryptionService.encrypt(GCM.arrayBufferToBase64(imageBuffer)).then(enc => {
       if (enc != null && enc != "") {
-        var saveData = (function () {
-          var a = document.createElement("a");
-          document.body.appendChild(a);
-          a.setAttribute("style", "display: none");
-          return function (data: string, fileName: string) {
-            var blob = new Blob([data], { type: "text/plain" }),
-              url = window.URL.createObjectURL(blob);
-            a.href = url;
-            a.download = fileName;
-            a.click();
-            window.URL.revokeObjectURL(url);
-          };
-        }());
-        saveData(enc, fileName + "-encrypted.txt");
+        var saveData = (
+          function () {
+            var a = document.createElement("a");
+            document.body.appendChild(a);
+            a.setAttribute("style", "display: none");
+            return function (data: string, fileName: string) {
+              var blob = new Blob([data], { type: "text/plain" }),
+                url = window.URL.createObjectURL(blob);
+              a.href = url;
+              a.download = fileName;
+              a.click();
+              window.URL.revokeObjectURL(url);
+            };
+          }
+            ()
+        );
+        saveData(enc, this.randomService.generateRandomName() + "-encrypted.txt");
         this.isEncrypting = false;
       }
     });
