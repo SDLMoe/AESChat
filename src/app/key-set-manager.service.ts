@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { TSMap } from "typescript-map";
 import { GCM } from './encryption.service';
 import { RandomService } from './random.service';
+import { CacheEncoder } from './utils/cache-encoder';
 
 const CURRENT_SELECT_CACHE_KEY = "currentSelect";
 const KEY_SETS_CACHE_KEY = "keySets";
@@ -18,19 +19,19 @@ export class KeySetManagerService {
   private currentSelected = "default";
 
   private updateKeySetsCache() {
-    localStorage.setItem(KEY_SETS_CACHE_KEY, GCM.urlsafe_escape(btoa(JSON.stringify(this.keySets.toJSON()))));
+    localStorage.setItem(KEY_SETS_CACHE_KEY, CacheEncoder.encode(JSON.stringify(this.keySets.toJSON())));
   }
 
   private updateCurrentSelectCache() {
-    localStorage.setItem(CURRENT_SELECT_CACHE_KEY, GCM.urlsafe_escape(btoa(this.currentSelected)));
+    localStorage.setItem(CURRENT_SELECT_CACHE_KEY, CacheEncoder.encode(this.currentSelected));
   }
 
   private readFromCache() {
     if (localStorage.getItem(KEY_SETS_CACHE_KEY || "")) {
-      this.keySets.fromJSON(JSON.parse(atob(GCM.urlsafe_unescape(localStorage.getItem(KEY_SETS_CACHE_KEY) as string))));
+      this.keySets.fromJSON(JSON.parse(CacheEncoder.decode(localStorage.getItem(KEY_SETS_CACHE_KEY) as string)));
       if (this.keySets.length > 0) {
         if (localStorage.getItem(CURRENT_SELECT_CACHE_KEY) || "") {
-          this.currentSelected = atob(GCM.urlsafe_unescape(localStorage.getItem(CURRENT_SELECT_CACHE_KEY) as string));
+          this.currentSelected = CacheEncoder.decode(localStorage.getItem(CURRENT_SELECT_CACHE_KEY) as string);
         } else {
           this.selectDefaultOne();
         }

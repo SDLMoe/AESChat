@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { EncryptionService, GCM } from '../encryption.service';
 import { KeySetManagerService } from '../key-set-manager.service';
+import { CacheEncoder } from '../utils/cache-encoder';
 
 const PLAIN_TEXT_CACHE_KEY = "plainText";
 const ENCRYPTED_TEXT_CACHE_KEY = "encryptedText";
@@ -32,18 +33,18 @@ export class EncryptionTextTextComponent {
   readCacheContentFromCache() {
     new Promise(() => {
       if (localStorage.getItem(PLAIN_TEXT_CACHE_KEY || "")) {
-        this.plainText = atob(GCM.urlsafe_unescape(localStorage.getItem(PLAIN_TEXT_CACHE_KEY) as string));
+        this.plainText = CacheEncoder.decode(localStorage.getItem(PLAIN_TEXT_CACHE_KEY) || "");
       }
       if (localStorage.getItem(ENCRYPTED_TEXT_CACHE_KEY) || "") {
-        this.encryptedText = atob(GCM.urlsafe_unescape(localStorage.getItem(ENCRYPTED_TEXT_CACHE_KEY) as string));
+        this.encryptedText = CacheEncoder.decode(localStorage.getItem(ENCRYPTED_TEXT_CACHE_KEY) || "");
       }
     });
   }
 
   storeCacheContentToCache(p: string, e: string) {
     new Promise(() => {
-      localStorage.setItem(PLAIN_TEXT_CACHE_KEY, GCM.urlsafe_escape(btoa(p)));
-      localStorage.setItem(ENCRYPTED_TEXT_CACHE_KEY, GCM.urlsafe_escape(btoa(e)));
+      localStorage.setItem(PLAIN_TEXT_CACHE_KEY, CacheEncoder.encode(p));
+      localStorage.setItem(ENCRYPTED_TEXT_CACHE_KEY, CacheEncoder.encode(e));
     });
   }
 
@@ -55,7 +56,6 @@ export class EncryptionTextTextComponent {
   encrypt(newPlainText: string) {
     this.plainText = newPlainText;
     if (!this.waitInput) {
-      console.log("true")
       this.waitInput = true;
     } else {
       clearTimeout(this.waitTimeout);
@@ -65,7 +65,6 @@ export class EncryptionTextTextComponent {
 
   prepareEncrypt() {
     this.waitTimeout = setTimeout(() => {
-      console.log("false")
       this.waitInput = false;
       if (this.plainText != "") {
         this.encryptionService.encrypt(this.plainText ?? '').then(enc => {
