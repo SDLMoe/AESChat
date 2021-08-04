@@ -81,7 +81,7 @@ export class EncryptionImageTextComponent implements OnInit {
 
 
 
-  encrypt(fileName: string, imageBuffer: ArrayBuffer) {
+  encrypt(imageBuffer: ArrayBuffer) {
     this.isEncrypting = true;
     this.encryptionService.encrypt(GCM.arrayBufferToBase64(imageBuffer)).then(enc => {
       if (enc != null && enc != "") {
