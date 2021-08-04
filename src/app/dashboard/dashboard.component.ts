@@ -209,7 +209,7 @@ export class AddNewKeyDialog {
   }
 
   confirm(): void {
-    if (this.addNewKeyNameFormControl.value != "" && this.addNewKeyFormControl.value == "") {
+    if (this.addNewKeyNameFormControl.value != "" && this.addNewKeyFormControl.value != "") {
       this.dialogRef.close({name: this.addNewKeyNameFormControl.value, key: this.addNewKeyFormControl.value});
     } else {
       if (this.shakeName != true) {
