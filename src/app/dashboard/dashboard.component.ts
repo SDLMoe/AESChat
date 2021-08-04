@@ -211,7 +211,8 @@ export class AddNewKeyDialog {
   confirm(): void {
     if (this.addNewKeyNameFormControl.value != "" && this.addNewKeyFormControl.value != "") {
       this.dialogRef.close({name: this.addNewKeyNameFormControl.value, key: this.addNewKeyFormControl.value});
-    } else {
+    }
+    if (this.addNewKeyNameFormControl.value == "") {
       if (this.shakeName != true) {
         this.shakeName = true;
         this.addNewKeyNameFormControl.markAllAsTouched();
