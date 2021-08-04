@@ -1,5 +1,6 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Component } from '@angular/core';
-import { EncryptionService, GCM } from '../encryption.service';
+import { EncryptionService } from '../encryption.service';
 import { KeySetManagerService } from '../key-set-manager.service';
 import { SnackbarService } from '../snackbar.service';
 import { CacheEncoder } from '../utils/cache-encoder';
@@ -38,7 +39,8 @@ export class EncryptionTextTextComponent {
   constructor(
     public encryptionService: EncryptionService,
     public keySetManagerService: KeySetManagerService,
-    public snackbarService: SnackbarService
+    public snackbarService: SnackbarService,
+    private clipboard: Clipboard
   ) { }
 
   ngOnInit(): void {
@@ -113,6 +115,7 @@ export class EncryptionTextTextComponent {
       if (this.plainText != "") {
         this.encryptionService.encrypt(this.plainText ?? '').then(enc => {
           this.encryptedText = ENCRYPTED_IDENTIFIER + enc || "";
+          this.clipboard.copy(this.encryptedText);
           this.storeCacheContentToCache(this.plainText || "", this.encryptedText);
         });
       } else {
