@@ -29,7 +29,7 @@ export class EncryptionTextTextComponent {
   listenFocus: NodeJS.Timeout = setInterval(() => {
     if (document.hasFocus() !== this.lastFocus && document.hasFocus()) {
       setTimeout(() => {
-        this,this.readEncryptedTextFromClipboard();
+        this, this.readEncryptedTextFromClipboard();
       }, 500);
     }
     this.lastFocus = document.hasFocus();
@@ -64,7 +64,7 @@ export class EncryptionTextTextComponent {
           let anyNavigator: any;
           anyNavigator = window.navigator;
           (anyNavigator.clipboard.readText() as Promise<string>).then(enc => {
-            if (enc.startsWith(ENCRYPTED_IDENTIFIER) && enc != this.encryptedText) {
+            if (enc.indexOf(ENCRYPTED_IDENTIFIER) != -1 && enc != this.encryptedText) {
               this.snackbarService.openAlertSnackBar("Get encrypted text from clipboard!")
               this.decrypt(enc);
             }
@@ -124,14 +124,37 @@ export class EncryptionTextTextComponent {
   decrypt(newEncryptedText: string) {
     this.plainText = "";
     this.encryptedText = newEncryptedText;
-    if (newEncryptedText.startsWith(ENCRYPTED_IDENTIFIER)) {
+    if (newEncryptedText.indexOf(ENCRYPTED_IDENTIFIER) != -1) {
       this.waitDecrypt = true;
-      this.encryptionService.decrypt(this.encryptedText?.replace(ENCRYPTED_IDENTIFIER, '') ?? '').then(dec => {
-        this.plainText = dec || "";
-        this.waitDecrypt = false;
-        this.storeCacheContentToCache(this.plainText, this.encryptedText || "");
-      });
+      if (newEncryptedText.split(ENCRYPTED_IDENTIFIER).length > 2) {
+        this.decryptWithMultiText();
+      } else {
+        this.decryptWithSingleText();
+      }
     }
+  }
+
+  decryptWithSingleText() {
+    this.encryptionService.decrypt(this.encryptedText?.replace(ENCRYPTED_IDENTIFIER, '') ?? '').then(dec => {
+      this.plainText = dec || "";
+      this.waitDecrypt = false;
+      this.storeCacheContentToCache(this.plainText, this.encryptedText || "");
+    });
+  }
+
+  decryptWithMultiText() {
+    new Promise(async () => {
+      const sp = this.encryptedText?.split("[@]") || [];
+      let plainBuilder = "";
+      for (let i = 1; i <= sp?.length - 1; i++) {
+        const enc = sp[i].split("\n")[0];
+        let dec = await this.encryptionService.decrypt(enc)
+        plainBuilder += "[" + i + "] " + dec + "\n";
+      }
+      this.plainText = plainBuilder;
+      this.waitDecrypt = false;
+      this.storeCacheContentToCache(this.plainText, this.encryptedText || "");
+    })
   }
 
 }
