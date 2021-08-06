@@ -44,7 +44,7 @@ export class EncryptionImageTextComponent implements OnInit {
           this.cacheIdentity =
             Buffer.from(GCM.urlsafe_unescape
               (localStorage.getItem
-                (IMAGE_CACHE_INFO_CACHE_KEY) as string), 'base64').toString('binary');
+                (IMAGE_CACHE_INFO_CACHE_KEY) as string), 'base64').toString('utf16le');
           this.decryptedImage = localStorage[this.cacheIdentity];
           this.cacheWarn = true;
           if (this.decryptedImage != "") {
@@ -60,7 +60,7 @@ export class EncryptionImageTextComponent implements OnInit {
       this.cacheIdentity = this.decryptedImage.slice(0, 64);
       localStorage.setItem(IMAGE_CACHE_INFO_CACHE_KEY,
         GCM.urlsafe_escape
-          (Buffer.from(this.cacheIdentity, 'binary').toString('base64')));
+          (Buffer.from(this.cacheIdentity, 'utf16le').toString('base64')));
       if (this.decryptedImage != "") {
         // console.log("cacheIdentity: " + this.cacheIdentity)
         localStorage[this.cacheIdentity] = this.decryptedImage;
@@ -190,7 +190,7 @@ export class EncryptionImageTextComponent implements OnInit {
   //   );
   //   saveData(
   //     Buffer.from(this.decryptedImage, 'base64').
-  //       toString('binary'),
+  //       toString('utf16le'),
   //     this.randomService.generateRandomName()
   //     + "-decrypted.png"
   //      + this.decrypt.fileName

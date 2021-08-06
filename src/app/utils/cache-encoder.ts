@@ -7,7 +7,7 @@ export class CacheEncoder {
     return GCM.urlsafe_escape(
       Buffer.from(
         unescape(encodeURIComponent(input)),
-        'binary')
+        'utf16le')
         .toString('base64')
     );
   }
@@ -17,7 +17,7 @@ export class CacheEncoder {
       Buffer.from(
         GCM.urlsafe_unescape(input),
         'base64')
-        .toString('binary')
+        .toString('utf16le')
     ));
   }
 
