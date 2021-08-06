@@ -117,7 +117,7 @@ export class EncryptionTextTextComponent {
       if (this.plainText != "") {
         this.encryptionService.encrypt(this.plainText ?? '').then(enc => {
           this.encryptedText = ENCRYPTED_IDENTIFIER + enc || "";
-          this.clipboard.copy(this.encryptedText);
+          //this.clipboard.copy(this.encryptedText);
           this.storeCacheContentToCache(this.plainText || "", this.encryptedText);
         });
       } else {
