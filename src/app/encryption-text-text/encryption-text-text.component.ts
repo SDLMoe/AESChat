@@ -1,5 +1,7 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Component } from '@angular/core';
+import { stringify } from 'querystring';
+import { TSMap } from 'typescript-map';
 import { EncryptionService } from '../encryption.service';
 import { KeySetManagerService } from '../key-set-manager.service';
 import { SnackbarService } from '../snackbar.service';
@@ -148,12 +150,17 @@ export class EncryptionTextTextComponent {
   decryptWithMultiText() {
     new Promise(async () => {
       const sp = this.encryptedText?.split("[@]") || [];
-      let plainBuilder = "";
+      let plainDict = new TSMap<string,string>();
       for (let i = 1; i <= sp?.length - 1; i++) {
         const enc = sp[i].split("\n")[0];
-        let dec = await this.encryptionService.decrypt(enc)
-        plainBuilder += "[" + i + "] " + dec + "\n";
+        let dec = await this.encryptionService.decrypt(enc);
+        plainDict.set(enc, dec + "");
       }
+      let plainBuilder = this.encryptedText || "";
+      plainDict.forEach((dec, enc) => {
+        console.log("enc: " + enc + " dec: " + dec);
+        plainBuilder = plainBuilder.replace(enc || "none", dec);
+      })
       this.plainText = plainBuilder;
       this.waitDecrypt = false;
       this.storeCacheContentToCache(this.plainText, this.encryptedText || "");
