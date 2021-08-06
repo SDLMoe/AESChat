@@ -136,12 +136,12 @@ export class GCM {
       binary += String.fromCharCode(bytes[i]);
     }
     let result = 
-    Buffer.from(binary,'utf16le').toString('base64')
+    Buffer.from(binary,'binary').toString('base64')
     return result;
   }
 
   static base64ToArrayBuffer(data: string): ArrayBuffer {
-    let raw = Buffer.from(data,'base64').toString('utf16le');
+    let raw = Buffer.from(data,'base64').toString('binary');
     let rawLength = raw.length;
     let array = new Uint8Array(new ArrayBuffer(rawLength));
 

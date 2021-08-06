@@ -18,9 +18,9 @@
             src="data:image/png;base64,{{decryptedImage}}">
           <p class="cache-warn" *ngIf="cacheWarn"><br>This image data is read from the cache.</p>
         </div>
-        <!-- <button class="card-content-line" *ngIf="decryptedImage != ''" color="primary" mat-raised-button
+        <button class="card-content-line" *ngIf="decryptedImage != ''" color="primary" mat-raised-button
           (click)="saveDecrypted()" style="opacity: 0;" [@fadeInOut]="openViewer ? 'in' : 'out'">
-          Download</button> -->
+          Download</button>
         <button class="card-content-line" *ngIf="decryptedImage != ''" color="primary" mat-raised-button
           (click)="clearImage()" style="opacity: 0;" [@fadeInOut]="openViewer ? 'in' : 'out'">
           Close Decrypted Image</button>

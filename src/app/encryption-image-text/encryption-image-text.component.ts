@@ -44,7 +44,7 @@ export class EncryptionImageTextComponent implements OnInit {
           this.cacheIdentity =
             Buffer.from(GCM.urlsafe_unescape
               (localStorage.getItem
-                (IMAGE_CACHE_INFO_CACHE_KEY) as string), 'base64').toString('utf16le');
+                (IMAGE_CACHE_INFO_CACHE_KEY) as string), 'base64').toString('binary');
           this.decryptedImage = localStorage[this.cacheIdentity];
           this.cacheWarn = true;
           if (this.decryptedImage != "") {
@@ -60,7 +60,7 @@ export class EncryptionImageTextComponent implements OnInit {
       this.cacheIdentity = this.decryptedImage.slice(0, 64);
       localStorage.setItem(IMAGE_CACHE_INFO_CACHE_KEY,
         GCM.urlsafe_escape
-          (Buffer.from(this.cacheIdentity, 'utf16le').toString('base64')));
+          (Buffer.from(this.cacheIdentity, 'binary').toString('base64')));
       if (this.decryptedImage != "") {
         // console.log("cacheIdentity: " + this.cacheIdentity)
         localStorage[this.cacheIdentity] = this.decryptedImage;
@@ -171,32 +171,23 @@ export class EncryptionImageTextComponent implements OnInit {
     }
   }
 
-  // saveDecrypted() {
-  //   let saveData = (
-  //     function () {
-  //       let a = document.createElement("a");
-  //       document.body.appendChild(a);
-  //       a.setAttribute("style", "display: none");
-  //       return function (data: string, fileName: string) {
-  //         let blob = new Blob([data]),
-  //           url = window.URL.createObjectURL(blob);
-  //         a.href = url;
-  //         a.download = fileName as string;
-  //         a.click();
-  //         window.URL.revokeObjectURL(url);
-  //       };
-  //     }
-  //       ()
-  //   );
-  //   saveData(
-  //     Buffer.from(this.decryptedImage, 'base64').
-  //       toString('utf16le'),
-  //     this.randomService.generateRandomName()
-  //     + "-decrypted.png"
-  //      + this.decrypt.fileName
-  //   );
+  saveDecrypted() {
+    let fileName =
+      this.randomService.generateRandomName()
+      + "-decrypted.pdf"
+    // + getFileExtension
 
-  // }
+    // let data = Buffer.from(, 'base64').toString('hex')
+    let data = "data:image/png;base64,"+this.decryptedImage
+
+    let a = document.createElement("a");
+    document.body.appendChild(a);
+    a.setAttribute("style", "display: none");
+    a.href = data;
+    a.download = fileName as string;
+    a.click();
+    window.URL.revokeObjectURL(data);
+  }
 
   clearImage() {
     this.openViewer = false;
