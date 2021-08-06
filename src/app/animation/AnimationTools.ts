@@ -1,4 +1,12 @@
-import { animate, AnimationTriggerMetadata, keyframes, state, style, transition, trigger } from '@angular/animations';
+import {
+    animate,
+    AnimationTriggerMetadata,
+    keyframes,
+    state,
+    style,
+    transition,
+    trigger
+} from '@angular/animations';
 
 export class AnimationTools {
 
