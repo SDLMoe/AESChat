@@ -9,7 +9,7 @@
       <div class="card-content-container">
         <app-select-key></app-select-key>
         <app-drop-upload class="card-content-line" hint="encrypt the image"
-          (encrypt)="encrypt($event.fileName, $event.dataBuffer)"></app-drop-upload>
+          (encrypt)="encrypt($event.dataBuffer)"></app-drop-upload>
         <app-drop-upload class="card-content-line" hint="decrypt the image" (decrypt)="decrypt($event.data)">
         </app-drop-upload>
         <button class="card-content-line" *ngIf="decryptedImage != ''" color="primary" mat-raised-button (click)="clearImage()"
