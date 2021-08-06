@@ -154,12 +154,13 @@ export class EncryptionTextTextComponent {
       for (let i = 1; i <= sp?.length - 1; i++) {
         const enc = sp[i].split("\n")[0];
         let dec = await this.encryptionService.decrypt(enc);
-        plainDict.set(enc, dec + "");
+        if (dec != null && dec != "") {
+          plainDict.set(enc, dec + "");
+        }
       }
       let plainBuilder = this.encryptedText || "";
       plainDict.forEach((dec, enc) => {
-        console.log("enc: " + enc + " dec: " + dec);
-        plainBuilder = plainBuilder.replace(enc || "none", dec);
+        plainBuilder = plainBuilder.split(enc || "none").join(dec);
       })
       this.plainText = plainBuilder;
       this.waitDecrypt = false;
