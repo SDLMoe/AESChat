@@ -1,4 +1,12 @@
-import { ComponentFactoryResolver, ComponentRef, Directive, ElementRef, Input, SimpleChanges, ViewContainerRef } from '@angular/core';
+import {
+  ComponentFactoryResolver,
+  ComponentRef,
+  Directive,
+  // ElementRef,
+  Input,
+  SimpleChanges,
+  ViewContainerRef
+} from '@angular/core';
 import { LoaderComponent } from '../loader/loader.component';
 
 @Directive({
@@ -11,7 +19,7 @@ export class LoadingMaskDirective {
   private componentInstance: ComponentRef<LoaderComponent>;
 
   constructor(
-    ef: ElementRef,
+    // ef: ElementRef,
     viewContainerRef: ViewContainerRef,
     componentFactoryResolver: ComponentFactoryResolver
   ) {
@@ -22,7 +30,7 @@ export class LoadingMaskDirective {
     setTimeout(() => {
       //console.log(sibling.firstChild);
       sibling.insertBefore(loaderComponentElement, sibling.firstChild);
-    }, 1000);
+    }, 100);
     //sibling.insertBefore(loaderComponentElement, sibling.firstChild);
   }
 

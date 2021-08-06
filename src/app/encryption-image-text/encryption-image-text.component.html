@@ -8,19 +8,22 @@
     <mat-card-content>
       <div class="card-content-container">
         <app-select-key></app-select-key>
-        <app-drop-upload class="card-content-line" hint="encrypt the image"
-          (encrypt)="encrypt($event.dataBuffer)"></app-drop-upload>
-        <app-drop-upload class="card-content-line" hint="decrypt the image" (decrypt)="decrypt($event.data)">
+        <app-drop-upload class="card-content-line" hint="encrypt the image" (encrypt)="encrypt($event.fileName, $event.dataBuffer)">
         </app-drop-upload>
-        <button class="card-content-line" *ngIf="decryptedImage != ''" color="primary" mat-raised-button (click)="clearImage()"
-          style="opacity: 0;" [@fadeInOut]="openViewer ? 'in' : 'out'">Close Decrypted
-          Image</button>
+        <app-drop-upload class="card-content-line" hint="decrypt the image" (decrypt)="decrypt($event.fileName, $event.data)">
+        </app-drop-upload>
         <div *ngIf="decryptedImage != ''" class="card-content-line image-container" style="opacity: 0;"
           [@fadeInOut]="openViewer ? 'in' : 'out'">
           <img *ngIf="decryptedImage != ''" class="image-viewer" id="decryptImage"
             src="data:image/png;base64,{{decryptedImage}}">
-          <p class="cache-warn" *ngIf="cacheWarn">This image data is read from the cache.</p>
+          <p class="cache-warn" *ngIf="cacheWarn"><br>This image data is read from the cache.</p>
         </div>
+        <!-- <button class="card-content-line" *ngIf="decryptedImage != ''" color="primary" mat-raised-button
+          (click)="saveDecrypted()" style="opacity: 0;" [@fadeInOut]="openViewer ? 'in' : 'out'">
+          Download</button> -->
+        <button class="card-content-line" *ngIf="decryptedImage != ''" color="primary" mat-raised-button
+          (click)="clearImage()" style="opacity: 0;" [@fadeInOut]="openViewer ? 'in' : 'out'">
+          Close Decrypted Image</button>
       </div>
     </mat-card-content>
   </mat-card>

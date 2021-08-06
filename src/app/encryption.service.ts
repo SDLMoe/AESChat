@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TSMap } from 'typescript-map';
 import { KeySetManagerService } from './key-set-manager.service';
+import { Buffer } from 'buffer'
 
 @Injectable({
   providedIn: 'root'
@@ -134,11 +135,13 @@ export class GCM {
     for (let i = 0; i < len; i++) {
       binary += String.fromCharCode(bytes[i]);
     }
-    return window.btoa(binary);
+    let result = 
+    Buffer.from(binary,'binary').toString('base64')
+    return result;
   }
 
   static base64ToArrayBuffer(data: string): ArrayBuffer {
-    let raw = window.atob(data);
+    let raw = Buffer.from(data,'base64').toString('binary');
     let rawLength = raw.length;
     let array = new Uint8Array(new ArrayBuffer(rawLength));
 
@@ -192,7 +195,7 @@ export class GCM {
     try {
       const cacheIdentifier = encryptedData.slice(16, 64);
       if (encryptionService.decryptionCache.has(cacheIdentifier)) {
-        console.log("use cache");
+        // console.log("use cache");
         return encryptionService.decryptionCache.get(cacheIdentifier) as string;
       }
       let rawData = new Uint8Array(GCM.base64ToArrayBuffer(GCM.urlsafe_unescape(encryptedData)));

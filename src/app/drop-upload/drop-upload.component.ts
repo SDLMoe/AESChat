@@ -40,9 +40,14 @@ export class DropUploadComponent implements OnInit {
     reader.onload = () => {
       let result = reader.result;
       if (result != null && result instanceof ArrayBuffer) {
-        const fileName = file.name.split('.')[0];
-        const isText = file.name.split('.')[1] == 'txt';
-        if (isText) { this.decrypt.emit({ data: GCM.getTextDecoding(result) }) }
+        const fileName = file.name
+        // .split('.')[0];
+        // const isText = file.name.split('.')[1] == 'txt';
+        // const isImage = fileName.split('.')[1] ==
+        // 'png' || 'jpg' || 'jpeg' || 'bmp' || 'gif' || 'webp' || 'psd' || 'svg' || 'tiff';    
+        // if (isText) { 
+        this.decrypt.emit({ fileName: fileName, data: GCM.getTextDecoding(result) })
+        // }
         this.encrypt.emit({ fileName: fileName, dataBuffer: result });
       }
     };
@@ -65,5 +70,6 @@ export interface UnencryptedFileData {
 }
 
 export interface UndecryptedFileData {
-  data: string
+  data: string,
+  fileName: string,
 }

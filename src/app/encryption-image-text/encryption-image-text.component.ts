@@ -4,6 +4,7 @@ import { EncryptionService, GCM } from '../encryption.service';
 import { KeySetManagerService } from '../key-set-manager.service';
 import { SnackbarService } from '../snackbar.service';
 import { RandomService } from '../random.service';
+import { Buffer } from 'buffer'
 
 const IMAGE_CACHE_INFO_CACHE_KEY = "imageCacheInfo";
 
@@ -40,7 +41,10 @@ export class EncryptionImageTextComponent implements OnInit {
     new Promise(
       () => {
         if (localStorage.getItem(IMAGE_CACHE_INFO_CACHE_KEY) || "") {
-          this.cacheIdentity = atob(GCM.urlsafe_unescape(localStorage.getItem(IMAGE_CACHE_INFO_CACHE_KEY) as string));
+          this.cacheIdentity =
+            Buffer.from(GCM.urlsafe_unescape
+              (localStorage.getItem
+                (IMAGE_CACHE_INFO_CACHE_KEY) as string), 'base64').toString('binary');
           this.decryptedImage = localStorage[this.cacheIdentity];
           this.cacheWarn = true;
           if (this.decryptedImage != "") {
@@ -54,9 +58,11 @@ export class EncryptionImageTextComponent implements OnInit {
   storeCacheContentToCache() {
     new Promise(() => {
       this.cacheIdentity = this.decryptedImage.slice(0, 64);
-      localStorage.setItem(IMAGE_CACHE_INFO_CACHE_KEY, GCM.urlsafe_escape(btoa(this.cacheIdentity)));
+      localStorage.setItem(IMAGE_CACHE_INFO_CACHE_KEY,
+        GCM.urlsafe_escape
+          (Buffer.from(this.cacheIdentity, 'binary').toString('base64')));
       if (this.decryptedImage != "") {
-        console.log("cacheIdentity: " + this.cacheIdentity)
+        // console.log("cacheIdentity: " + this.cacheIdentity)
         localStorage[this.cacheIdentity] = this.decryptedImage;
       }
     });
@@ -81,7 +87,8 @@ export class EncryptionImageTextComponent implements OnInit {
 
 
 
-  encrypt(imageBuffer: ArrayBuffer) {
+  encrypt(fileName: string, imageBuffer: ArrayBuffer) {
+    var getFileExtension = fileName.split('.').pop()
     this.isEncrypting = true;
     this.encryptionService.encrypt(GCM.arrayBufferToBase64(imageBuffer)).then(enc => {
       if (enc != null && enc != "") {
@@ -91,10 +98,10 @@ export class EncryptionImageTextComponent implements OnInit {
             document.body.appendChild(a);
             a.setAttribute("style", "display: none");
             return function (data: string, fileName: string) {
-              let blob = new Blob([data], { type: "text/plain" }),
+              let blob = new Blob([data]),
                 url = window.URL.createObjectURL(blob);
               a.href = url;
-              a.download = fileName;
+              a.download = fileName as string;
               a.click();
               window.URL.revokeObjectURL(url);
             };
@@ -102,15 +109,19 @@ export class EncryptionImageTextComponent implements OnInit {
             ()
         );
         //TODO: Provide Option
-        saveData(enc, this.randomService.generateRandomName() + "-encrypted.txt");
-
+        saveData(enc,
+          this.randomService.generateRandomName()
+          + "-encrypted."
+          + getFileExtension
+        );
         this.isEncrypting = false;
       }
     });
   }
 
-  decrypt(imageData: string) {
+  decrypt(fileName: string, imageData: string) {
     // ImageBuffer => Base64 => Encryption => Decryption (get original Base64)
+    fileName = fileName.split('.').pop() as string;
     this.isDecrypting = true;
     const cache = this.getCacheDecryption(imageData)
     if (cache != null) {
@@ -119,19 +130,21 @@ export class EncryptionImageTextComponent implements OnInit {
       this.cacheWarn = true;
       return;
     }
-    this.encryptionService.decrypt(imageData).then(dec => {
-      this.isDecrypting = false;
-      if (dec != null && dec != "") {
-        this.decrypted(dec);
-        this.cacheWarn = false;
-        this.cacheDecryption(imageData, dec);
-      } else {
-        this.snackBarService.openAlertSnackBar("Maybe the key is wrong!");
-      }
-    });
+    this.encryptionService.decrypt(imageData).then
+      (dec => {
+        this.isDecrypting = false;
+        if (dec != null && dec != "") {
+          this.decrypted(dec);
+          this.cacheWarn = false;
+          this.cacheDecryption(imageData, dec);
+        } else {
+          this.snackBarService.openAlertSnackBar("Maybe the key is wrong!");
+        }
+      });
   }
 
   decrypted(imageData: string) {
+    // console.log(getFileExtension)
     if (this.decryptedImage != "") {
       this.changeImage(imageData);
     } else {
@@ -158,6 +171,33 @@ export class EncryptionImageTextComponent implements OnInit {
     }
   }
 
+  // saveDecrypted() {
+  //   let saveData = (
+  //     function () {
+  //       let a = document.createElement("a");
+  //       document.body.appendChild(a);
+  //       a.setAttribute("style", "display: none");
+  //       return function (data: string, fileName: string) {
+  //         let blob = new Blob([data]),
+  //           url = window.URL.createObjectURL(blob);
+  //         a.href = url;
+  //         a.download = fileName as string;
+  //         a.click();
+  //         window.URL.revokeObjectURL(url);
+  //       };
+  //     }
+  //       ()
+  //   );
+  //   saveData(
+  //     Buffer.from(this.decryptedImage, 'base64').
+  //       toString('binary'),
+  //     this.randomService.generateRandomName()
+  //     + "-decrypted.png"
+  //      + this.decrypt.fileName
+  //   );
+
+  // }
+
   clearImage() {
     this.openViewer = false;
     new Promise(() => {
@@ -182,5 +222,5 @@ interface ClipboardItemData {
 
 declare var ClipboardItem: {
   prototype: ClipboardItem;
-  new (itemData: ClipboardItemData): ClipboardItem;
+  new(itemData: ClipboardItemData): ClipboardItem;
 };

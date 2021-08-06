@@ -42,7 +42,7 @@ export class EncryptionTextTextComponent {
     public encryptionService: EncryptionService,
     public keySetManagerService: KeySetManagerService,
     public snackbarService: SnackbarService,
-    private clipboard: Clipboard
+    // private clipboard: Clipboard
   ) { }
 
   ngOnInit(): void {
