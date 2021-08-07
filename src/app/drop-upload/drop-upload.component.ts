@@ -24,6 +24,7 @@ export class DropUploadComponent implements OnInit {
   }
 
   onDrop(files: FileList | null) {
+    console.log("onDrop")
     if (files != null && files.length > 0) {
       this.onDrop0(files[0]);
     } else {
@@ -36,25 +37,27 @@ export class DropUploadComponent implements OnInit {
   }
 
   onDrop0(file: any) {
+    console.log("onDrop0")
     const reader = new FileReader();
     reader.onload = () => {
       let result = reader.result;
       if (result != null && result instanceof ArrayBuffer) {
-        const fileName = file.name
+        const fileName = file.name as string
         // .split('.')[0];
-        // const isText = file.name.split('.')[1] == 'txt';
-        // const isImage = fileName.split('.')[1] ==
-        // 'png' || 'jpg' || 'jpeg' || 'bmp' || 'gif' || 'webp' || 'psd' || 'svg' || 'tiff';    
-        // if (isText) { 
-        this.decrypt.emit({ fileName: fileName, data: GCM.getTextDecoding(result) })
-        // }
-        this.encrypt.emit({ fileName: fileName, dataBuffer: result });
+        const isEncrypted = fileName.split('.')[1] == 'encrypted';
+        if (isEncrypted) {
+          this.decrypt.emit({
+            encryptedFileName: fileName,
+            data: GCM.getTextDecoding(result)
+          })
+        } else this.encrypt.emit({ fileName: fileName, dataBuffer: result });
       }
     };
     reader.readAsArrayBuffer(file);
   }
 
   onClick() {
+    console.log("onClick")
     const fileUpload = document.getElementById("upload") as HTMLInputElement;
     fileUpload.onchange = () => {
       this.onDrop(fileUpload.files)
@@ -71,5 +74,5 @@ export interface UnencryptedFileData {
 
 export interface UndecryptedFileData {
   data: string,
-  fileName: string,
+  encryptedFileName: string,
 }

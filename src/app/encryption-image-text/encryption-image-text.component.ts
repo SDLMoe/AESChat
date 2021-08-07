@@ -34,10 +34,12 @@ export class EncryptionImageTextComponent implements OnInit {
   isDecrypting = false;
 
   ngOnInit(): void {
+    console.log("ngOnInit")
     this.readCacheContentFromCache();
   }
 
   readCacheContentFromCache() {
+    console.log("readCacheContentFromCache")
     new Promise(
       () => {
         if (localStorage.getItem(IMAGE_CACHE_INFO_CACHE_KEY) || "") {
@@ -56,6 +58,7 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
   storeCacheContentToCache() {
+    console.log("storeCacheContentToCache")
     new Promise(() => {
       this.cacheIdentity = this.decryptedImage.slice(0, 64);
       localStorage.setItem(IMAGE_CACHE_INFO_CACHE_KEY,
@@ -69,6 +72,7 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
   cacheDecryption(enc: string, dec: string) {
+    console.log("cacheDecryption")
     new Promise(() => {
       const encIdentity = enc.slice(0, 64);
       const decIdentity = dec.slice(0, 64);
@@ -78,6 +82,7 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
   getCacheDecryption(enc: string): string | null {
+    console.log("getCacheDecryption")
     const encIdentity = enc.slice(0, 64);
     if (localStorage[encIdentity] != null && localStorage[encIdentity] != "") {
       return localStorage[localStorage[encIdentity]];
@@ -88,12 +93,13 @@ export class EncryptionImageTextComponent implements OnInit {
 
 
   encrypt(fileName: string, imageBuffer: ArrayBuffer) {
-    var getFileExtension = fileName.split('.').pop()
+    console.log("encrypt")
     this.isEncrypting = true;
     this.encryptionService.encrypt(GCM.arrayBufferToBase64(imageBuffer)).then(enc => {
       if (enc != null && enc != "") {
         let saveData = (
           function () {
+            console.log("saveData")
             let a = document.createElement("a");
             document.body.appendChild(a);
             a.setAttribute("style", "display: none");
@@ -111,17 +117,18 @@ export class EncryptionImageTextComponent implements OnInit {
         //TODO: Provide Option
         saveData(enc,
           this.randomService.generateRandomName()
-          + "-encrypted."
-          + getFileExtension
+          + ".encrypted."
+          + fileName.split('.').pop()
         );
         this.isEncrypting = false;
       }
     });
   }
 
-  decrypt(fileName: string, imageData: string) {
+  decrypt(encryptedFileName: string, imageData: string) {
+    console.log("decrypt")
     // ImageBuffer => Base64 => Encryption => Decryption (get original Base64)
-    fileName = fileName.split('.').pop() as string;
+    encryptedFileName = encryptedFileName.split('.').pop() as string;
     this.isDecrypting = true;
     const cache = this.getCacheDecryption(imageData)
     if (cache != null) {
@@ -144,6 +151,7 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
   decrypted(imageData: string) {
+    console.log("decrypted")
     // console.log(getFileExtension)
     if (this.decryptedImage != "") {
       this.changeImage(imageData);
@@ -153,6 +161,7 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
   changeImage(imageData: string) {
+    console.log("changeImage")
     this.openViewer = false;
     setTimeout(() => {
       this.decryptedImage = imageData || "";
@@ -162,6 +171,7 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
   newImage(imageData: string) {
+    console.log("newImage")
     this.decryptedImage = imageData;
     if (this.decryptedImage != "") {
       this.storeCacheContentToCache();
@@ -172,24 +182,25 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
   saveDecrypted() {
-    let fileName =
+    console.log("saveDecrypted")
+    let encryptedFileName =
       this.randomService.generateRandomName()
-      + "-decrypted.pdf"
+      + ".decrypted."
     // + getFileExtension
 
     // let data = Buffer.from(, 'base64').toString('hex')
     let data = "data:image/png;base64,"+this.decryptedImage
-
     let a = document.createElement("a");
     document.body.appendChild(a);
     a.setAttribute("style", "display: none");
     a.href = data;
-    a.download = fileName as string;
+    a.download = encryptedFileName as string;
     a.click();
     window.URL.revokeObjectURL(data);
   }
 
   clearImage() {
+    console.log("clearImage")
     this.openViewer = false;
     new Promise(() => {
       setTimeout(() => {
