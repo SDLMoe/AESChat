@@ -50,7 +50,8 @@ export class DropUploadComponent implements OnInit {
             encryptedFileName: fileName,
             data: GCM.getTextDecoding(result)
           })
-        } else this.encrypt.emit({ fileName: fileName, dataBuffer: result });
+        }
+        this.encrypt.emit({ fileName: fileName, dataBuffer: result });
       }
     };
     reader.readAsArrayBuffer(file);

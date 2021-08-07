@@ -10,7 +10,7 @@
         <app-select-key></app-select-key>
         <app-drop-upload class="card-content-line" hint="encrypt the image" (encrypt)="encrypt($event.fileName, $event.dataBuffer)">
         </app-drop-upload>
-        <app-drop-upload class="card-content-line" hint="decrypt the image" (decrypt)="decrypt($event.fileName, $event.data)">
+        <app-drop-upload class="card-content-line" hint="decrypt the image" (decrypt)="decrypt($event.encryptedFileName, $event.data)">
         </app-drop-upload>
         <div *ngIf="decryptedImage != ''" class="card-content-line image-container" style="opacity: 0;"
           [@fadeInOut]="openViewer ? 'in' : 'out'">
