@@ -39,17 +39,13 @@ jobs:
             ${{ runner.os }}-
       - name: Install dependencies
         run: npm ci
-      - name: Build time
-        run: date "+%F %r %Z" > src/buildtime.txt && cat src/buildtime.txt
-      # - name: Build
-      #   run: npm run build
       - name: Deploy to github pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run deploy
-      - name: Archive build
-        if: success()
-        uses: actions/upload-artifact@v2
-        with:
-          name: deploy_dist
-          path: dist
+      # - name: Archive build
+      #   if: success()
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: deploy_dist
+      #     path: dist

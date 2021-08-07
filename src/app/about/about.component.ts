@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-about',
@@ -8,9 +7,16 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AboutComponent implements OnInit {
 
-  constructor(private http: HttpClient) {
-  }
-  ngOnInit() {
-  }
-  
+  date = new Date(document.lastModified);
+  buildtime = new Intl.DateTimeFormat(
+    'ja-JP-u-ca-iso8601',
+    {
+      timeZone: 'Hongkong', timeZoneName: 'long',
+      year: 'numeric', month: 'numeric', day: 'numeric',
+      hour: 'numeric', minute: 'numeric', second: 'numeric',
+      hour12: true
+    }).format(this.date)
+
+  constructor() { }
+  ngOnInit() { }
 }

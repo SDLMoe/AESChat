@@ -48,4 +48,3 @@ access.log
 .vscode/
 dist.tar.gz
 serve.sh
-src/buildtime.txt
