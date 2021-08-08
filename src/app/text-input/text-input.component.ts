@@ -19,6 +19,14 @@ export class TextInputComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  hyperLink() {
+    let div: any = document.getElementById("plainText");
+    console.log(div)
+    // let re = /(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/;
+    // div.innerHTML = s.replace(re, "<a href='$1'>$1</a>");
+  }
+
+
   update() {
     this.bindValueChange.emit(this.bindValue);
   }

@@ -1,6 +1,6 @@
-import { Clipboard } from '@angular/cdk/clipboard';
+// import { Clipboard } from '@angular/cdk/clipboard';
 import { Component } from '@angular/core';
-import { stringify } from 'querystring';
+// import { stringify } from 'querystring';
 import { TSMap } from 'typescript-map';
 import { EncryptionService } from '../encryption.service';
 import { KeySetManagerService } from '../key-set-manager.service';
@@ -150,7 +150,7 @@ export class EncryptionTextTextComponent {
   decryptWithMultiText() {
     new Promise(async () => {
       const sp = this.encryptedText?.split("[@]") || [];
-      let plainDict = new TSMap<string,string>();
+      let plainDict = new TSMap<string, string>();
       for (let i = 1; i <= sp?.length - 1; i++) {
         const enc = sp[i].split("\n")[0];
         let dec = await this.encryptionService.decrypt(enc);

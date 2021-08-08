@@ -8,7 +8,7 @@
     <mat-card-content>
       <div class="card-content-container">
         <app-select-key></app-select-key>
-        <text-input title="Plain Text" (bindValueChange)="encrypt($event)" [bindValue]="plainText" [isLoading]="waitDecrypt"></text-input>
+        <text-input title="Plain Text" (bindValueChange)="encrypt($event)" [bindValue]="plainText" [isLoading]="waitDecrypt" id="plainText"></text-input>
         <text-input title="Encrypted Text" (bindValueChange)="decrypt($event)" [bindValue]="encryptedText" [isLoading]="waitInput"></text-input>
       </div>
     </mat-card-content>
