@@ -5,35 +5,36 @@ import { Injectable } from '@angular/core';
 })
 export class RandomService {
 
-  public randomNum(minNum: number, maxNum: number) {
+  randomNum(min: number, max: number) {
+    let randomBuffer: Uint32Array = new Uint32Array(1);
+    window.crypto.getRandomValues(randomBuffer);
+    let random = randomBuffer[0] / (0xFFFFFFFF + 1)
     switch (arguments.length) {
       case 1:
-        return parseInt(String(Math.random() * minNum + 1));
+        return parseInt(String(random * min + 1));
       case 2:
-        return parseInt(String(Math.random() * (maxNum - minNum + 1) + minNum));
+        return parseInt(String(random * (max - min + 1) + min));
       default:
         return 0;
     }
   }
 
-  public dec2hex(dec: { toString: (arg0: number) => string; }) {
-    let generate = String(window.crypto.getRandomValues(new Uint8Array(1)))
-    let e = dec.toString(36).padStart(2, generate)
-    return e
-  }
-
-  public generateRandomKey(len: number) {
-    let arr = new Uint8Array(len / 2)
-    window.crypto.getRandomValues(arr)
-    let e = Array.from(arr, this.dec2hex).join('')
-    return e
+  public generateRandomKey(len: number): string {
+    let outString: string = '';
+    let inOptions: string = 'sXdERFvwnx1p34SDkbeafC6W7UK2HMVyZlL9tmiqPcJYNIjOG5g8rhQBuTAoz0';
+    //ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+    for (let i = 0; i < len; i++) {
+      let randomBuffer: Uint32Array = new Uint32Array(1);
+      window.crypto.getRandomValues(randomBuffer);
+      let digits = Math.floor(randomBuffer[0] / (0xFFFFFFFF + 1) * inOptions.length)
+      outString += inOptions.charAt(digits);
+    }
+    return outString;
   }
 
   public generateRandomName(): string {
-    let len = this.randomNum(100, 200);
-    let arr = new Uint8Array(len / 50)
-    window.crypto.getRandomValues(arr)
-    let e = Array.from(arr, this.dec2hex).join('')
+    let e = this.generateRandomKey(8).substring(0, this.randomNum(3,8))
+    console.log(this.randomNum(4,8))
     return e
   }
 

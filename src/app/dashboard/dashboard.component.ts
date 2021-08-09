@@ -151,7 +151,7 @@ export class EditKeyDialog {
   }
 
   randomKey(): void {
-    this.editKeyFormControl.setValue(this.randomService.generateRandomKey(64));
+    this.editKeyFormControl.setValue(this.randomService.generateRandomKey(32));
   }
 
   confirm(): void {
@@ -195,7 +195,7 @@ export class AddNewKeyDialog {
   }
 
   randomKey(): void {
-    this.addNewKeyFormControl.setValue(this.randomService.generateRandomKey(64));
+    this.addNewKeyFormControl.setValue(this.randomService.generateRandomKey(32));
   }
 
   randomName(): void {
@@ -210,7 +210,7 @@ export class AddNewKeyDialog {
 
   confirm(): void {
     if (this.addNewKeyNameFormControl.value != "" && this.addNewKeyFormControl.value != "") {
-      this.dialogRef.close({name: this.addNewKeyNameFormControl.value, key: this.addNewKeyFormControl.value});
+      this.dialogRef.close({ name: this.addNewKeyNameFormControl.value, key: this.addNewKeyFormControl.value });
     }
     if (this.addNewKeyNameFormControl.value == "") {
       if (this.shakeName != true) {
