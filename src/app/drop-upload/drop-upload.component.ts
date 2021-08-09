@@ -24,7 +24,7 @@ export class DropUploadComponent implements OnInit {
   }
 
   onDrop(files: FileList | null) {
-    console.log("onDrop")
+    // console.log("onDrop")
     if (files != null && files.length > 0) {
       this.onDrop0(files[0]);
     } else {
@@ -37,7 +37,7 @@ export class DropUploadComponent implements OnInit {
   }
 
   onDrop0(file: any) {
-    console.log("onDrop0")
+    // console.log("onDrop0")
     const reader = new FileReader();
     reader.onload = () => {
       let result = reader.result;
@@ -58,7 +58,7 @@ export class DropUploadComponent implements OnInit {
   }
 
   onClick() {
-    console.log("onClick")
+    // console.log("onClick")
     const fileUpload = document.getElementById("upload") as HTMLInputElement;
     fileUpload.onchange = () => {
       this.onDrop(fileUpload.files)

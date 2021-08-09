@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SnackbarService } from '../snackbar.service';
 
-
 @Component({
   selector: 'text-input',
   templateUrl: './text-input.component.html',
@@ -20,12 +19,10 @@ export class TextInputComponent implements OnInit {
   }
 
   hyperLink() {
-    let div: any = document.getElementById("plainText");
-    console.log(div)
-    // let re = /(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/;
-    // div.innerHTML = s.replace(re, "<a href='$1'>$1</a>");
+    // let div: any = document.getElementById("plainText");
+    // console.log(div)
+    // let ee = /(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/;
   }
-
 
   update() {
     this.bindValueChange.emit(this.bindValue);

@@ -1,9 +1,10 @@
 <mat-form-field style="width: 100%;" appearance="outline">
   <mat-label>{{title}}</mat-label>
   <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="5" type="text" [(ngModel)]="bindValue"
-    (ngModelChange)="update();hyperLink()" autocomplete="off" data-gramm="false"></textarea>
+    (ngModelChange)="update()" autocomplete="off" data-gramm="false"></textarea>
   <div matSuffix style="display: flex; flex-direction: row-reverse;">
-    <button *ngIf="bindValue && !isLoading" mat-icon-button matTooltip="Clear" aria-label="Clear" (click)="clearValue()">
+    <button *ngIf="bindValue && !isLoading" mat-icon-button matTooltip="Clear" aria-label="Clear"
+      (click)="clearValue()">
       <mat-icon>close</mat-icon>
     </button>
     <button *ngIf="bindValue && !isLoading" mat-icon-button matTooltip="Copy" aria-label="Copy"

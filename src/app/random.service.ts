@@ -34,7 +34,7 @@ export class RandomService {
 
   public generateRandomName(): string {
     let e = this.generateRandomKey(8).substring(0, this.randomNum(3,8))
-    console.log(this.randomNum(4,8))
+    // console.log(this.randomNum(4,8))
     return e
   }
 

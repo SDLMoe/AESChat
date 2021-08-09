@@ -34,12 +34,12 @@ export class EncryptionImageTextComponent implements OnInit {
   isDecrypting = false;
 
   ngOnInit(): void {
-    console.log("ngOnInit")
+    // console.log("ngOnInit")
     this.readCacheContentFromCache();
   }
 
   readCacheContentFromCache() {
-    console.log("readCacheContentFromCache")
+    // console.log("readCacheContentFromCache")
     new Promise(
       () => {
         if (localStorage.getItem(IMAGE_CACHE_INFO_CACHE_KEY) || "") {
@@ -58,7 +58,7 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
   storeCacheContentToCache() {
-    console.log("storeCacheContentToCache")
+    // console.log("storeCacheContentToCache")
     new Promise(() => {
       this.cacheIdentity = this.decryptedImage.slice(0, 64);
       localStorage.setItem(IMAGE_CACHE_INFO_CACHE_KEY,
@@ -72,7 +72,7 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
   cacheDecryption(enc: string, dec: string) {
-    console.log("cacheDecryption")
+    // console.log("cacheDecryption")
     new Promise(() => {
       const encIdentity = enc.slice(0, 64);
       const decIdentity = dec.slice(0, 64);
@@ -82,7 +82,7 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
   getCacheDecryption(enc: string): string | null {
-    console.log("getCacheDecryption")
+    // console.log("getCacheDecryption")
     const encIdentity = enc.slice(0, 64);
     if (localStorage[encIdentity] != null && localStorage[encIdentity] != "") {
       return localStorage[localStorage[encIdentity]];
@@ -93,13 +93,13 @@ export class EncryptionImageTextComponent implements OnInit {
 
 
   encrypt(fileName: string, imageBuffer: ArrayBuffer) {
-    console.log("encrypt")
+    // console.log("encrypt")
     this.isEncrypting = true;
     this.encryptionService.encrypt(GCM.arrayBufferToBase64(imageBuffer)).then(enc => {
       if (enc != null && enc != "") {
         let saveData = (
           function () {
-            console.log("saveData")
+            // console.log("saveData")
             let a = document.createElement("a");
             document.body.appendChild(a);
             a.setAttribute("style", "display: none");
@@ -126,7 +126,7 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
   decrypt(encryptedFileName: string, imageData: string) {
-    console.log("decrypt")
+    // console.log("decrypt")
     // ImageBuffer => Base64 => Encryption => Decryption (get original Base64)
     encryptedFileName = encryptedFileName.split('.').pop() as string;
     this.isDecrypting = true;
@@ -151,7 +151,7 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
   decrypted(imageData: string) {
-    console.log("decrypted")
+    // console.log("decrypted")
     // console.log(getFileExtension)
     if (this.decryptedImage != "") {
       this.changeImage(imageData);
@@ -161,7 +161,7 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
   changeImage(imageData: string) {
-    console.log("changeImage")
+    // console.log("changeImage")
     this.openViewer = false;
     setTimeout(() => {
       this.decryptedImage = imageData || "";
@@ -171,7 +171,7 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
   newImage(imageData: string) {
-    console.log("newImage")
+    // console.log("newImage")
     this.decryptedImage = imageData;
     if (this.decryptedImage != "") {
       this.storeCacheContentToCache();
@@ -182,7 +182,7 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
   saveDecrypted() {
-    console.log("saveDecrypted")
+    // console.log("saveDecrypted")
     let encryptedFileName =
       this.randomService.generateRandomName()
       + ".decrypted."
@@ -200,7 +200,7 @@ export class EncryptionImageTextComponent implements OnInit {
   }
 
   clearImage() {
-    console.log("clearImage")
+    // console.log("clearImage")
     this.openViewer = false;
     new Promise(() => {
       setTimeout(() => {
