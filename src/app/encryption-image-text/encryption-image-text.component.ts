@@ -129,6 +129,7 @@ export class EncryptionImageTextComponent implements OnInit {
     // console.log("decrypt")
     // ImageBuffer => Base64 => Encryption => Decryption (get original Base64)
     encryptedFileName = encryptedFileName.split('.').pop() as string;
+    localStorage.setItem("fileExt", encryptedFileName)
     this.isDecrypting = true;
     const cache = this.getCacheDecryption(imageData)
     if (cache != null) {
@@ -186,10 +187,10 @@ export class EncryptionImageTextComponent implements OnInit {
     let encryptedFileName =
       this.randomService.generateRandomName()
       + ".decrypted."
-    // + getFileExtension
+      + localStorage.getItem("fileExt")
 
     // let data = Buffer.from(, 'base64').toString('hex')
-    let data = "data:image/png;base64,"+this.decryptedImage
+    let data = "data:image/png;base64," + this.decryptedImage
     let a = document.createElement("a");
     document.body.appendChild(a);
     a.setAttribute("style", "display: none");
@@ -202,6 +203,7 @@ export class EncryptionImageTextComponent implements OnInit {
   clearImage() {
     // console.log("clearImage")
     this.openViewer = false;
+    localStorage.removeItem("fileExt");
     new Promise(() => {
       setTimeout(() => {
         this.decryptedImage = "";
