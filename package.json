@@ -4,7 +4,7 @@
   "scripts": {
     "ng-high-memory": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng",
     "ng": "ng",
-    "deploy": "ng deploy --no-silent --cname='aes.sdl.moe'",
+    "deploy": "ng deploy --no-silent --cname='aes.sdl.moe' --name='wetabq' --email='wetabq@gmail.com'",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
