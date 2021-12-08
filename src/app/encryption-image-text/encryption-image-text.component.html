@@ -20,7 +20,7 @@
         </div>
         <button class="card-content-line" *ngIf="decryptedImage != ''" color="primary" mat-raised-button
           (click)="saveDecrypted()" style="opacity: 0;" [@fadeInOut]="openViewer ? 'in' : 'out'">
-          Download</button>
+          Save</button>
         <button class="card-content-line" *ngIf="decryptedImage != ''" color="primary" mat-raised-button
           (click)="clearImage()" style="opacity: 0;" [@fadeInOut]="openViewer ? 'in' : 'out'">
           Close Decrypted Image</button>
