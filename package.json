@@ -13,7 +13,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~13.1.1",
-    "@angular/cdk": "^12.2.7",
+    "@angular/cdk": "^13.1.1",
     "@angular/common": "~12.2.7",
     "@angular/compiler": "~12.2.7",
     "@angular/core": "~13.1.1",
