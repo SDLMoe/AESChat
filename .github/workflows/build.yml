@@ -1,20 +1,13 @@
-# This is a basic workflow to help you get started with Actions
+name: Build
 
-name: Build and Deploy Github Pages
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  # push:
-  #   branches: [main]
-  # pull_request:
-  #   branches: [main]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+  push:
     branches: [main]
+  pull_request:
+    branches: [main]
+  # workflow_dispatch:
+  #   branches: [main]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
     name: Build
@@ -22,30 +15,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Use Node 12.22.4
+      - name: Use Node 16.13.1
         uses: actions/setup-node@v2
         with:
-          node-version: "12.22.4"
+          node-version: "16.13.1"
       - name: Cache node modules
         uses: actions/cache@v2
         env:
           cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: Install dependencies
-        run: npm ci
-      - name: Deploy to github pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run deploy
-      # - name: Archive build
-      #   if: success()
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: deploy_dist
-      #     path: dist
+      - name: Build
+        run: npm ci && npm install && npm run ng-high-memory -- b --configuration production
